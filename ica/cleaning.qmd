@@ -35,6 +35,7 @@ Carryout the following steps to clean and save the San Francisco Weather data.  
 ```{r}
 library(tidyverse)
 weather <- read_csv("data/weather.csv")
+```
 
 ```{r}
 weather_clean <- weather |> 
