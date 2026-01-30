@@ -43,6 +43,17 @@
     ]
   },
   {
+    "objectID": "tt/hw01-tt.html",
+    "href": "tt/hw01-tt.html",
+    "title": "Homework 01",
+    "section": "",
+    "text": "TidyTuesday Section\nExplore the week’s TidyTuesday challenge. Develop a research question, then answer it through a short data story with effective visualization(s). Provide sufficient background for readers to grasp your narrative.\nCodelibrary(tidyverse)\nlibrary(tidytuesdayR)\nCodetuesdata &lt;- tt_load(\"2026-01-27\")\n\ncompanies &lt;- tuesdata$companies\nlegal_nature &lt;- tuesdata$legal_nature\nqualifications &lt;- tuesdata$qualifications\nsize &lt;- tuesdata$size\nCodeglimpse(companies)\n\nRows: 141,332\nColumns: 6\n$ company_id          &lt;dbl&gt; 41273639, 41274138, 41274505, 41274745, 41274856, …\n$ company_name        &lt;chr&gt; \"MH MATERIAIS DE CONSTRUCAO LTDA\", \"CLINICA ESTETI…\n$ legal_nature        &lt;chr&gt; \"Limited Liability Business Company (LLC)\", \"Limit…\n$ owner_qualification &lt;chr&gt; \"Managing Partner / Partner-Administrator\", \"Manag…\n$ capital_stock       &lt;dbl&gt; 1000000, 200000, 500000, 159600, 200000, 300000, 1…\n$ company_size        &lt;chr&gt; \"small-enterprise\", \"micro-enterprise\", \"small-ent…",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
     "objectID": "pcl/pcl.html",
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
@@ -50,7 +61,7 @@
     "text": "R",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -61,7 +72,7 @@
     "text": "Quarto\n\n\n\nfrom qmd4sci.njtierney.com",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -72,7 +83,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>ICA Sample 1</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 1</span>"
     ]
   },
   {
@@ -83,7 +94,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 2</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>ICA Sample 2</span>"
     ]
   },
   {
@@ -94,7 +105,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Extra Sample 1</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 1</span>"
     ]
   },
   {
@@ -105,7 +116,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 2</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 2</span>"
     ]
   }
 ]
