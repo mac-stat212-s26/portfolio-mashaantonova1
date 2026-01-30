@@ -1,5 +1,0 @@
----
-title: "Extra Sample 2"
----
-
-Add content here

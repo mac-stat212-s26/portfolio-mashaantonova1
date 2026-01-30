@@ -1,0 +1,111 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "COMP/STAT212 Portfolio",
+    "section": "",
+    "text": "Welcome to my online portfolio for COMP/STAT112 course taken at Macalester College. Please, use the side bar on the left for navigation.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "pv/pv-01.html",
+    "href": "pv/pv-01.html",
+    "title": "Professional Viz",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "Prof Viz",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Professional Viz</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-08.html",
+    "href": "tt/2025-07-08.html",
+    "title": "TidyTuesday Sample 1",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>TidyTuesday Sample 1</span>"
+    ]
+  },
+  {
+    "objectID": "tt/2025-07-15.html",
+    "href": "tt/2025-07-15.html",
+    "title": "TidyTuesday Sample 2",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>TidyTuesday Sample 2</span>"
+    ]
+  },
+  {
+    "objectID": "pcl/pcl.html",
+    "href": "pcl/pcl.html",
+    "title": "Pre-Class Learning Summaries",
+    "section": "",
+    "text": "R",
+    "crumbs": [
+      "Pre-Class Learnings",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+    ]
+  },
+  {
+    "objectID": "pcl/pcl.html#quarto",
+    "href": "pcl/pcl.html#quarto",
+    "title": "Pre-Class Learning Summaries",
+    "section": "Quarto",
+    "text": "Quarto\n\n\n\nfrom qmd4sci.njtierney.com",
+    "crumbs": [
+      "Pre-Class Learnings",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+    ]
+  },
+  {
+    "objectID": "ica/ica-sample1.html",
+    "href": "ica/ica-sample1.html",
+    "title": "ICA Sample 1",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>ICA Sample 1</span>"
+    ]
+  },
+  {
+    "objectID": "ica/ica-sample2.html",
+    "href": "ica/ica-sample2.html",
+    "title": "ICA Sample 2",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 2</span>"
+    ]
+  },
+  {
+    "objectID": "extra/extra-sample1.html",
+    "href": "extra/extra-sample1.html",
+    "title": "Extra Sample 1",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Extra Sample 1</span>"
+    ]
+  },
+  {
+    "objectID": "extra/extra-sample2.html",
+    "href": "extra/extra-sample2.html",
+    "title": "Extra Sample 2",
+    "section": "",
+    "text": "Add content here",
+    "crumbs": [
+      "Extras",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 2</span>"
+    ]
+  }
+]

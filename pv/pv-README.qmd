@@ -1,5 +1,0 @@
----
-title: "Professional Visualization"
----
-
-This section contains the professional visualization(s).
