@@ -54,6 +54,28 @@
     ]
   },
   {
+    "objectID": "tt/hw01-tt.html#research-question",
+    "href": "tt/hw01-tt.html#research-question",
+    "title": "Homework 01",
+    "section": "Research Question",
+    "text": "Research Question\nHow does company size relate to declared capital stock among Brazilian companies, and how skewed is capital concentration across size categories?",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
+    "objectID": "tt/hw01-tt.html#background",
+    "href": "tt/hw01-tt.html#background",
+    "title": "Homework 01",
+    "section": "Background",
+    "text": "Background\nBrazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Juridica (CNPJ). This dataset, curated from Brazil’s open government data, includes companies filtered to retain firms with meaningful levels of declared capital stock. Capital stock represents the financial capital declared by a company and serves as a proxy for firm scale and economic weight. Company size categories—such as micro-enterprise, small-enterprise, and other - offer a way to examine how capital is distributed across different segments of the business landscape. This analysis explores whether larger companies systematically concentrate more capital and how uneven this distribution is across size categories.\n\nCodecompanies %&gt;%\n  filter(!is.na(company_size), capital_stock &gt; 0) %&gt;%\n  group_by(company_size) %&gt;%\n  summarize(avg_capital = mean(capital_stock, na.rm = TRUE),\n    median_capital = median(capital_stock, na.rm = TRUE)) %&gt;%\n  ggplot(aes(x = reorder(company_size, avg_capital), y = avg_capital)) +\n  geom_col() +\n  scale_y_log10() +\n  labs(title = \"Average Capital Stock by Company Size in Brazil\",\n    subtitle = \"Log scale highlights strong skew in capital concentration\", x = \"Company Size\", y = \"Average Capital Stock (BRL, log scale)\")\n\n\n\n\n\n\n\nOverall, company size is positively associated with capital stock: micro-enterprises have the lowest, while small and other-sized firms have the highest, showing that capital is concentrated in larger companies.\nThe visualization shows that small and other-sized companies have the highest average capital stock, with small enterprises slightly higher than the “other” category. Micro-enterprises, by contrast, have a substantially lower average capital stock.\nThis indicates that, while most of the capital is concentrated in firms larger than micro-enterprises, the difference between small and “other” companies is minor. The logarithmic scale helps highlight that even among non-micro firms, capital distribution is somewhat skewed.\nLarger companies hold more declared capital than micro-enterprises, reflecting differences in scale and financial capacity across firm sizes. This analysis does not imply causation; other regulatory or structural factors could influence capital stock.",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Homework 01</span>"
+    ]
+  },
+  {
     "objectID": "pcl/pcl.html",
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
