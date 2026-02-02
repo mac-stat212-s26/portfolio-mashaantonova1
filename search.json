@@ -164,149 +164,6 @@
     ]
   },
   {
-    "objectID": "ica/03-adv-ggplot-notes.html",
-    "href": "ica/03-adv-ggplot-notes.html",
-    "title": "3 Adv Data Viz",
-    "section": "",
-    "text": "🧩 Learning Goals\nBy the end of this lesson, you should be able to:",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#learning-goals",
-    "href": "ica/03-adv-ggplot-notes.html#learning-goals",
-    "title": "3 Adv Data Viz",
-    "section": "",
-    "text": "Navigate ggplot2 reference page to find needed functions for a desired visualization\nNavigate the different sections of a function help page to construct desired plot features, in particular,\n\nNavigate the Usage section to identify arguments that must be set\nNavigate the Arguments section to understand how arguments work\nNavigate the Aesthetics section to learn how plot appearance can be controlled\nNavigate the Examples section for some usage examples\n\n\nIdentify when to use different data arguments within ggplot() and geom_() layers",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#introduction",
-    "href": "ica/03-adv-ggplot-notes.html#introduction",
-    "title": "3 Adv Data Viz",
-    "section": "Introduction 1\n",
-    "text": "Introduction 1\n\nIn this lesson, we are going to recreate NYTimes 2015 Temperature Visualization (html) using data from San Francisco (SFO) in 2011.\n\n\nScreenshot of NYTimes 2015 Temperature Visualization",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#reading-data",
-    "href": "ica/03-adv-ggplot-notes.html#reading-data",
-    "title": "3 Adv Data Viz",
-    "section": "Reading Data",
-    "text": "Reading Data\nRun the code chunk below to load the tidyverse package and read in the San Francisco weather data.\n\nCodelibrary(tidyverse)\nweather &lt;- read_csv(\"https://mac-stat.github.io/data/sfo_weather.csv\")",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#understanding-data",
-    "href": "ica/03-adv-ggplot-notes.html#understanding-data",
-    "title": "3 Adv Data Viz",
-    "section": "Understanding Data",
-    "text": "Understanding Data\nBelow is the codebook of the data. Familiarize yourself with the meaning of each variable. Use the codebook as a reference when using the data.\n\n\nMonth: Month of the year (1-12)\n\nDay: Day within the month (1-31)\n\nLow/High: Low/high temperature this day\n\nNormalLow/NormalHigh: Typical low/high temperature for this day of the year\n\nRecordLow/RecordHigh: Record low/high temperature for this day of the year\n\nLowYr/HighYr: Year in which the record low/high was observed\n\nPrecip: Amount of precipitation (inches) this day\n\nRecordPrecip: Record amount of precipitation for this day of the year\n\nPrecipYr: Year in which the record precipitation was observed\n\ndate: The actual date in 2011 for this day in YYYY-MM-DD format\n\ndateInYear: What day of the year is it? (1-365)\n\nRecord: Logical (TRUE/FALSE) indicating whether this day had a high temperature record\n\nRecordText: Text that displays the record high for this day (\"Record high: ##\")\n\nRecordP: Logical (TRUE/FALSE) indicating whether this day had a precipitation record\n\nCulmPrec: Cumulative precipitation for the month up to this day",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-1",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-1",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 1",
-    "text": "Exercise 1\nExamine the NYTimes 2015 Temperature Visualization (html) then answer the following questions.\nData Storytelling\n\nRelate the intro paragraph: “Scientists declared that 2015 was Earth’s hottest year on record…” to the design of the visualization. In particular, based on the intro paragraph,\n\nWhat key message/claim does NYTimes want readers to be able to explore?\nHow did this goal inform what information is displayed in the visualization?\n\n\n\nAesthetic Mapping\n\nWhat specific variables (from the data codebook) underlie the visualization?\nHow do these variables map to aesthetics of the visual elements, eg, position, size, shape, and color of glyphs?",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-2",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-2",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 2",
-    "text": "Exercise 2\nNavigate the Geoms section of the ggplot2 reference page to find a geom that corresponds to the visual elements in the temperature plot. Using both the small thumbnail visuals on the right and the names of the geom’s, brainstorm some possibilities for geom’s you might use to recreate the temperature visualization.\n\n\n\n\n\n\nNoteNavigating Documentation / Reference Pages\n\n\n\nYou need to navigate the geoms further by opening up their reference pages to understand if a particular geom is suitable for our task. Let’s look at the geom_point documentation page to learn how to read a documentation page..\nThe Usage section shows all of the possible inputs (arguments) to the geom. These are all of the ways that a geom can be customized. Just looking at the argument names can help give a hint as to what arguments might fit our needs.\nThe Arguments section, on the other hand, explains in detail what each argument does and the possible values the argument can take. The mapping, data, and ... arguments will be the most commonly used by far.\n\n\nmapping is the argument that is being used when we specify which variables should link or map to the plot aesthetics (the code inside aes()).\n\ndata is the argument where we specify the dataset containing the variables that the geom is using.\n\n... is used for fixed aesthetics (ones that don’t correspond to a variable), eg, to set the color of all points, we use color = \"red\" and to set the size of all points, we use size = 3.\n\nThe Aesthetics section of a geom documentation page gives information on how the visual elements of the geom correspond to data. For example, the geom_point documentation page shows that x and y aesthetics are available. It also shows some new aesthetics like stroke.\n\n\n\n\n\n\n\n\nNotedata Argument\n\n\n\nPreviously you have used one dataset per plot by specifying that as the first argument of ggplot(). However, multiple data sets can be passed into ggplot as shown in the example below.\n\nCodedata(diamonds)\n\ndiamonds_avg_price &lt;- diamonds |&gt;\n  group_by(carat) |&gt;\n  summarize(avg_price = mean(price)) |&gt;\n  arrange(carat)\ndiamonds_avg_price &lt;- diamonds_avg_price[seq(1, nrow(diamonds_avg_price), 3), ]\n\nggplot(diamonds, aes(x = carat, y = price)) +\n  geom_point() +\n  geom_point(\n    data = diamonds_avg_price,\n    aes(x = carat, y = avg_price),\n    color = \"deepskyblue\",\n    size = 3\n  )\n\n\n\n\n\n\n\n\n\nLook at the geom_linerange documentation page and start off your temperature visualization with the record lows and highs. Your plot should look like the one below. The hex code of the used light tan color is #ECEBE3.\n\n\nSFO Weather Records in 2011\n\n\nCodeggplot(weather) +\n    theme_classic()\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipKeyboard Shortcuts\n\n\n\nAs you work on this plot, try to use some new keyboard shortcuts. Focus on the following:\n\nInsert code chunk: Ctrl+Alt+I (Windows). Option+Command+I (Mac).\nRun current code chunk: Ctrl+Shift+Enter (Windows). Command+Shift+Return (Mac).\nRun current line/currently selected lines: Ctrl+Enter (Windows). Command+Return (Mac).",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-3",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-3",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 3",
-    "text": "Exercise 3\nIn your visualization, also display the usual temperatures (NormalLow and NormalHigh) and actual 2011 temperatures (Low and High). Your plot should look like the one below. The hex code of the color used for the usual temperatures is \"#C8B8BA\" and for the color used for actual temperatures is \"#A90248\".\n\n\nSFO observed, Average, and Record Daily Temperatures in 2011\n\n\n\n\n\n\n\nTipFiner Control\n\n\n\nIf you’d like finer control of the width of these lines/rectangles, check out the geom_rect documentation page.",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-4",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-4",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 4",
-    "text": "Exercise 4\nRecreate the visual demarcations of the months by adding vertical lines separating the months. Brainstorm how we might draw those vertical lines. What geom might we use? What subset of the data might we use in that geom layer to draw lines only at the month divisions?",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-5",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-5",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 5",
-    "text": "Exercise 5\nChange the x-axis labels so that the month names display in the center of each month’s slice of the plot.\n\n\n\n\n\n\nTipMonth Names\n\n\n\nR has built-in variables called month.abb and month.name that contain abbreviated and full month names.\n\n\nTry to figuring out this new challenge using search engines and LLMs:\n\nSearch Engines. Use Google to search for possible solutions using the jargon that is most likely to return the most relevant results. Record search queries and your thought process in selecting which search results to look at first.\nLLMs. Use ChatGPT or Gemini with prompts that will most efficiently get you the desired results. Record the chat prompts used and output given. Evaluate the output. Do you fully understand the code generated? How can you tell that the generated code is correct?",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#exercise-6",
-    "href": "ica/03-adv-ggplot-notes.html#exercise-6",
-    "title": "3 Adv Data Viz",
-    "section": "Exercise 6",
-    "text": "Exercise 6\nCreate a precipitation plot that looks like the following. Note that\n\nThe triangles point to precipitation records–refer to the data codebook above for the RecordP variable.\nThe numbers on the plot indicate the total precipitation for the month–search the hjust and vjust options to adjust the alignment of the numbers.\nThe blue and tan colors hex codes are \"#32a3d8\" and \"#ebeae2\", respectively.\n\n\n\nSFO Precipitation in 2011",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#done",
-    "href": "ica/03-adv-ggplot-notes.html#done",
-    "title": "3 Adv Data Viz",
-    "section": "Done!",
-    "text": "Done!\n\nCheck the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
-    "objectID": "ica/03-adv-ggplot-notes.html#footnotes",
-    "href": "ica/03-adv-ggplot-notes.html#footnotes",
-    "title": "3 Adv Data Viz",
-    "section": "",
-    "text": "The exercise in this lesson are inspired by an assignment from the Concepts in Computing with Data course at UC Berkeley taught by Dr. Deborah Nolan.↩︎",
-    "crumbs": [
-      "In-Class Activities",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>3 Adv Data Viz</span>"
-    ]
-  },
-  {
     "objectID": "extra/extra-sample1.html",
     "href": "extra/extra-sample1.html",
     "title": "Extra Sample 1",
@@ -314,7 +171,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 1</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 1</span>"
     ]
   },
   {
@@ -325,7 +182,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Extra Sample 2</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 2</span>"
     ]
   }
 ]
