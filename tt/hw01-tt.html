@@ -404,6 +404,11 @@ cookieconsent.run({
   <a href="../ica/ica-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 2</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Adv Data Viz</span></a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -436,8 +441,12 @@ cookieconsent.run({
    
   <ul>
 <li><a href="#tidytuesday-section" id="toc-tidytuesday-section" class="nav-link active" data-scroll-target="#tidytuesday-section">TidyTuesday Section</a></li>
+  <li><a href="#importing-the-data-set" id="toc-importing-the-data-set" class="nav-link" data-scroll-target="#importing-the-data-set">Importing the Data Set</a></li>
   <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question">Research Question</a></li>
   <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#main-visualization-owner-qualification-vs-elite-capital-status" id="toc-main-visualization-owner-qualification-vs-elite-capital-status" class="nav-link" data-scroll-target="#main-visualization-owner-qualification-vs-elite-capital-status">Main Visualization: Owner qualification vs elite capital status</a></li>
+  <li><a href="#supporting-visualization-legal-nature-vs-capital-among-small-enterprises" id="toc-supporting-visualization-legal-nature-vs-capital-among-small-enterprises" class="nav-link" data-scroll-target="#supporting-visualization-legal-nature-vs-capital-among-small-enterprises">Supporting Visualization: Legal nature vs capital among small enterprises</a></li>
+  <li><a href="#summary-data-story" id="toc-summary-data-story" class="nav-link" data-scroll-target="#summary-data-story">Summary / Data Story</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -458,59 +467,87 @@ cookieconsent.run({
 
 </header><section id="tidytuesday-section" class="level2"><h2 class="anchored" data-anchor-id="tidytuesday-section">TidyTuesday Section</h2>
 <p>Explore the week’s <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> challenge. Develop a research question, then answer it through a short data story with <a href="?var:effective-viz-url">effective visualization(s)</a>. Provide sufficient background for readers to grasp your narrative.</p>
+</section><section id="importing-the-data-set" class="level2"><h2 class="anchored" data-anchor-id="importing-the-data-set">Importing the Data Set</h2>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidytuesdayR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(tidytuesdayR)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">"2026-01-27"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>companies <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>companies</span>
+<span id="cb1-8"><a href="#cb1-8"></a>legal_nature <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>legal_nature</span>
+<span id="cb1-9"><a href="#cb1-9"></a>qualifications <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>qualifications</span>
+<span id="cb1-10"><a href="#cb1-10"></a>size <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>size</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">"2026-01-27"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>companies <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>companies</span>
-<span id="cb2-4"><a href="#cb2-4"></a>legal_nature <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>legal_nature</span>
-<span id="cb2-5"><a href="#cb2-5"></a>qualifications <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>qualifications</span>
-<span id="cb2-6"><a href="#cb2-6"></a>size <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>size</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">glimpse</span>(companies)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>Rows: 141,332
-Columns: 6
-$ company_id          &lt;dbl&gt; 41273639, 41274138, 41274505, 41274745, 41274856, …
-$ company_name        &lt;chr&gt; "MH MATERIAIS DE CONSTRUCAO LTDA", "CLINICA ESTETI…
-$ legal_nature        &lt;chr&gt; "Limited Liability Business Company (LLC)", "Limit…
-$ owner_qualification &lt;chr&gt; "Managing Partner / Partner-Administrator", "Manag…
-$ capital_stock       &lt;dbl&gt; 1000000, 200000, 500000, 159600, 200000, 300000, 1…
-$ company_size        &lt;chr&gt; "small-enterprise", "micro-enterprise", "small-ent…</code></pre>
-</div>
 </div>
 </section><section id="research-question" class="level2"><h2 class="anchored" data-anchor-id="research-question">Research Question</h2>
-<p>How does company size relate to declared capital stock among Brazilian companies, and how skewed is capital concentration across size categories?</p>
+<p>How is access to high levels of declared capital structured across Brazilian firms, and how do ownership roles and legal form shape capital concentration?</p>
 </section><section id="background" class="level2"><h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Juridica (CNPJ). This dataset, curated from Brazil’s open government data, includes companies filtered to retain firms with meaningful levels of declared capital stock. Capital stock represents the financial capital declared by a company and serves as a proxy for firm scale and economic weight. Company size categories—such as micro-enterprise, small-enterprise, and other - offer a way to examine how capital is distributed across different segments of the business landscape. This analysis explores whether larger companies systematically concentrate more capital and how uneven this distribution is across size categories.</p>
+<p>Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Jurídica (CNPJ), published by the Brazilian Ministry of Finance (Receita Federal). This TidyTuesday dataset is curated from the CNPJ open data and cleaned to focus on firms with meaningful declared capital stock, retaining only companies above a capital threshold.</p>
+<p>Declared capital stock represents the financial capital formally reported by a firm and serves as a proxy for economic scale. Companies are categorized by size and legal form, and the dataset also includes information on owner qualifications. This allows us to examine not only which companies hold the highest capital but also how ownership roles and organizational structure relate to capital distribution.</p>
+<p>Because the dataset excludes very low-capital firms and capital stock is highly right-skewed, this analysis uses logarithmic scaling and distribution-based visualizations to avoid misleading comparisons. The goal is descriptive: to examine patterns of capital concentration across firm types, ownership, and legal structure.</p>
+</section><section id="main-visualization-owner-qualification-vs-elite-capital-status" class="level2"><h2 class="anchored" data-anchor-id="main-visualization-owner-qualification-vs-elite-capital-status">Main Visualization: Owner qualification vs elite capital status</h2>
 <div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>companies <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(company_size), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">group_by</span>(company_size) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">summarize</span>(<span class="at">avg_capital =</span> <span class="fu">mean</span>(capital_stock, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="at">median_capital =</span> <span class="fu">median</span>(capital_stock, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(company_size, avg_capital), <span class="at">y =</span> avg_capital)) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average Capital Stock by Company Size in Brazil"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    <span class="at">subtitle =</span> <span class="st">"Log scale highlights strong skew in capital concentration"</span>, <span class="at">x =</span> <span class="st">"Company Size"</span>, <span class="at">y =</span> <span class="st">"Average Capital Stock (BRL, log scale)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>owner_comparison <span class="ot">&lt;-</span> companies <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(owner_qualification), <span class="sc">!</span><span class="fu">is.na</span>(capital_stock), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">mutate</span>(<span class="at">elite_threshold =</span> <span class="fu">quantile</span>(capital_stock, <span class="fl">0.90</span>),</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="at">is_elite =</span> <span class="fu">if_else</span>(capital_stock <span class="sc">&gt;=</span> elite_threshold, <span class="st">"Elite (Top 10%)"</span>, <span class="st">"Other Companies"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="fu">add_count</span>(owner_qualification, <span class="at">name =</span> <span class="st">"owner_count"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">filter</span>(owner_count <span class="sc">&gt;=</span> <span class="fu">sort</span>(<span class="fu">unique</span>(owner_count), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">group_by</span>(owner_qualification, is_elite) <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="fu">group_by</span>(is_elite) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="fu">ggplot</span>(owner_comparison, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(owner_qualification, percent), <span class="at">y =</span> percent, <span class="at">fill =</span> is_elite)) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Capital by Owner Qualification"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17"></a>    <span class="at">subtitle =</span> <span class="st">"Comparing elite (top 10%) and typical Brazilian companies"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    <span class="at">x =</span> <span class="st">"Owner Qualification"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19"></a>    <span class="at">y =</span> <span class="st">"Share of Companies (%)"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20"></a>    <span class="at">fill =</span> <span class="st">"Company Type"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21"></a>    <span class="at">caption =</span> <span class="st">"Source: TidyTuesday (2026-01-27) companies.csv"</span>) <span class="sc">+</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"B"</span>)  <span class="sc">+</span> </span>
+<span id="cb2-23"><a href="#cb2-23"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="hw01-tt_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="hw01-tt_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Overall, company size is positively associated with capital stock: micro-enterprises have the lowest, while small and other-sized firms have the highest, showing that capital is concentrated in larger companies.</p>
-<p>The visualization shows that small and other-sized companies have the highest average capital stock, with small enterprises slightly higher than the “other” category. Micro-enterprises, by contrast, have a substantially lower average capital stock.</p>
-<p>This indicates that, while most of the capital is concentrated in firms larger than micro-enterprises, the difference between small and “other” companies is minor. The logarithmic scale helps highlight that even among non-micro firms, capital distribution is somewhat skewed.</p>
-<p>Larger companies hold more declared capital than micro-enterprises, reflecting differences in scale and financial capacity across firm sizes. This analysis does not imply causation; other regulatory or structural factors could influence capital stock.</p>
+</section><section id="supporting-visualization-legal-nature-vs-capital-among-small-enterprises" class="level2"><h2 class="anchored" data-anchor-id="supporting-visualization-legal-nature-vs-capital-among-small-enterprises">Supporting Visualization: Legal nature vs capital among small enterprises</h2>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>companies <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">filter</span>(company_size <span class="sc">==</span> <span class="st">"small-enterprise"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(capital_stock), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">mutate</span>(<span class="at">log_capital_stock =</span> <span class="fu">log10</span>(capital_stock),</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="at">legal_nature =</span> <span class="fu">as.factor</span>(legal_nature)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_capital_stock, <span class="at">y =</span> legal_nature, <span class="at">fill =</span> legal_nature)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Capital Stock Across Legal Forms in Small Enterprises"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11"></a>    <span class="at">subtitle =</span> <span class="st">"Log10-transformed capital stock by legal structure"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="at">x =</span> <span class="st">"Capital Stock (Log10 Scale)"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="at">y =</span> <span class="st">"Legal Form"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14"></a>    <span class="at">caption =</span> <span class="st">"Source: TidyTuesday (2026-01-27) companies.csv"</span>) <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="hw01-tt_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="summary-data-story" class="level2"><h2 class="anchored" data-anchor-id="summary-data-story">Summary / Data Story</h2>
+<p>Our analysis explores how access to high levels of declared capital is structured across Brazilian firms, focusing on the roles of ownership and legal form.</p>
+<p>Who controls the capital? The main visualization shows the distribution of owner qualifications in elite (top 10% by capital) versus typical companies. While Managing Partners dominate most firms, elite companies reveal a more diverse leadership composition: Administrators and Managers lead roughly 30% of elite firms compared to under 9% in typical firms, and positions like Directors, Officers, and Presidents are also far more common at the top. This indicates that the highest-capital firms adopt more formalized corporate governance structures, suggesting ownership type is strongly associated with access to substantial capital.</p>
+<p>How does legal structure shape capital within small enterprises? Because capital stock is highly right-skewed, values were placed on a log10 scale for meaningful comparison and to avoid the largest firms dominating the plot. The supporting boxplot examines capital stock across legal forms among small enterprises. While most legal categories show similar median capital levels, Limited Liability Companies (LLCs) display a wider distribution and longer right tail, indicating that some LLCs hold much higher capital than their peers. Simpler forms, such as sole proprietorships and partnerships, tend to have narrower ranges and fewer extreme values. This suggests that while legal form does not completely determine capital, it can create opportunities for higher capital accumulation within certain structures.</p>
+<p>Key insight: Taken together, these findings suggest that access to high capital in Brazil is structured more by ownership role and organizational form than by formal size classification. Elite capital is concentrated in firms with diverse, professionalized leadership and in legal structures (especially LLCs) that allow for greater financial leverage. Entrepreneurs and policymakers should be aware that both governance and legal framework influence which firms can access the highest levels of capital.</p>
 
 
 <!-- -->
@@ -994,65 +1031,103 @@ $ company_size        &lt;chr&gt; "small-enterprise", "micro-enterprise", "small
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">---</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="an">title:</span><span class="co"> "Homework 01"</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">---</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="fu">## TidyTuesday Section</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a>Explore the week's <span class="co">[</span><span class="ot">TidyTuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span> challenge. Develop a research question, then answer it through a short data story with <span class="co">[</span><span class="ot">effective visualization(s)</span><span class="co">]({{&lt; var effective-viz-url &gt;}})</span>.  Provide sufficient background for readers to grasp your narrative.</span>
-<span id="cb6-9"><a href="#cb6-9"></a></span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="in">```{r}</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="fu">library</span>(tidytuesdayR)</span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="in">```</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a></span>
-<span id="cb6-18"><a href="#cb6-18"></a></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="in">```{r}</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">"2026-01-27"</span>)</span>
-<span id="cb6-23"><a href="#cb6-23"></a></span>
-<span id="cb6-24"><a href="#cb6-24"></a>companies <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>companies</span>
-<span id="cb6-25"><a href="#cb6-25"></a>legal_nature <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>legal_nature</span>
-<span id="cb6-26"><a href="#cb6-26"></a>qualifications <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>qualifications</span>
-<span id="cb6-27"><a href="#cb6-27"></a>size <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>size</span>
-<span id="cb6-28"><a href="#cb6-28"></a><span class="in">```</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a></span>
-<span id="cb6-32"><a href="#cb6-32"></a><span class="in">```{r}</span></span>
-<span id="cb6-33"><a href="#cb6-33"></a><span class="fu">glimpse</span>(companies)</span>
-<span id="cb6-34"><a href="#cb6-34"></a><span class="in">```</span></span>
-<span id="cb6-35"><a href="#cb6-35"></a></span>
-<span id="cb6-36"><a href="#cb6-36"></a><span class="fu">## Research Question </span></span>
-<span id="cb6-37"><a href="#cb6-37"></a></span>
-<span id="cb6-38"><a href="#cb6-38"></a>How does company size relate to declared capital stock among Brazilian companies, and how skewed is capital concentration across size categories?</span>
-<span id="cb6-39"><a href="#cb6-39"></a></span>
-<span id="cb6-40"><a href="#cb6-40"></a><span class="fu">## Background </span></span>
-<span id="cb6-41"><a href="#cb6-41"></a></span>
-<span id="cb6-42"><a href="#cb6-42"></a>Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Juridica (CNPJ). This dataset, curated from Brazil’s open government data, includes companies filtered to retain firms with meaningful levels of declared capital stock. Capital stock represents the financial capital declared by a company and serves as a proxy for firm scale and economic weight. Company size categories—such as micro-enterprise, small-enterprise, and other - offer a way to examine how capital is distributed across different segments of the business landscape. This analysis explores whether larger companies systematically concentrate more capital and how uneven this distribution is across size categories.</span>
-<span id="cb6-43"><a href="#cb6-43"></a></span>
-<span id="cb6-44"><a href="#cb6-44"></a></span>
-<span id="cb6-47"><a href="#cb6-47"></a><span class="in">```{r}</span></span>
-<span id="cb6-48"><a href="#cb6-48"></a>companies <span class="sc">%&gt;%</span></span>
-<span id="cb6-49"><a href="#cb6-49"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(company_size), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-50"><a href="#cb6-50"></a>  <span class="fu">group_by</span>(company_size) <span class="sc">%&gt;%</span></span>
-<span id="cb6-51"><a href="#cb6-51"></a>  <span class="fu">summarize</span>(<span class="at">avg_capital =</span> <span class="fu">mean</span>(capital_stock, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb6-52"><a href="#cb6-52"></a>    <span class="at">median_capital =</span> <span class="fu">median</span>(capital_stock, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-53"><a href="#cb6-53"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(company_size, avg_capital), <span class="at">y =</span> avg_capital)) <span class="sc">+</span></span>
-<span id="cb6-54"><a href="#cb6-54"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb6-55"><a href="#cb6-55"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb6-56"><a href="#cb6-56"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average Capital Stock by Company Size in Brazil"</span>,</span>
-<span id="cb6-57"><a href="#cb6-57"></a>    <span class="at">subtitle =</span> <span class="st">"Log scale highlights strong skew in capital concentration"</span>, <span class="at">x =</span> <span class="st">"Company Size"</span>, <span class="at">y =</span> <span class="st">"Average Capital Stock (BRL, log scale)"</span>)</span>
-<span id="cb6-58"><a href="#cb6-58"></a><span class="in">```</span></span>
-<span id="cb6-59"><a href="#cb6-59"></a></span>
-<span id="cb6-60"><a href="#cb6-60"></a></span>
-<span id="cb6-61"><a href="#cb6-61"></a>Overall, company size is positively associated with capital stock: micro-enterprises have the lowest, while small and other-sized firms have the highest, showing that capital is concentrated in larger companies.</span>
-<span id="cb6-62"><a href="#cb6-62"></a></span>
-<span id="cb6-63"><a href="#cb6-63"></a>The visualization shows that small and other-sized companies have the highest average capital stock, with small enterprises slightly higher than the “other” category. Micro-enterprises, by contrast, have a substantially lower average capital stock.</span>
-<span id="cb6-64"><a href="#cb6-64"></a></span>
-<span id="cb6-65"><a href="#cb6-65"></a>This indicates that, while most of the capital is concentrated in firms larger than micro-enterprises, the difference between small and “other” companies is minor. The logarithmic scale helps highlight that even among non-micro firms, capital distribution is somewhat skewed.</span>
-<span id="cb6-66"><a href="#cb6-66"></a></span>
-<span id="cb6-67"><a href="#cb6-67"></a>Larger companies hold more declared capital than micro-enterprises, reflecting differences in scale and financial capacity across firm sizes. This analysis does not imply causation; other regulatory or structural factors could influence capital stock. </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="an">title:</span><span class="co"> "Homework 01"</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">---</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">## TidyTuesday Section</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a>Explore the week's <span class="co">[</span><span class="ot">TidyTuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span> challenge. Develop a research question, then answer it through a short data story with <span class="co">[</span><span class="ot">effective visualization(s)</span><span class="co">]({{&lt; var effective-viz-url &gt;}})</span>.  Provide sufficient background for readers to grasp your narrative.</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="fu">## Importing the Data Set</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="in">```{r}</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="fu">library</span>(tidytuesdayR)</span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">"2026-01-27"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20"></a></span>
+<span id="cb4-21"><a href="#cb4-21"></a>companies <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>companies</span>
+<span id="cb4-22"><a href="#cb4-22"></a>legal_nature <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>legal_nature</span>
+<span id="cb4-23"><a href="#cb4-23"></a>qualifications <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>qualifications</span>
+<span id="cb4-24"><a href="#cb4-24"></a>size <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>size</span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="in">```</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a><span class="fu">## Research Question </span></span>
+<span id="cb4-28"><a href="#cb4-28"></a></span>
+<span id="cb4-29"><a href="#cb4-29"></a>How is access to high levels of declared capital structured across Brazilian firms, and how do ownership roles and legal form shape capital concentration?</span>
+<span id="cb4-30"><a href="#cb4-30"></a></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="fu">## Background </span></span>
+<span id="cb4-32"><a href="#cb4-32"></a></span>
+<span id="cb4-33"><a href="#cb4-33"></a>Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Jurídica (CNPJ), published by the Brazilian Ministry of Finance (Receita Federal). This TidyTuesday dataset is curated from the CNPJ open data and cleaned to focus on firms with meaningful declared capital stock, retaining only companies above a capital threshold.</span>
+<span id="cb4-34"><a href="#cb4-34"></a></span>
+<span id="cb4-35"><a href="#cb4-35"></a>Declared capital stock represents the financial capital formally reported by a firm and serves as a proxy for economic scale. Companies are categorized by size and legal form, and the dataset also includes information on owner qualifications. This allows us to examine not only which companies hold the highest capital but also how ownership roles and organizational structure relate to capital distribution.</span>
+<span id="cb4-36"><a href="#cb4-36"></a></span>
+<span id="cb4-37"><a href="#cb4-37"></a>Because the dataset excludes very low-capital firms and capital stock is highly right-skewed, this analysis uses logarithmic scaling and distribution-based visualizations to avoid misleading comparisons. The goal is descriptive: to examine patterns of capital concentration across firm types, ownership, and legal structure.</span>
+<span id="cb4-38"><a href="#cb4-38"></a></span>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="fu">## Main Visualization: Owner qualification vs elite capital status</span></span>
+<span id="cb4-40"><a href="#cb4-40"></a></span>
+<span id="cb4-43"><a href="#cb4-43"></a><span class="in">```{r}</span></span>
+<span id="cb4-44"><a href="#cb4-44"></a>owner_comparison <span class="ot">&lt;-</span> companies <span class="sc">%&gt;%</span></span>
+<span id="cb4-45"><a href="#cb4-45"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(owner_qualification), <span class="sc">!</span><span class="fu">is.na</span>(capital_stock), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-46"><a href="#cb4-46"></a>  <span class="fu">mutate</span>(<span class="at">elite_threshold =</span> <span class="fu">quantile</span>(capital_stock, <span class="fl">0.90</span>),</span>
+<span id="cb4-47"><a href="#cb4-47"></a>    <span class="at">is_elite =</span> <span class="fu">if_else</span>(capital_stock <span class="sc">&gt;=</span> elite_threshold, <span class="st">"Elite (Top 10%)"</span>, <span class="st">"Other Companies"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-48"><a href="#cb4-48"></a></span>
+<span id="cb4-49"><a href="#cb4-49"></a>  <span class="fu">add_count</span>(owner_qualification, <span class="at">name =</span> <span class="st">"owner_count"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-50"><a href="#cb4-50"></a>  <span class="fu">filter</span>(owner_count <span class="sc">&gt;=</span> <span class="fu">sort</span>(<span class="fu">unique</span>(owner_count), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb4-51"><a href="#cb4-51"></a>  <span class="fu">group_by</span>(owner_qualification, is_elite) <span class="sc">%&gt;%</span></span>
+<span id="cb4-52"><a href="#cb4-52"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-53"><a href="#cb4-53"></a>  <span class="fu">group_by</span>(is_elite) <span class="sc">%&gt;%</span></span>
+<span id="cb4-54"><a href="#cb4-54"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb4-55"><a href="#cb4-55"></a></span>
+<span id="cb4-56"><a href="#cb4-56"></a><span class="fu">ggplot</span>(owner_comparison, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(owner_qualification, percent), <span class="at">y =</span> percent, <span class="at">fill =</span> is_elite)) <span class="sc">+</span></span>
+<span id="cb4-57"><a href="#cb4-57"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb4-58"><a href="#cb4-58"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-59"><a href="#cb4-59"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Capital by Owner Qualification"</span>,</span>
+<span id="cb4-60"><a href="#cb4-60"></a>    <span class="at">subtitle =</span> <span class="st">"Comparing elite (top 10%) and typical Brazilian companies"</span>,</span>
+<span id="cb4-61"><a href="#cb4-61"></a>    <span class="at">x =</span> <span class="st">"Owner Qualification"</span>,</span>
+<span id="cb4-62"><a href="#cb4-62"></a>    <span class="at">y =</span> <span class="st">"Share of Companies (%)"</span>,</span>
+<span id="cb4-63"><a href="#cb4-63"></a>    <span class="at">fill =</span> <span class="st">"Company Type"</span>,</span>
+<span id="cb4-64"><a href="#cb4-64"></a>    <span class="at">caption =</span> <span class="st">"Source: TidyTuesday (2026-01-27) companies.csv"</span>) <span class="sc">+</span></span>
+<span id="cb4-65"><a href="#cb4-65"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"B"</span>)  <span class="sc">+</span> </span>
+<span id="cb4-66"><a href="#cb4-66"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-67"><a href="#cb4-67"></a><span class="in">```</span></span>
+<span id="cb4-68"><a href="#cb4-68"></a></span>
+<span id="cb4-69"><a href="#cb4-69"></a><span class="fu">## Supporting Visualization: Legal nature vs capital among small enterprises</span></span>
+<span id="cb4-70"><a href="#cb4-70"></a></span>
+<span id="cb4-73"><a href="#cb4-73"></a><span class="in">```{r}</span></span>
+<span id="cb4-74"><a href="#cb4-74"></a>companies <span class="sc">%&gt;%</span></span>
+<span id="cb4-75"><a href="#cb4-75"></a>  <span class="fu">filter</span>(company_size <span class="sc">==</span> <span class="st">"small-enterprise"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-76"><a href="#cb4-76"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(capital_stock), capital_stock <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-77"><a href="#cb4-77"></a>  <span class="fu">mutate</span>(<span class="at">log_capital_stock =</span> <span class="fu">log10</span>(capital_stock),</span>
+<span id="cb4-78"><a href="#cb4-78"></a>    <span class="at">legal_nature =</span> <span class="fu">as.factor</span>(legal_nature)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-79"><a href="#cb4-79"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> log_capital_stock, <span class="at">y =</span> legal_nature, <span class="at">fill =</span> legal_nature)) <span class="sc">+</span></span>
+<span id="cb4-80"><a href="#cb4-80"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb4-81"><a href="#cb4-81"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb4-82"><a href="#cb4-82"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb4-83"><a href="#cb4-83"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Capital Stock Across Legal Forms in Small Enterprises"</span>,</span>
+<span id="cb4-84"><a href="#cb4-84"></a>    <span class="at">subtitle =</span> <span class="st">"Log10-transformed capital stock by legal structure"</span>,</span>
+<span id="cb4-85"><a href="#cb4-85"></a>    <span class="at">x =</span> <span class="st">"Capital Stock (Log10 Scale)"</span>,</span>
+<span id="cb4-86"><a href="#cb4-86"></a>    <span class="at">y =</span> <span class="st">"Legal Form"</span>,</span>
+<span id="cb4-87"><a href="#cb4-87"></a>    <span class="at">caption =</span> <span class="st">"Source: TidyTuesday (2026-01-27) companies.csv"</span>) <span class="sc">+</span></span>
+<span id="cb4-88"><a href="#cb4-88"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb4-89"><a href="#cb4-89"></a><span class="in">```</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a></span>
+<span id="cb4-91"><a href="#cb4-91"></a></span>
+<span id="cb4-92"><a href="#cb4-92"></a><span class="fu">## Summary / Data Story</span></span>
+<span id="cb4-93"><a href="#cb4-93"></a></span>
+<span id="cb4-94"><a href="#cb4-94"></a>Our analysis explores how access to high levels of declared capital is structured across Brazilian firms, focusing on the roles of ownership and legal form.</span>
+<span id="cb4-95"><a href="#cb4-95"></a></span>
+<span id="cb4-96"><a href="#cb4-96"></a>Who controls the capital?</span>
+<span id="cb4-97"><a href="#cb4-97"></a>The main visualization shows the distribution of owner qualifications in elite (top 10% by capital) versus typical companies. While Managing Partners dominate most firms, elite companies reveal a more diverse leadership composition: Administrators and Managers lead roughly 30% of elite firms compared to under 9% in typical firms, and positions like Directors, Officers, and Presidents are also far more common at the top. This indicates that the highest-capital firms adopt more formalized corporate governance structures, suggesting ownership type is strongly associated with access to substantial capital.</span>
+<span id="cb4-98"><a href="#cb4-98"></a></span>
+<span id="cb4-99"><a href="#cb4-99"></a>How does legal structure shape capital within small enterprises?</span>
+<span id="cb4-100"><a href="#cb4-100"></a>Because capital stock is highly right-skewed, values were placed on a log10 scale for meaningful comparison and to avoid the largest firms dominating the plot. The supporting boxplot examines capital stock across legal forms among small enterprises. While most legal categories show similar median capital levels, Limited Liability Companies (LLCs) display a wider distribution and longer right tail, indicating that some LLCs hold much higher capital than their peers. Simpler forms, such as sole proprietorships and partnerships, tend to have narrower ranges and fewer extreme values. This suggests that while legal form does not completely determine capital, it can create opportunities for higher capital accumulation within certain structures.</span>
+<span id="cb4-101"><a href="#cb4-101"></a></span>
+<span id="cb4-102"><a href="#cb4-102"></a>Key insight:</span>
+<span id="cb4-103"><a href="#cb4-103"></a>Taken together, these findings suggest that access to high capital in Brazil is structured more by ownership role and organizational form than by formal size classification. Elite capital is concentrated in firms with diverse, professionalized leadership and in legal structures (especially LLCs) that allow for greater financial leverage. Entrepreneurs and policymakers should be aware that both governance and legal framework influence which firms can access the highest levels of capital.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
