@@ -7,14 +7,12 @@ title: "Homework 01"
 
 Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
 
+## Importing the Data Set
 
 ```{r}
 library(tidyverse)
 library(tidytuesdayR)
-```
 
-
-```{r}
 tuesdata <- tt_load("2026-01-27")
 
 companies <- tuesdata$companies
@@ -23,33 +21,152 @@ qualifications <- tuesdata$qualifications
 size <- tuesdata$size
 ```
 
-```{r}
-glimpse(companies)
-```
+## Research Question 
 
-# Research Question: How does company size relate to declared capital stock among Brazilian companies, and how skewed is capital concentration across size categories?
+How does company size relate to declared capital stock among Brazilian companies, and how concentrated is capital both across and within firm size categories?
 
-# Background: Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Juridica (CNPJ). This dataset, curated from Brazil’s open government data, includes companies filtered to retain firms with meaningful levels of declared capital stock. Capital stock represents the financial capital declared by a company and serves as a proxy for firm scale and economic weight. Company size categories—such as micro-enterprise, small-enterprise, and other - offer a way to examine how capital is distributed across different segments of the business landscape. This analysis explores whether larger companies systematically concentrate more capital and how uneven this distribution is across size categories.
+## Background 
 
+Brazil maintains a public registry of legal entities through the Cadastro Nacional da Pessoa Juridica (CNPJ), published by the Brazilian Ministry of Finance (Receita Federal). This TidyTuesday dataset is curated from the CNPJ open data and cleaned to focus on firms with meaningful declared capital stock, retaining only companies above a capital threshold.
+
+Declared capital stock represents the financial capital formally reported by a firm and serves as a proxy for economic scale. Companies are categorized by size, such as micro-enterprises, small enterprises, and other firms-allowing comparisons across segments of the business landscape.
+
+Because the dataset excludes very low-capital firms and because capital stock is highly right-skewed, this analysis relies on logarithmic scaling and distribution-based visualizations to avoid misleading comparisons. The goal is descriptive: to examine how capital is distributed, not to infer causality or firm performance.
+
+## Visualization 1: Average Capital Stock by Company Size
 
 ```{r}
 companies %>%
   filter(!is.na(company_size), capital_stock > 0) %>%
   group_by(company_size) %>%
-  summarize(avg_capital = mean(capital_stock, na.rm = TRUE),
-    median_capital = median(capital_stock, na.rm = TRUE)) %>%
-  ggplot(aes(x = reorder(company_size, avg_capital), y = avg_capital)) +
-  geom_col() +
-  scale_y_log10() +
-  labs(title = "Average Capital Stock by Company Size in Brazil",
-    subtitle = "Log scale highlights strong skew in capital concentration", x = "Company Size", y = "Average Capital Stock (BRL, log scale)")
+  summarize(
+    avg_capital = mean(capital_stock, na.rm = TRUE)
+  ) %>%
+  ggplot(aes(
+    x = reorder(company_size, avg_capital),
+    y = avg_capital,
+    fill = company_size
+  )) +
+  geom_col(show.legend = FALSE) +
+  scale_y_log10(labels = scales::comma) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Average Capital Stock by Company Size",
+    subtitle = "Log scale highlights strong right-skew",
+    x = "Company Size",
+    y = "Average Capital Stock (BRL, log scale)",
+    caption = "Brazilian CNPJ, TidyTuesday 2026-01-27"
+  ) +
+  theme_minimal(base_size = 12)
 ```
 
-# Overall, company size is positively associated with capital stock: micro-enterprises have the lowest, while small and other-sized firms have the highest, showing that capital is concentrated in larger companies.
+## Visualization 2: Capital Concentration Within Size Categories
 
-# The visualization shows that small and other-sized companies have the highest average capital stock, with small enterprises slightly higher than the “other” category. Micro-enterprises, by contrast, have a substantially lower average capital stock.
+```{r}
+companies %>%
+  filter(!is.na(company_size), capital_stock > 0) %>%
+  ggplot(aes(
+    x = company_size,
+    y = capital_stock,
+    fill = company_size
+  )) +
+  geom_boxplot(outlier.alpha = 0.25, show.legend = FALSE) +
+  scale_y_log10(labels = scales::comma) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Capital Stock Distribution by Company Size",
+    subtitle = "Wide spreads indicate strong within-group inequality",
+    x = "Company Size",
+    y = "Declared Capital Stock (BRL, log scale)",
+    caption = "Brazilian CNPJ, TidyTuesday 2026-01-27"
+  ) +
+  theme_minimal(base_size = 12)
+```
 
-# This indicates that, while most of the capital is concentrated in firms larger than micro-enterprises, the difference between small and “other” companies is minor. The logarithmic scale helps highlight that even among non-micro firms, capital distribution is somewhat skewed.
 
-# Larger companies hold more declared capital than micro-enterprises, reflecting differences in scale and financial capacity across firm sizes. This analysis does not imply causation; other regulatory or structural factors could influence capital stock. 
+## Summary of Findings
+
+Average declared capital stock increases with company size. Micro-enterprises report substantially lower average capital than larger firms, while small enterprises exhibit the highest average capital stock, followed closely by firms in the “other” category. This pattern is clearly visible in the first visualization, even on a logarithmic scale.
+
+The distributional analysis shows that capital stock is highly concentrated within each size category. All groups display long upper tails, indicating that a relatively small number of firms hold disproportionately large amounts of capital. Firms in the “other” category show both the highest median capital stock and the widest spread, suggesting particularly strong within-group inequality.
+
+Taken together, these visualizations indicate that differences in capital stock reflect not only variation across company sizes but also substantial inequality within size categories. This underscores the importance of pairing average-based summaries with distributional views when analyzing skewed financial data.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Prepare summary data
+summary_data <- companies %>%
+  filter(!is.na(company_size), capital_stock > 0) %>%
+  group_by(company_size) %>%
+  summarize(avg_capital = mean(capital_stock, na.rm = TRUE)) %>%
+  mutate(type = "Average")
+
+# Prepare distribution data
+distribution_data <- companies %>%
+  filter(!is.na(company_size), capital_stock > 0) %>%
+  mutate(type = "Distribution")
+
+# Combine datasets
+combined_data <- bind_rows(
+  summary_data %>% rename(value = avg_capital),
+  distribution_data %>% rename(value = capital_stock)
+)
+
+# Plot
+ggplot(combined_data, aes(x = company_size, y = value, fill = company_size)) +
+  geom_col(
+    data = subset(combined_data, type == "Average"),
+    show.legend = FALSE
+  ) +
+  geom_boxplot(
+    data = subset(combined_data, type == "Distribution"),
+    outlier.alpha = 0.4,
+    show.legend = FALSE
+  ) +
+  scale_y_log10() +
+  scale_fill_viridis_d(option = "D") +
+  facet_wrap(~ type, scales = "free_y") +
+  labs(
+    title = "Capital Stock by Company Size",
+    x = "Company Size",
+    y = "Capital Stock (log scale)"
+  ) +
+  theme_minimal()
+
+```
+
+
+
+```{r}
+ggplot(
+  companies %>%
+    filter(!is.na(company_size), capital_stock > 0),
+  aes(x = company_size, y = capital_stock, fill = company_size)
+) +
+  geom_boxplot(
+    alpha = 0.7,
+    outlier.alpha = 0.3
+  ) +
+  stat_summary(
+    fun = mean,
+    geom = "point",
+    shape = 21,
+    size = 3,
+    color = "black",
+    fill = "white"
+  ) +
+  scale_y_log10() +
+  scale_fill_viridis_d(option = "D", guide = "none") +
+  labs(
+    title = "Declared Capital Stock by Company Size in Brazil",
+    subtitle = "Boxes show distributions; white dots indicate mean values (log scale)",
+    x = "Company Size Category",
+    y = "Declared Capital Stock (BRL, log scale)",
+    caption = "Source: Brazilian CNPJ registry (TidyTuesday, 2026-01-27)"
+  ) +
+  theme_minimal()
+
+```
 
