@@ -78,6 +78,8 @@ book:
       chapters:
       - ica/ica-sample1.qmd
       - ica/ica-sample2.qmd
+      - ica/03-adv-ggplot-notes.qmd
+      - ica/04_adv_maps
 
     - part: "Extras"
       chapters:
