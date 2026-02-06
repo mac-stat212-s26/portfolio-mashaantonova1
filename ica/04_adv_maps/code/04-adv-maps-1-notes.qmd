@@ -319,6 +319,8 @@ raster::crs(elevation) <- sf::st_crs(mn_counties)
 # Convert to data frame for plotting
 elev_df <- elevation |> terra::as.data.frame(xy = TRUE)
 colnames(elev_df) <- c("x", "y", "elevation")
+
+
 ```
 
 In the plot below, we add a layer for water information and a `coord_sf()` layer to restrict the x and y-axis limits to the Twin Cities bounding box. (Without this layer, the map would zoom back out to show all counties and bodies of water).
@@ -340,7 +342,7 @@ ggplot() +
 Let's add to the above code chunk to save the map above to an image file called `tc_map_zoom.png` in the `figures` folder. The code example below shows a general template for saving a plot to file. Choose a reasonable width and height. (There are also `jpeg()` and `pdf()` functions for writing images.)
 
 ```{r save_plot_example, eval=FALSE}
-png("relative path to image", width = width_in_pixels, height = height_in_pixels)
+png("../figures/tc_map_zoom.png", width = 800, height = 500)
 # Code for creating plot
 dev.off()
 ```
