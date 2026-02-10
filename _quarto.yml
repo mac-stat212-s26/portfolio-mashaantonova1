@@ -64,11 +64,17 @@ book:
       chapters:
       - pv/pv-01.qmd
 
+    # - part: "Homeworks"
+    #   chapters:
+    #   - homeworks/src/hw02-p1.qmd
+    #   - homeworks/src/hw02-p2.qmd
+
     - part: "TidyTuesday"
       chapters:
       - tt/2025-07-08.qmd
       - tt/2025-07-15.qmd
       - tt/hw01-tt.qmd
+      - tt/hw02-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
@@ -79,7 +85,8 @@ book:
       - ica/ica-sample1.qmd
       - ica/ica-sample2.qmd
       - ica/03-adv-ggplot-notes.qmd
-      - ica/04_adv_maps
+      - ica/04_adv_maps/code/04-adv-maps-1-notes.qmd
+      - ica/06-wrangling-1-notes.qmd
 
     - part: "Extras"
       chapters:

@@ -47,20 +47,20 @@ portfolio
 First load required packages.
 
 ```{r setup}
-install.packages(
-  "USAboundariesData",
-  repos = "https://ropensci.r-universe.dev",
-  type = "source"
-)
+# install.packages(
+#   "USAboundariesData",
+#   repos = "https://ropensci.r-universe.dev",
+#   type = "source"
+# )
 library(USAboundariesData)
 
 loadNamespace("USAboundariesData")
 #Install these packages first
 
-install.packages(c("sf","elevatr","terra","stars","tidycensus"))
-install.packages('devtools')
-devtools::install_github("ropensci/USAboundaries")
-install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
+# install.packages(c("sf","elevatr","terra","stars","tidycensus"))
+# install.packages('devtools')
+# devtools::install_github("ropensci/USAboundaries")
+# install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
 
 
 library(tidyverse)
