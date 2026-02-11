@@ -1,0 +1,104 @@
+---
+title: "Homework 02"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+library(viridis)
+
+tuesdata <- tt_load("2026-02-10")
+
+schedule <- tuesdata$schedule
+```
+
+
+## Research Question
+
+How are Olympic events distributed across sport disciplines and medal status, and how does scheduling intensity vary over the course of the Games?
+
+
+## Background
+
+The Milan–Cortina 2026 Winter Olympics schedule dataset contains detailed timing and venue information for all competition and training sessions across winter sport disciplines. Each row represents a single scheduled event, including whether it is a medal event, a training session, and the day of the week on which it occurs.
+
+Because the Olympics run over a concentrated time window with thousands of scheduled sessions, understanding how events are distributed across sports and across days provides insight into which disciplines dominate the schedule and when competitive intensity peaks. Rather than focusing on individual performances, this analysis explores how the structure of the Olympic calendar allocates time, venues, and attention among different sports.
+
+The goal is descriptive: to examine patterns in event volume by discipline and the timing of medal competitions throughout the Games.
+
+
+## Main Visualization: Which disciplines host the most events?
+
+```{r}
+discipline_counts <- schedule %>%
+  group_by(discipline_name) %>%
+  summarise(total_events = n(), .groups = "drop") %>%
+  arrange(desc(total_events)) %>%
+  slice_head(n = 12)
+
+ggplot(discipline_counts,
+       aes(x = reorder(discipline_name, total_events),
+           y = total_events,
+           fill = total_events)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_viridis_c() +
+  labs(
+    title = "Olympic Events by Sport Discipline",
+    subtitle = "Disciplines with the highest number of scheduled sessions",
+    x = "Sport Discipline",
+    y = "Number of Events",
+    caption = "Source: TidyTuesday (2026-02-10) schedule.csv") +
+  theme_minimal()
+```
+
+## Supporting Visualization: Medal vs non-medal events across the Games
+
+```{r}
+daily_medals <- schedule %>%
+  group_by(date, is_medal_event) %>%
+  summarise(total_events = n(), .groups = "drop")
+
+ggplot(daily_medals,
+       aes(x = date, y = total_events, color = is_medal_event)) +
+  geom_line(linewidth = 1) +
+  scale_color_viridis_d(labels = c("Non-medal Events", "Medal Events")) +
+  labs(
+    title = "Daily Event Volume During the 2026 Winter Olympics",
+    subtitle = "Comparison of medal and non-medal sessions by day",
+    x = "Date",
+    y = "Number of Events",
+    color = "Event Type",
+    caption = "Source: TidyTuesday (2026-02-10) schedule.csv") +
+  theme_minimal()
+```
+
+
+## Summary / Data Story
+
+This analysis examines how the 2026 Winter Olympics schedule allocates events across sports and across time.
+
+Which sports dominate the Olympic calendar?
+The main visualization shows that a small group of disciplines account for a large share of total scheduled events. Sports such as Alpine Skiing, Cross-Country Skiing, Biathlon, and Ice Hockey host substantially more sessions than others, reflecting their multiple rounds, heats, and training requirements. These sports require repeated venue usage and extended competition formats, leading to a heavier scheduling footprint compared to single-event disciplines.
+
+How does competitive intensity evolve across the Games?
+The supporting line chart reveals that medal events are not evenly distributed across days. Early days feature a high proportion of training and preliminary sessions, while medal events increase toward the middle and later stages of the Olympics. This pattern suggests a buildup of competitive stakes as qualification rounds conclude and championship events begin.
+
+Key insight:
+The Olympic schedule is shaped less by the number of sports and more by the structure of each discipline. Endurance and tournament-style sports dominate total event volume, while medal competitions cluster later in the Games. This highlights how organizational design, not just sport popularity, determines how time and resources are distributed during the Olympics.

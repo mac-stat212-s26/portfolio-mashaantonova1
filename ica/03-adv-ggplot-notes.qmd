@@ -1,0 +1,329 @@
+---
+title: "3 Adv Data Viz"
+---
+
+
+## 🧩 Learning Goals
+
+By the end of this lesson, you should be able to:
+
+- Navigate [`ggplot2` reference page](https://ggplot2.tidyverse.org/reference/) to find needed functions for a desired visualization
+- Navigate the different sections of a function help page to construct desired plot features, in particular, 
+    - Navigate the **Usage** section to identify arguments that must be set
+    - Navigate the **Arguments** section to understand how arguments work
+    - Navigate the **Aesthetics** section to learn how plot appearance can be controlled
+    - Navigate the **Examples** section for some usage examples
+- Identify when to use different `data` arguments within `ggplot()` and `geom_()` layers
+
+
+
+## Introduction ^[The exercise in this lesson are inspired by an assignment from the Concepts in Computing with Data course at UC Berkeley taught by Dr. Deborah Nolan.]
+
+
+In this lesson, we are going to recreate [NYTimes 2015 Temperature Visualization (html)](https://www.nytimes.com/interactive/2016/02/19/us/2015-year-in-weather-temperature-precipitation.html) using data from San Francisco (SFO) in 2011.
+
+![Screenshot of NYTimes 2015 Temperature Visualization](https://hash-mac.github.io/stat212site-sp26/images/sfo_nytimes.jpg)
+
+## Reading Data
+
+Run the code chunk below to load the `tidyverse` package and read in the San Francisco weather data.
+
+```{r setup}
+library(tidyverse)
+weather <- read_csv("https://mac-stat.github.io/data/sfo_weather.csv")
+```
+
+## Understanding Data
+
+Below is the codebook of the data.  Familiarize yourself with the meaning of each variable.  Use the codebook as a reference when using the data.
+
+- `Month`: Month of the year (1-12)
+- `Day`: Day within the month (1-31)
+- `Low`/`High`: Low/high temperature this day
+- `NormalLow`/`NormalHigh`: Typical low/high temperature for this day of the year
+- `RecordLow`/`RecordHigh`: Record low/high temperature for this day of the year
+- `LowYr`/`HighYr`: Year in which the record low/high was observed
+- `Precip`: Amount of precipitation (inches) this day
+- `RecordPrecip`: Record amount of precipitation for this day of the year
+- `PrecipYr`: Year in which the record precipitation was observed
+- `date`: The actual date in 2011 for this day in YYYY-MM-DD format
+- `dateInYear`: What day of the year is it? (1-365)
+- `Record`: Logical (TRUE/FALSE) indicating whether this day had a high temperature record
+- `RecordText`: Text that displays the record high for this day (`"Record high: ##"`)
+- `RecordP`: Logical (TRUE/FALSE) indicating whether this day had a precipitation record
+- `CulmPrec`: Cumulative precipitation for the month up to this day
+
+
+
+## Exercise 1
+
+Examine the [NYTimes 2015 Temperature Visualization (html)](https://www.nytimes.com/interactive/2016/02/19/us/2015-year-in-weather-temperature-precipitation.html) then answer the following questions.
+
+**Data Storytelling** 
+
+- Relate the intro paragraph: "Scientists declared that 2015 was Earth’s hottest year on record..." to the *design* of the visualization.  In particular, based on the intro paragraph,
+  - What key message/claim does NYTimes want readers to be able to explore? 
+  - How did this goal inform what information is displayed in the visualization?
+  
+The visualization tells the story that 2015 was significantly warmer than normal by comparing daily temperatures in each city to historical averages and records. By showing the full temperature range across the year and highlighting deviations from the normal band, it allows readers to explore how persistent and widespread the warming was locally.
+
+**Aesthetic Mapping** 
+
+- What specific variables (from the data codebook) underlie the visualization?
+- How do these variables map to aesthetics of the visual elements, eg, position, size, shape, and color of glyphs?
+
+The main variables mapped are daily high and low temperatures, normal historical ranges, record extremes, and time across the year. These are encoded through position on the x-axis (date), vertical range bars for temperature, shaded bands for normal values, and color to emphasize warmer-than-normal periods, with precipitation shown as cumulative area/lines below.
+
+
+
+
+## Exercise 2
+
+Navigate the **Geoms** section of the [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/) to find a `geom` that corresponds to the visual elements in the temperature plot.  Using both the small thumbnail visuals on the right and the names of the `geom`'s, brainstorm some possibilities for `geom`'s you might use to recreate the temperature visualization.
+
+
+::: {.callout-note title="Navigating Documentation / Reference Pages"}
+You need to navigate the `geom`s further by opening up their reference pages to understand if a particular `geom` is suitable for our task. Let's look at the  [`geom_point` documentation page](https://ggplot2.tidyverse.org/reference/geom_point.html) to learn how to read a documentation page..
+
+The **Usage** section shows all of the possible inputs (arguments) to the `geom`.  These are all of the ways that a `geom` can be customized. Just looking at the argument names can help give a hint as to what arguments might fit our needs.
+
+
+The **Arguments** section, on the other hand, explains in detail what each argument does and the possible values the argument can take. The `mapping`, `data`, and `...` arguments will be the most commonly used by far.
+
+- `mapping` is the argument that is being used when we specify which variables should link or map to the plot `aes`thetics (the code inside `aes()`).
+- `data` is the argument where we specify the dataset containing the variables that the `geom` is using.
+- `...` is used for fixed aesthetics (ones that don't correspond to a variable), eg, to set the color of all points, we use `color = "red"` and to set the size of all points, we use `size = 3`.
+
+The **Aesthetics** section of a `geom` documentation page gives information on how the visual elements of the `geom` correspond to data. For example, the [`geom_point` documentation page](https://ggplot2.tidyverse.org/reference/geom_point.html) shows that `x` and `y` aesthetics are available. It also shows some new aesthetics like `stroke`.
+:::
+
+::: {.callout-note title="`data` Argument"}
+Previously you have used one dataset per plot by specifying that as the first argument of `ggplot()`. However, multiple data sets can be passed into ggplot as shown in the example below.
+
+```{r diamonds_scatter}
+data(diamonds)
+
+diamonds_avg_price <- diamonds |>
+  group_by(carat) |>
+  summarize(avg_price = mean(price)) |>
+  arrange(carat)
+diamonds_avg_price <- diamonds_avg_price[seq(1, nrow(diamonds_avg_price), 3), ]
+
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point() +
+  geom_point(
+    data = diamonds_avg_price,
+    aes(x = carat, y = avg_price),
+    color = "deepskyblue",
+    size = 3
+  )
+```
+
+:::
+
+
+Look at the [`geom_linerange` documentation page](https://ggplot2.tidyverse.org/reference/geom_linerange.html) and start off your temperature visualization with the record lows and highs.  Your plot should look like the one below.  The hex code of the used light tan color is `#ECEBE3`.
+
+![SFO Weather Records in 2011](https://hash-mac.github.io/stat212site-sp26/images/sfo_first_graph.png)
+
+```{r weather_plot_temp_records}
+ggplot(weather) +
+  geom_linerange(
+    aes(
+      x = dateInYear,
+      ymin = RecordLow,
+      ymax = RecordHigh
+    ),
+    color = "#ECEBE3"
+  ) +
+    theme_classic()
+```
+
+::: {.callout-tip title="Keyboard Shortcuts"}
+As you work on this plot, try to use some new [keyboard shortcuts](https://hash-mac.github.io/stat212site-sp26/notes/keyboard.html). Focus on the following:
+
+- Insert code chunk: `Ctrl+Alt+I` (Windows). `Option+Command+I` (Mac).
+- Run current code chunk: `Ctrl+Shift+Enter` (Windows). `Command+Shift+Return` (Mac).
+- Run current line/currently selected lines: `Ctrl+Enter` (Windows). `Command+Return` (Mac).
+:::
+
+
+
+
+
+## Exercise 3
+
+In your visualization, also display the usual temperatures (`NormalLow` and `NormalHigh`) and actual 2011 temperatures (`Low` and `High`). Your plot should look like the one below. The hex code of the color used for the usual temperatures is `"#C8B8BA"` and for the color used for actual temperatures is `"#A90248"`.
+
+![SFO observed, Average, and Record Daily Temperatures in 2011](https://hash-mac.github.io/stat212site-sp26/images/sfo_second_graph.png)
+
+```{r weather_plot_temp_all}
+ggplot(weather) +
+  geom_linerange(
+    aes(
+      x = dateInYear,
+      ymin = RecordLow,
+      ymax = RecordHigh
+    ),
+    color = "#ECEBE3"
+  ) +
+  
+  geom_linerange(
+    aes(
+      x = dateInYear,
+      ymin = NormalLow,
+      ymax = NormalHigh
+    ),
+    color = "#C8B8BA"
+  ) +
+  
+  geom_linerange(
+    aes(
+      x = dateInYear,
+      ymin = Low,
+      ymax = High
+    ),
+    color = "#A90248"
+  ) +
+  
+  theme_classic()
+```
+
+
+::: {.callout-tip title="Finer Control"}
+If you'd like finer control of the width of these lines/rectangles, check out the [`geom_rect` documentation page](https://ggplot2.tidyverse.org/reference/geom_tile.html).
+:::
+
+
+## Exercise 4
+
+Recreate the visual demarcations of the months by adding vertical lines separating the months.  Brainstorm how we might draw those vertical lines. What `geom` might we use?  What subset of the data might we use in that `geom` layer to draw lines only at the month divisions? 
+
+```{r }
+ggplot(weather) +
+  geom_linerange(
+    aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh),
+    color = "#ECEBE3"
+  ) +
+
+  geom_linerange(
+    aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),
+    color = "#C8B8BA"
+  ) +
+
+  geom_linerange(
+    aes(x = dateInYear, ymin = Low, ymax = High),
+    color = "#A90248"
+  ) +
+
+  geom_vline(
+  data = weather |> filter(Day == 1),
+  aes(xintercept = dateInYear),
+  color = "grey70",
+  linetype = "dashed"
+  ) +
+
+  theme_classic()
+```
+
+
+
+## Exercise 5
+
+Change the x-axis labels so that the month names display in the center of each month's slice of the plot. 
+
+::: {.callout-tip title="Month Names"}
+R has built-in variables called `month.abb` and `month.name` that contain abbreviated and full month names.
+:::
+
+```{r}
+month_centers <- weather |>
+  group_by(Month) |>
+  summarize(center = mean(dateInYear))
+
+ggplot(weather) +
+  geom_linerange(
+    aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh),
+    color = "#ECEBE3"
+  ) +
+  geom_linerange(
+    aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh),
+    color = "#C8B8BA"
+  ) +
+  geom_linerange(
+    aes(x = dateInYear, ymin = Low, ymax = High),
+    color = "#A90248"
+  ) +
+  geom_vline(
+    data = weather |> filter(Day == 1),
+    aes(xintercept = dateInYear),
+    linetype = "dashed",
+    color = "grey70"
+  ) +
+  scale_x_continuous(
+    breaks = month_centers$center,
+    labels = month.abb
+  ) +
+  theme_classic()
+```
+
+
+Try to figuring out this new challenge using search engines and LLMs:
+
+- **Search Engines.** Use Google to search for possible solutions using the jargon that is most likely to return the most relevant results. Record search queries and your thought process in selecting which search results to look at first.
+
+- **LLMs.** Use [ChatGPT](https://chat.openai.com/) or [Gemini](https://gemini.google.com/) with prompts that will most efficiently get you the desired results. Record the chat prompts used and output given. Evaluate the output. Do you fully understand the code generated? How can you tell that the generated code is correct?
+
+
+## Exercise 6 
+
+Create a precipitation plot that looks like the following.  Note that 
+
+- The triangles point to precipitation records--refer to the data codebook above for the `RecordP` variable.
+- The numbers on the plot indicate the total precipitation for the month--search the `hjust` and `vjust` options to adjust the alignment of the numbers.
+- The blue and tan colors hex codes are `"#32a3d8"` and `"#ebeae2"`, respectively.
+
+![SFO Precipitation in 2011](https://hash-mac.github.io/stat212site-sp26/images/sfo_third_graph.png)
+
+```{r}
+monthly_totals <- weather %>%
+  group_by(Month) %>%
+  summarize(
+    total_prec = max(CulmPrec, na.rm = TRUE),
+    center = mean(dateInYear, na.rm = TRUE)
+  )
+
+```
+
+
+```{r weather_plot_precip}
+ggplot(weather, aes(x = dateInYear, y = CulmPrec)) +
+
+  geom_area(fill = "#ebeae2") +
+
+  geom_line(color = "#32a3d8") +
+
+  geom_point(
+    data = weather |> filter(RecordP == TRUE),
+    aes(x = dateInYear, y = CulmPrec),
+    shape = 25,      # filled downward triangle
+    fill = "black",
+    size = 3
+  ) +
+
+  geom_text(
+    data = monthly_totals,
+    aes(x = center, y = total_prec, label = round(total_prec, 2)),
+    vjust = -0.5
+  ) +
+
+  theme_classic() +
+  labs(
+    x = "dateInYear",
+    y = "CulmPrec"
+  )
+```
+## Done!
+
+- Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website
+

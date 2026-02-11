@@ -1,0 +1,142 @@
+---
+title: "HW02-P2 Adv Data Viz"
+---
+
+## Instructions
+
+**Task:** Open up the New York Times article [A Summer of Strikes](https://www.nytimes.com/interactive/2023/09/03/business/economy/strikes-union-sag-uaw.html), and scroll down to the plot titled "Union membership has fallen sharply over the past four decades (Share of the work force in a union, by industry)".
+
+![](https://hash-mac.github.io/stat212site-sp26/images/challenge-2-goal.png)
+
+Using `ggplot2` and other tools in R, recreate this plot. Note that you will need to create the data underlying the plot yourself. You can create this data in R with `tibble()`. You can also write the data in Excel or Google Sheets and export it as a CSV file.
+
+**Requirements:**
+
+- Overall
+  - Panels for "All workers", "By Sector", and "By Industry" are shown.
+  - Arrows showing the change from 1983 to 2022 are shown.
+    - Note: be sure that the arrows all point in the correct direction!
+  - The actual percentages in 1983 and 2022 are shown as text.
+  - X-axis tick marks are at 0, 25, and 50.
+  - Plot title says "Union membership has fallen sharply over the past four decades".
+  - Plot subtitle says "Share of the work force in a union, by industry".
+- Resource reflection
+    - At least 1 resource is listed
+    - At least 3 sentences about resources and their helpfulness in the task
+
+**Bonus**: Additional possibilities to enhance your visualization include adjusting the default aesthetics of the arrows, aligning your plots neatly, and adding margins in order to left-align the y-axis text. 
+
+
+
+
+
+## Setup
+
+```{r}
+library(tidyverse)
+
+union_data <- tibble(
+  group = c(
+    "All workers",
+    "Private sector", "Public sector",
+    "Transportation and utilities",
+    "Manufacturing",
+    "Mining",
+    "Construction",
+    "Education and health",
+    "Arts, entertainment and recreation",
+    "Business services",
+    "Retail, food and hospitality",
+    "Public administration",
+    "Agriculture"),
+
+  panel = c(
+    "All workers",
+    "By Sector", "By Sector",
+    "By Industry","By Industry","By Industry","By Industry",
+    "By Industry","By Industry","By Industry","By Industry",
+    "By Industry","By Industry"),
+
+  pct_1983 = c(20,17,37,47,28,27,28,26,17,10,8,30,5),
+  pct_2022 = c(10,6,33,16,8,7,13,17,7,3,3,28,4))
+
+```
+
+
+## Visualization
+
+
+```{r}
+union_data$group <- factor(
+  union_data$group,
+  levels = rev(union_data$group))
+
+union_data$panel <- factor(
+  union_data$panel,
+  levels = c("All workers", "By Sector", "By Industry"))
+
+ggplot(union_data) +
+
+  geom_segment(
+    aes(x = pct_1983, xend = pct_2022, y = group),
+    arrow = arrow(length = unit(0.18, "cm")),
+    linewidth = 1,
+    color = "#0b4f6c") +
+
+geom_text(
+  aes(x = pct_1983 + 1, y = group, label = pct_1983),
+  hjust = 0,
+  fontface = "bold"
+) +
+
+geom_text(
+  aes(x = pct_2022 - 1, y = group, label = pct_2022),
+  hjust = 1,
+  fontface = "bold"
+) +
+
+facet_wrap(~panel, scales = "free_y",, ncol = 1, strip.position = "top") +
+
+scale_x_continuous(
+  limits = c(0, 50),
+  breaks = c(0, 25, 50)) +
+
+  labs(
+    title = "Union membership has fallen sharply over the past four decades",
+    subtitle = "Share of the work force in a union, by industry",
+    x = NULL,
+    y = NULL) +
+
+theme_minimal() +
+theme(
+  strip.text.x = element_text(face = "bold", size = 12, hjust = 0),
+  strip.background = element_blank(),
+
+  panel.grid.major.y = element_blank(),
+  panel.spacing.y = unit(-2, "lines"),
+
+  axis.text.y.left = element_text(hjust = 0),
+  axis.ticks.y = element_blank(),
+  
+  plot.title.position = "plot",
+  plot.title = element_text(hjust = 0),
+  plot.subtitle = element_text(hjust = 0))
+
+```
+
+
+## Resources Reflection (required)
+
+List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
+
+**Resources:**
+
+- ggplot2 official documentation(https://ggplot2.tidyverse.org/reference)
+- Patchwork package documentation for combining plots
+- RStudio ggplot2 cheatsheet
+
+**Reflection:**
+
+The ggplot2 documentation was especially helpful for understanding how to use geom_segment with arrows to show changes over time and how to layer geom_text to label values directly on the plot. The faceting documentation helped me organize the data into grouped sections (All workers, By Sector, and By Industry) using facet_wrap with free y-scales to control layout. The RStudio ggplot2 cheatsheet made it easier to adjust themes, spacing, and axis formatting while refining the visualization’s appearance. Together, these resources helped me closely replicate the structure and styling of the reference chart while keeping the code clean and readable.
+
+
