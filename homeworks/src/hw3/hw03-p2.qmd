@@ -1,5 +1,8 @@
 ---
 title: "HW03-P2 Adv Map Viz"
+format: 
+  html:
+    embed-resources: true
 ---
 
 

@@ -1,5 +1,8 @@
 ---
 title: "HW02-P2 Adv Data Viz"
+format: 
+  html:
+    embed-resources: true
 ---
 
 ## Instructions
