@@ -70,3 +70,8 @@ _freeze/
 *.log
 *.aux
 *.toc
+homeworks/src/hw3/data/processed/walk_index_mn.RData
+homeworks/src/hw3/data/raw/WalkabilityIndex/Natl_WI.gdb/a00000007.CatRelTypesByForwardLabel.atx
+homeworks/src/hw3/data/raw/WalkabilityIndex.zip
+homeworks/src/hw3/data/raw/WalkabilityIndex/Natl_WI.gdb/a00000001.gdbtable
+homeworks/src/hw3/data/raw/WalkabilityIndex/Natl_WI.gdb/a00000009.gdbtable

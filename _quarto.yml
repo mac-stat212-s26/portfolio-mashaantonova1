@@ -75,6 +75,7 @@ book:
       - tt/2025-07-15.qmd
       - tt/hw01-tt.qmd
       - tt/hw02-tt.qmd
+      - tt/hw03-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
@@ -88,6 +89,7 @@ book:
       - ica/03-adv-ggplot-notes.qmd
       - ica/04_adv_maps/code/04-adv-maps-1-notes.qmd
       - ica/06-wrangling-1-notes.qmd
+      - ica/07-wrangling-2-notes.qmd
 
     - part: "Extras"
       chapters:

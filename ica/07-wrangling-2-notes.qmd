@@ -1,0 +1,351 @@
+---
+title: "7 Adv Data wrangling II"
+---
+
+
+```{r doc_setup_07, echo=FALSE, message=FALSE}
+library(tidyverse) # The stringr package is part of tidyverse
+```
+
+
+## 🧩 Learning Goals
+
+By the end of this lesson, you should be able to:
+
+- Manipulate and explore strings using the `stringr` package
+- Construct regular expressions to find patterns in strings
+
+
+## Helpful Cheatsheets 
+
+The `stringr` cheatsheet ([HTML](https://rstudio.github.io/cheatsheets/html/strings.html), [PDF](https://rstudio.github.io/cheatsheets/strings.pdf)) will be useful to have open and reference.
+
+
+
+## Motivation: 30 Years of American Anxieties 
+
+In 2018 the data journalism organization [The Pudding](https://pudding.cool/) featured a story called [30 Years of American Anxieties](https://pudding.cool/2018/11/dearabby/) about themes in 30 years of posts to the Dear Abby column (an American advice column).
+
+One way to understand themes in text data is to conduct a **qualitative analysis**, a methodology in which multiple readers read through instances of text several times to reach a consensus about themes.
+
+Another way to understand themes in text data is **computational text analysis**. 
+
+- This is what we will explore today. 
+
+
+Both qualitative analysis and computational tools can be used in tandem. Often, using computational tools can help focus a close reading of select texts, which parallels the spirit of a qualitative analysis.
+
+To prepare ourselves for a computational analysis, let's learn about strings.
+
+
+
+## Strings 
+
+Strings are objects of the `character` class (abbreviated as `<chr>` in tibbles). 
+
+When you print out strings, they display with double quotes:
+
+```{r chr_class}
+some_string <- "banana"
+some_string
+```
+
+
+Working with strings generally will involve the use of **regular expressions**, a tool for finding patterns in strings. 
+
+
+Regular expressions (regex, for short) look like the following:
+
+```
+"^the" (Strings that start with "the")
+"end$" (Strings that end with "end")
+```
+
+Before getting to regular expressions, let's go over some fundamentals about working with strings. The `stringr` package (available within `tidyverse`) is great for working with strings.
+
+## Creating strings 
+
+Creating strings by hand is useful for testing out regular expressions.
+
+To create a string, type any text in either double quotes (`"`) or single quotes `'`. Using double or single quotes doesn't matter unless your string itself has single or double quotes.
+
+```{r create_strings}
+string1 <- "This is a string"
+string2 <- 'If I want to include a "quote" inside a string, I use single quotes'
+string3 <- c(string1, string2) # string / character vector (of greater than length 1)
+
+
+class(string1)
+class(string2)
+class(string3)
+
+length(string1)
+length(string2)
+length(string3)
+```
+
+
+We can view these strings "naturally" (without the opening and closing quotes) with `str_view()`:
+
+```{r str_view}
+str_view(string1)
+str_view(string2)
+str_view(string3)
+```
+
+**Exercise:** Create the string `It's Thursday`. What happens if you put the string inside single quotes? Double quotes?
+
+```{r ex_create_string}
+# Your code
+
+```
+
+
+Because `"` and `'` are special characters in the creation of strings, R offers another way to put them inside a string. We can **escape** these special characters by putting a `\` in front of them:
+
+```{r escape_chars}
+string1 <- "This is a string with \"double quotes\""
+string2 <- "This is a string with \'single quotes\'"
+str_view(string1)
+str_view(string2)
+```
+
+
+Given that `\` is a special character, how can we put the `\` character in strings? We have to escape it with `\\`.
+
+**Exercise:** Create the string `C:\Users`. What happens when you don't escape the `\`?
+
+```{r ex_create_string_slash}
+# Your code
+```
+
+
+Other special characters include:
+
+- `\t` (Creates a tab)
+- `\n` (Creates a newline)
+
+Both can be useful in plots to more neatly arrange text.
+
+```{r escape_tab_newline}
+string1 <- "Record temp:\t102"
+string2 <- "Record temp:\n102"
+
+str_view(string1)
+str_view(string2)
+```
+
+Can we get `str_view()` to show the tab instead of `{\t}`? We can use the `html` argument to have the string displayed as if on a webpage:
+
+```{r str_view_html, eval=FALSE}
+str_view(string1, html = TRUE)
+```
+
+
+Often we will want to create new strings within data frames. We can use `str_c()` or `str_glue()`, both of which are vectorized functions (meaning they take vectors as inputs and provide vectors as outputs - can be used within `mutate()`):
+
+- With `str_c()` the strings to be combined are all separate arguments separated by commas.
+- With `str_glue()` the desired string is written as a template with variable names inside curly braces `{}`.
+
+
+```{r str_c_glue}
+df <- tibble(
+    first_name = c("Arya", "Olenna", "Tyrion", "Melisandre"),
+    last_name = c("Stark", "Tyrell", "Lannister", NA)
+)
+df
+
+df |>
+    mutate(
+        full_name1 = str_c(first_name, " ", last_name),
+        full_name2 = str_glue("{first_name} {last_name}")
+    )
+```
+
+**Exercise:** In the following data frame, create a full date string in month-day-year format using both `str_c()` and `str_glue()`.
+
+```{r ex_str_c_glue}
+df_dates <- tibble(
+    year = c(2000, 2001, 2002),
+    month = c("Jan", "Feb", "Mar"),
+    day = c(3, 4, 5)
+)
+
+
+```
+
+
+
+## Extracting information from strings   
+
+The `str_length()` counts the number of characters in a string.
+
+```{r str_length}
+comments <- tibble(
+    name = c("Alice", "Bob"),
+    comment = c("The essay was well organized around the core message and had good transitions.", "Good job!")
+)
+
+comments |>
+    mutate(
+        comment_length = str_length(comment)
+    )
+```
+
+
+The `str_sub()` function gets a substring of a string. The 2nd and 3rd arguments indicate the beginning and ending position to extract.
+
+- Negative positions indicate the position from the end of the word. (e.g., -3 indicates "3rd letter from the end")
+- Specifying a position that goes beyond the word won't result in an error. `str_sub()` will just go as far as possible.
+
+```{r str_sub}
+x <- c("Apple", "Banana", "Pear")
+
+str_sub(x, start = 1, end = 3)
+str_sub(x, start = -3, end = -1)
+str_sub(x, start = 2, end = -1)
+str_sub("a", start = 1, end = 15)
+```
+
+
+**Exercise:** Using `str_sub()`, create a new variable with only the middle letter of each word in the data frame below. (Challenge: How would you handle words with an even number of letters?)
+
+```{r ex_str_sub}
+df <- tibble(
+    word_id = 1:3,
+    word = c("replace", "match", "pattern")
+)
+
+
+
+```
+
+
+
+## Finding patterns in strings with regular expressions 
+
+Suppose that you're exploring text data looking for places where people describe happiness. There are many ways to search. We could search for the word "happy" but that excludes "happiness" so we might search for "happi".
+
+**Regular expressions** (regex) are a powerful language for describing patterns within strings.
+
+. . .
+
+```{r load_regex_data}
+data(fruit)
+data(words)
+data(sentences)
+```
+
+We can use `str_view()` with the `pattern` argument to see what parts of a string match the regex supplied in the `pattern` argument. (Matches are enclosed in `<>`.)
+
+```{r str_view_pattern}
+str_view(fruit, "berry")
+```
+
+
+**Essentials of forming a regex**
+
+- Letters and numbers in a regex are matched exactly and are called **literal characters**.
+- Most punctuation characters, like `.`, `+`, `*`, `[`, `]`, and `?`, have special meanings and are called **metacharacters**.
+- **Quantifiers** come after a regex and control how many times a pattern can match:
+    - `?`: match the preceding pattern 0 or 1 times
+    - `+`: match the preceding pattern at least once
+    - `*`: match the preceding pattern at least 0 times (any number of times)
+    
+. . .
+
+**Exercise:** Before running the code below, predict what matches will be made. Run the code to check your guesses. Note that in all regex's below the `?, +, *` applies to the `b` only (not the `a`).
+
+```{r ex_regex_quantifiers}
+#| eval: false
+str_view(c("a", "ab", "abb"), "ab?")
+str_view(c("a", "ab", "abb"), "ab+")
+str_view(c("a", "ab", "abb"), "ab*")
+```
+
+
+- We can match any of a set of characters with `[]` (called a **character class**), e.g., `[abcd]` matches "a", "b", "c", or "d".
+    - We can invert the match by starting with `^`: `[^abcd]` matches anything except "a", "b", "c", or "d".
+
+```{r regex_classes}
+# Match words that have vowel-x-vowel
+str_view(words, "[aeiou]x[aeiou]")
+
+# Match words that have not_vowel-y-not_vowel
+str_view(words, "[^aeiou]y[^aeiou]")
+```
+
+
+**Exercise** Using the `words` data, find words that have two vowels in a row followed by an "m".
+
+```{r ex_regex_classes}
+# Your code
+
+```
+
+
+
+
+- The **alternation** operator `|` can be read just like the logical operator `|` ("OR") to pick between one or more alternative patterns. e.g., `apple|banana` searches for "apple" or "banana".
+
+```{r regex_alternation}
+str_view(fruit, "apple|melon|nut")
+```
+
+
+**Exercise:** Using the `fruit` data, find fruits that have a repeated vowel ("aa", "ee", "ii", "oo", or "uu".)
+
+```{r ex_regex_alternation}
+# Your code
+
+```
+
+
+- The `^` operator indicates the beginning of a string, and the `$` operator indicates the end of a string. e.g., `^a` matches strings that start with "a", and `a$` matches words that end with "a".
+- Parentheses group together parts of a regular expression that should be taken as a bundle. (Much like parentheses in arithmetic statements.)
+    - e.g., `ab+` is a little confusing. Does it match "ab" one or more times? Or does it match "a" first, then just "b" one or more times? (The latter, as we saw in an earlier example.) We can be very explicit and use `a(b)+`.
+    
+
+    
+**Exercise:** Using the `words` data, find (1) words that start with "y" and (2) words that don't start with "y".
+
+```{r ex_regex_start_end_group}
+# Your code
+
+
+```
+
+
+
+## Exploring `stringr` functions  
+
+Read in the "Dear Abby" data underlying The Pudding's [30 Years of American Anxieties](https://pudding.cool/2018/11/dearabby/) article.
+
+```{r read_dear_abby}
+posts <- read_csv("https://raw.githubusercontent.com/the-pudding/data/master/dearabby/raw_da_qs.csv")
+```
+
+Take a couple minutes to scroll through the [30 Years of American Anxieties](https://pudding.cool/2018/11/dearabby/) article to get ideas for themes that you might want to search for using regular expressions.
+
+<br>
+
+The following are core `stringr` functions that use regular expressions:
+
+- `str_view()` - View the first occurrence in a string that matches the regex
+- `str_count()` - Count the number of times a regex matches within a string
+- `str_detect()` - Determine if (TRUE/FALSE) the regex is found within string
+- `str_subset()` - Return subset of strings that match the regex
+- `str_extract(), str_extract_all()` - Return portion of each string that matches the regex. `str_extract()` extracts the first instance of the match. `str_extract_all()` extracts all matches.
+- `str_replace(), str_replace_all()` - Replace portion of string that matches the regex with something else. `str_replace()` replaces the first instance of the match. `str_replace_all()` replaces all instances of the match.
+- `str_remove(), str_remove_all()` - Removes the portion of the string that matches the pattern. Equivalent to `str_replace(x, "THE REGEX PATTERN", "")`
+
+**Exercise:** Starting from `str_count()`, explore each of these functions by pulling up the function documentation page and reading through the arguments. Try out each function using the `posts` data.
+
+```{r}
+
+```
+
+## Done!
+
+- Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website
+

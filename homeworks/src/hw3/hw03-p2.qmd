@@ -1,0 +1,203 @@
+---
+title: "HW03-P2 Adv Map Viz"
+---
+
+
+::: {.callout-important title="Important GitHub Note"}
+
+DO NOT add, commit, and push anything in the `data/raw` folder. The files for this are too big, and you'll run into file size restrictions. You can ignore them as follows:
+
+- Open GitHub Desktop
+- Right-click any file inside `data/raw` --> select `Ignore folder (add to .gitignore)` --> select `data/raw`
+
+:::
+
+
+## Introduction
+
+The US Walkability Index dataset provides relative walkability information for all 2019 census block groups. Through these exercises, we will explore walkability patterns across the United States.
+
+**Requirements:**
+
+- Downloaded data and read it in
+- MN plot of walkability (filtering + choropleth)
+- save filtered dataset as R Data file
+- Get US county boundaries, transform to have same CRS if necessary
+- Spatial join (order matters), Weighted mean and SD by county
+- County-level map of Average Walkability of a state of choice
+- County-level map of SD in Walkability of a state of choice
+- Scatterplot of SD and Average Walkability overall
+- Scatterplot of SD and Average Walkability faceted by state
+- Insight sentences about graphic
+
+
+## 1 Donwload & Read Data
+
+Go to [data.gov](https://catalog.data.gov/dataset/), search for "walkability index", and download the US Walkability Index dataset (the Zip file called `WalkabilityIndex.zip`). Unzip this file within the `data/raw` folder of this homework.
+
+Read in the dataset with `st_read()` by providing a relative path to the `WalkabilityIndex/Natl_WI.gdb` folder (as opposed to a file within that folder). This will take a few seconds. You should see a message `using driver OpenFileGDB` during this process.
+
+```{r reading}
+library(sf)
+walk_index <- st_read("data/raw/WalkabilityIndex/Natl_WI.gdb")
+```
+
+## 2 MN Walkability
+
+Let's first get a sense for the data by making a map of walkability indices for Minnesota. You will first need to filter the `walk_index` dataset by using the `STATEFP` variable. `STATEFP` contains the state's [FIPS code](https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt) which is `"27"` for Minnesota. The `NatWalkInd` variable contains the walkability indices. Save this smaller dataset in a `data/processed` folder as `walk_index_mn.RData`, which is an R Data file. 
+
+```{r mn_wi_filter}
+walk_index_mn <- walk_index %>%
+    dplyr::filter(STATEFP == "27") # Code for filtering to MN
+
+save(walk_index_mn, file = 'data/processed/walk_index_mn.RData')
+```
+
+```{r mn_wi_map}
+load('data/processed/walk_index_mn.RData')
+library(tidyverse)
+ggplot(data = walk_index_mn) +
+  geom_sf(aes(fill = NatWalkInd), color = NA) + 
+  scale_fill_gradientn(
+    colors = c("red", "orange", "yellow", "green", "darkgreen"),
+    name = "Walkability\nIndex") +
+  labs(
+    title = "Walkability Index Across Minnesota",
+    subtitle = "Higher values indicate more walkable block groups",
+    caption = "Data: US Walkability Index (2019)") +
+  theme_void()
+
+```
+
+
+## 3 US County Boundaries
+
+We will start setting up to do a nationwide exploration of walkability. Use the `us_counties()` function within the `USAboundaries` package to obtain the most current low resolution county boundaries for all US counties. (Look up the documentation for this function to see how to structure the arguments.)
+
+If needed, transform `all_us_counties` to have the same CRS as the Walkability Index dataset.
+
+```{r get_us_counties}
+library(USAboundaries)
+all_us_counties <- us_counties(resolution = "low")
+all_us_counties <- st_transform(all_us_counties, crs = st_crs(walk_index))
+st_crs(all_us_counties) == st_crs(walk_index)
+```
+
+
+## 4 Join Walkability & Boundaries
+
+Use `st_join()` within the `sf` package to insert walkability information into the `all_us_counties` dataset. Because the walkability information is available over regions that are smaller than counties, this join will merge in multiple regions of walkability information for each county.
+
+After the join, summarize the walkability index within each county with the weighted mean and weighted standard deviation, where the weights are given by the `Shape_Area` variable.
+
+*Background information about weighted summary measures:* In an ordinary (unweighted) mean and standard deviation, each observation gets a weight of 1--that is, every observation contributes equally to the calculation. We want to compute a weighted measure because the regions within a county have different areas.
+
+*Techinical implementation:* You can install the `Hmisc` package and use the following:
+
+- `Hmisc::wtd.mean(x, weights)`
+- `Hmisc::wtd.var(x, weights)`
+    - This computes a weighted variance--you'll need to take the square root after this.
+
+Note: DON'T add `library(Hmisc)` to your package loading code chunk. `Hmisc` contains a function called `summarize()` that will conflict with `dplyr::summarize()`.
+
+In both functions, `x` represents the vector of numerical entries you want to summarize, and `weights` is a vector of the same length as `x` that gives the weight for each entry of `x`.
+
+```{r summary_over_counties}
+# Use st_join to merge county boundaries and regions where we have walkability index data
+all_us_counties_walk_index <- st_join(all_us_counties, walk_index)
+
+# Use Hmisc::wtd.mean() and Hmisc::wtd.var() to compute the weighted mean and SD of the walkability index (weighted by Shape_Area)
+all_us_counties_walk_index_summ <- all_us_counties_walk_index %>%
+  st_drop_geometry() %>% 
+  group_by(geoid, name) %>% 
+  summarize(
+    avg_walkability = Hmisc::wtd.mean(NatWalkInd, weights = Shape_Area, na.rm = TRUE),
+    sd_walkability = sqrt(Hmisc::wtd.var(NatWalkInd, weights = Shape_Area, na.rm = TRUE)),
+    .groups = "drop")
+
+all_us_counties_final <- all_us_counties %>%
+  left_join(all_us_counties_walk_index_summ, by = c("geoid", "name"))
+```
+
+
+## 5 County Average Walkability
+
+Pick one state. For this state, make a map that allows you to see average walkability within a county and a map that allows you to see the variability in walkability across a county. (The goal of this part is to get a sense of the county-level walkability data before zooming out to do a nationwide exploration.)
+
+```{r one_state_county_summary}
+# Filter down to one state and make maps
+library(patchwork)
+
+state_summ <- all_us_counties_final %>%
+  filter(state_name == "Minnesota")
+
+p1 <- ggplot(state_summ) +
+  geom_sf(aes(fill = avg_walkability)) +
+  scale_fill_viridis_c(option = "magma", name = "Avg WI") +
+  labs(title = "Average Walkability") +
+  theme_void()
+
+p2 <- ggplot(state_summ) +
+  geom_sf(aes(fill = sd_walkability)) +
+  scale_fill_viridis_c(option = "mako", name = "SD WI") +
+  labs(title = "Variability (SD)") +
+  theme_void()
+
+p1 + p2 + 
+  plot_annotation(title = "Minnesota County-Level Walkability Analysis",
+                  subtitle = "Comparing average scores vs. internal consistency within counties")
+```
+
+Interpretation:
+Pattern Notice- In Minnesota, the highest average walkability is concentrated in the Twin Cities metro area (Hennepin and Ramsey counties), which also show a higher standard deviation, this suggests that while these counties are walkable on average, there is significant disparity between their urban cores and suburban.
+
+## 6 Walkability Variability vs Average
+
+Make plots (not maps) that allow you to explore if there is a relationship between the variability in walkability in a county and the average level of walkability in a county. One plot should depict the United States as a whole, and a second plot should break down this relationship across states. Summarize your findings and what you would be curious to explore next based on your explorations.
+
+```{r sd_vs_mean_us}
+# Plots for the US and by states
+ggplot(all_us_counties_final %>% st_drop_geometry(), 
+       aes(x = avg_walkability, y = sd_walkability)) +
+  geom_point(alpha = 0.2, color = "midnightblue") +
+  geom_smooth(method = "lm", color = "red") +
+  labs(
+    title = "National Relationship: Average Walkability vs. Variability",
+    x = "Average Walkability Index",
+    y = "Standard Deviation (Variability)") +
+  theme_minimal()
+
+ggplot(all_us_counties_final %>% 
+         st_drop_geometry() %>% 
+         filter(state_name %in% c("Minnesota", "California", "New York", "Texas", "Florida")), 
+       aes(x = avg_walkability, y = sd_walkability)) +
+  geom_point(alpha = 0.4, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  facet_wrap(~state_name) +
+  labs(
+    title = "State-Level Comparison of Walkability Trends",
+    x = "Average Walkability Index",
+    y = "Standard Deviation") +
+  theme_light()
+```
+
+> Summarize your findings and what you would be curious to explore next based on your explorations.
+
+There is a strong positive correlation between average walkability and variability within a county. This suggests that walkability is rarely same across an entire county instead, as a county's average score increases, it is likely driven by intense urban pockets rather than a consistent increase in walkability across all its census block groups. In states like New York and California this trend is even more pronounced reflecting the contrast between their dense metropolitan centers and rural or suburban areas.
+
+
+## Resources Reflection (required)
+
+List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
+
+**Resources:**
+
+- ggplot2 official documentation: https://ggplot2.tidyverse.org/reference
+- Patchwork package documentation: Used to create the side-by-side comparison of Average vs. SD walkability.
+- RStudio ggplot2 cheatsheet: Provided quick syntax for geom_sf and viridis color scales.
+
+**Reflection:**
+
+The most helpful resource for this part of the assignment was the USAboundaries and Hmisc documentation, as it helped me navigate the complexity of aggregating national data. A major learning point was discovering how to use Hmisc::wtd.mean() without loading the entire library, which prevented a function conflict with dplyr. I also found that performing a spatial join at a national scale requires careful attention to the Coordinate Reference System (CRS), as even a slight mismatch prevents the data from aligning. The process of creating both maps and scatterplots helped me realize that a county's "average" walkability often hides significant internal disparities that only the standard deviation can reveal.
+
+
