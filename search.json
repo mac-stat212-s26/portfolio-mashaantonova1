@@ -670,6 +670,281 @@
     ]
   },
   {
+    "objectID": "ica/07-wrangling-2-notes.html",
+    "href": "ica/07-wrangling-2-notes.html",
+    "title": "7 Adv Data wrangling II",
+    "section": "",
+    "text": "🧩 Learning Goals\nBy the end of this lesson, you should be able to:",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#learning-goals",
+    "href": "ica/07-wrangling-2-notes.html#learning-goals",
+    "title": "7 Adv Data wrangling II",
+    "section": "",
+    "text": "Manipulate and explore strings using the stringr package\nConstruct regular expressions to find patterns in strings",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#helpful-cheatsheets",
+    "href": "ica/07-wrangling-2-notes.html#helpful-cheatsheets",
+    "title": "7 Adv Data wrangling II",
+    "section": "Helpful Cheatsheets",
+    "text": "Helpful Cheatsheets\nThe stringr cheatsheet (HTML, PDF) will be useful to have open and reference.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#motivation-30-years-of-american-anxieties",
+    "href": "ica/07-wrangling-2-notes.html#motivation-30-years-of-american-anxieties",
+    "title": "7 Adv Data wrangling II",
+    "section": "Motivation: 30 Years of American Anxieties",
+    "text": "Motivation: 30 Years of American Anxieties\nIn 2018 the data journalism organization The Pudding featured a story called 30 Years of American Anxieties about themes in 30 years of posts to the Dear Abby column (an American advice column).\nOne way to understand themes in text data is to conduct a qualitative analysis, a methodology in which multiple readers read through instances of text several times to reach a consensus about themes.\nAnother way to understand themes in text data is computational text analysis.\n\nThis is what we will explore today.\n\nBoth qualitative analysis and computational tools can be used in tandem. Often, using computational tools can help focus a close reading of select texts, which parallels the spirit of a qualitative analysis.\nTo prepare ourselves for a computational analysis, let’s learn about strings.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#strings",
+    "href": "ica/07-wrangling-2-notes.html#strings",
+    "title": "7 Adv Data wrangling II",
+    "section": "Strings",
+    "text": "Strings\nStrings are objects of the character class (abbreviated as &lt;chr&gt; in tibbles).\nWhen you print out strings, they display with double quotes:\n\nCodesome_string &lt;- \"banana\"\nsome_string\n\n[1] \"banana\"\n\n\nWorking with strings generally will involve the use of regular expressions, a tool for finding patterns in strings.\nRegular expressions (regex, for short) look like the following:\n\"^the\" (Strings that start with \"the\")\n\"end$\" (Strings that end with \"end\")\nBefore getting to regular expressions, let’s go over some fundamentals about working with strings. The stringr package (available within tidyverse) is great for working with strings.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#creating-strings",
+    "href": "ica/07-wrangling-2-notes.html#creating-strings",
+    "title": "7 Adv Data wrangling II",
+    "section": "Creating strings",
+    "text": "Creating strings\nCreating strings by hand is useful for testing out regular expressions.\nTo create a string, type any text in either double quotes (\") or single quotes '. Using double or single quotes doesn’t matter unless your string itself has single or double quotes.\n\nCodestring1 &lt;- \"This is a string\"\nstring2 &lt;- 'If I want to include a \"quote\" inside a string, I use single quotes'\nstring3 &lt;- c(string1, string2) # string / character vector (of greater than length 1)\n\n\nclass(string1)\n\n[1] \"character\"\n\nCodeclass(string2)\n\n[1] \"character\"\n\nCodeclass(string3)\n\n[1] \"character\"\n\nCodelength(string1)\n\n[1] 1\n\nCodelength(string2)\n\n[1] 1\n\nCodelength(string3)\n\n[1] 2\n\n\nWe can view these strings “naturally” (without the opening and closing quotes) with str_view():\n\nCodestr_view(string1)\n\n[1] │ This is a string\n\nCodestr_view(string2)\n\n[1] │ If I want to include a \"quote\" inside a string, I use single quotes\n\nCodestr_view(string3)\n\n[1] │ This is a string\n[2] │ If I want to include a \"quote\" inside a string, I use single quotes\n\n\nExercise: Create the string It's Thursday. What happens if you put the string inside single quotes? Double quotes?\n\nCode# Your code\nx &lt;- \"It's Thursday\" \nx\n\n[1] \"It's Thursday\"\n\nCodex &lt;- 'Its Thursday'\n\n\nBecause \" and ' are special characters in the creation of strings, R offers another way to put them inside a string. We can escape these special characters by putting a \\ in front of them:\n\nCodestring1 &lt;- \"This is a string with \\\"double quotes\\\"\"\nstring2 &lt;- \"This is a string with \\'single quotes\\'\"\nstr_view(string1)\n\n[1] │ This is a string with \"double quotes\"\n\nCodestr_view(string2)\n\n[1] │ This is a string with 'single quotes'\n\n\nGiven that \\ is a special character, how can we put the \\ character in strings? We have to escape it with \\\\.\nExercise: Create the string C:\\Users. What happens when you don’t escape the \\?\n\nCode# Your code\nx &lt;- \"C:\\\\Users\"\nstr_view(x)\n\n[1] │ C:\\Users\n\n\nOther special characters include:\n\n\n\\t (Creates a tab)\n\n\\n (Creates a newline)\n\nBoth can be useful in plots to more neatly arrange text.\n\nCodestring1 &lt;- \"Record temp:\\t102\"\nstring2 &lt;- \"Record temp:\\n102\"\n\nstr_view(string1)\n\n[1] │ Record temp:{\\t}102\n\nCodestr_view(string2)\n\n[1] │ Record temp:\n    │ 102\n\n\nCan we get str_view() to show the tab instead of {\\t}? We can use the html argument to have the string displayed as if on a webpage:\n\nCodestr_view(string1, html = TRUE)\n\n\nOften we will want to create new strings within data frames. We can use str_c() or str_glue(), both of which are vectorized functions (meaning they take vectors as inputs and provide vectors as outputs - can be used within mutate()):\n\nWith str_c() the strings to be combined are all separate arguments separated by commas.\nWith str_glue() the desired string is written as a template with variable names inside curly braces {}.\n\n\nCodedf &lt;- tibble(\n    first_name = c(\"Arya\", \"Olenna\", \"Tyrion\", \"Melisandre\"),\n    last_name = c(\"Stark\", \"Tyrell\", \"Lannister\", NA)\n)\ndf\n\n# A tibble: 4 × 2\n  first_name last_name\n  &lt;chr&gt;      &lt;chr&gt;    \n1 Arya       Stark    \n2 Olenna     Tyrell   \n3 Tyrion     Lannister\n4 Melisandre &lt;NA&gt;     \n\nCodedf |&gt;\n    mutate(\n        full_name1 = str_c(first_name, \" \", last_name),\n        full_name2 = str_glue(\"{first_name} {last_name}\")\n    )\n\n# A tibble: 4 × 4\n  first_name last_name full_name1       full_name2      \n  &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;            &lt;glue&gt;          \n1 Arya       Stark     Arya Stark       Arya Stark      \n2 Olenna     Tyrell    Olenna Tyrell    Olenna Tyrell   \n3 Tyrion     Lannister Tyrion Lannister Tyrion Lannister\n4 Melisandre &lt;NA&gt;      &lt;NA&gt;             Melisandre NA   \n\n\nExercise: In the following data frame, create a full date string in month-day-year format using both str_c() and str_glue().\n\nCodedf_dates &lt;- tibble(\n    year = c(2000, 2001, 2002),\n    month = c(\"Jan\", \"Feb\", \"Mar\"),\n    day = c(3, 4, 5)\n)\n\ndf_dates |&gt;\n    mutate(\n        date1 = str_c(month, \"-\", day, \"-\", year),\n        date2 = str_glue(\"{month}-{day}-{year}\")\n    )\n\n# A tibble: 3 × 5\n   year month   day date1      date2     \n  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;glue&gt;    \n1  2000 Jan       3 Jan-3-2000 Jan-3-2000\n2  2001 Feb       4 Feb-4-2001 Feb-4-2001\n3  2002 Mar       5 Mar-5-2002 Mar-5-2002",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#extracting-information-from-strings",
+    "href": "ica/07-wrangling-2-notes.html#extracting-information-from-strings",
+    "title": "7 Adv Data wrangling II",
+    "section": "Extracting information from strings",
+    "text": "Extracting information from strings\nThe str_length() counts the number of characters in a string.\n\nCodecomments &lt;- tibble(\n    name = c(\"Alice\", \"Bob\"),\n    comment = c(\"The essay was well organized around the core message and had good transitions.\", \"Good job!\")\n)\n\ncomments |&gt;\n    mutate(\n        comment_length = str_length(comment)\n    )\n\n# A tibble: 2 × 3\n  name  comment                                                   comment_length\n  &lt;chr&gt; &lt;chr&gt;                                                              &lt;int&gt;\n1 Alice The essay was well organized around the core message and…             78\n2 Bob   Good job!                                                              9\n\n\nThe str_sub() function gets a substring of a string. The 2nd and 3rd arguments indicate the beginning and ending position to extract.\n\nNegative positions indicate the position from the end of the word. (e.g., -3 indicates “3rd letter from the end”)\nSpecifying a position that goes beyond the word won’t result in an error. str_sub() will just go as far as possible.\n\n\nCodex &lt;- c(\"Apple\", \"Banana\", \"Pear\")\n\nstr_sub(x, start = 1, end = 3)\n\n[1] \"App\" \"Ban\" \"Pea\"\n\nCodestr_sub(x, start = -3, end = -1)\n\n[1] \"ple\" \"ana\" \"ear\"\n\nCodestr_sub(x, start = 2, end = -1)\n\n[1] \"pple\"  \"anana\" \"ear\"  \n\nCodestr_sub(\"a\", start = 1, end = 15)\n\n[1] \"a\"\n\n\nExercise: Using str_sub(), create a new variable with only the middle letter of each word in the data frame below. (Challenge: How would you handle words with an even number of letters?)\n\nCodedf &lt;- tibble(\n    word_id = 1:3,\n    word = c(\"replace\", \"match\", \"pattern\")\n)\n\ndf |&gt;\n    mutate(\n        word_length = str_length(word),\n        middle_pos = ceiling(word_length/2),\n        middle_letter = str_sub(word, middle_pos, middle_pos)\n    )\n\n# A tibble: 3 × 5\n  word_id word    word_length middle_pos middle_letter\n    &lt;int&gt; &lt;chr&gt;         &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;        \n1       1 replace           7          4 l            \n2       2 match             5          3 t            \n3       3 pattern           7          4 t",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#finding-patterns-in-strings-with-regular-expressions",
+    "href": "ica/07-wrangling-2-notes.html#finding-patterns-in-strings-with-regular-expressions",
+    "title": "7 Adv Data wrangling II",
+    "section": "Finding patterns in strings with regular expressions",
+    "text": "Finding patterns in strings with regular expressions\nSuppose that you’re exploring text data looking for places where people describe happiness. There are many ways to search. We could search for the word “happy” but that excludes “happiness” so we might search for “happi”.\nRegular expressions (regex) are a powerful language for describing patterns within strings.\n. . .\n\nCodedata(fruit)\ndata(words)\ndata(sentences)\n\n\nWe can use str_view() with the pattern argument to see what parts of a string match the regex supplied in the pattern argument. (Matches are enclosed in &lt;&gt;.)\n\nCodestr_view(fruit, \"berry\")\n\n [6] │ bil&lt;berry&gt;\n [7] │ black&lt;berry&gt;\n[10] │ blue&lt;berry&gt;\n[11] │ boysen&lt;berry&gt;\n[19] │ cloud&lt;berry&gt;\n[21] │ cran&lt;berry&gt;\n[29] │ elder&lt;berry&gt;\n[32] │ goji &lt;berry&gt;\n[33] │ goose&lt;berry&gt;\n[38] │ huckle&lt;berry&gt;\n[50] │ mul&lt;berry&gt;\n[70] │ rasp&lt;berry&gt;\n[73] │ salal &lt;berry&gt;\n[76] │ straw&lt;berry&gt;\n\n\nEssentials of forming a regex\n\nLetters and numbers in a regex are matched exactly and are called literal characters.\nMost punctuation characters, like ., +, *, [, ], and ?, have special meanings and are called metacharacters.\n\nQuantifiers come after a regex and control how many times a pattern can match:\n\n\n?: match the preceding pattern 0 or 1 times\n\n+: match the preceding pattern at least once\n\n*: match the preceding pattern at least 0 times (any number of times)\n\n\n\n. . .\nExercise: Before running the code below, predict what matches will be made. Run the code to check your guesses. Note that in all regex’s below the ?, +, * applies to the b only (not the a).\n\nCodestr_view(c(\"a\", \"ab\", \"abb\"), \"ab?\")\nstr_view(c(\"a\", \"ab\", \"abb\"), \"ab+\")\nstr_view(c(\"a\", \"ab\", \"abb\"), \"ab*\")\n\n\n\nWe can match any of a set of characters with [] (called a character class), e.g., [abcd] matches “a”, “b”, “c”, or “d”.\n\nWe can invert the match by starting with ^: [^abcd] matches anything except “a”, “b”, “c”, or “d”.\n\n\n\n\nCode# Match words that have vowel-x-vowel\nstr_view(words, \"[aeiou]x[aeiou]\")\n\n[284] │ &lt;exa&gt;ct\n[285] │ &lt;exa&gt;mple\n[288] │ &lt;exe&gt;rcise\n[289] │ &lt;exi&gt;st\n\nCode# Match words that have not_vowel-y-not_vowel\nstr_view(words, \"[^aeiou]y[^aeiou]\")\n\n[836] │ &lt;sys&gt;tem\n[901] │ &lt;typ&gt;e\n\n\nExercise Using the words data, find words that have two vowels in a row followed by an “m”.\n\nCode# Your code\n# This regex finds \"a\" then \"b\" at most once (can't have 2 or more b's in a row)\nstr_view(c(\"a\", \"ab\", \"abb\"), \"ab?\")\n\n[1] │ &lt;a&gt;\n[2] │ &lt;ab&gt;\n[3] │ &lt;ab&gt;b\n\n\n\nThe alternation operator | can be read just like the logical operator | (“OR”) to pick between one or more alternative patterns. e.g., apple|banana searches for “apple” or “banana”.\n\n\nCodestr_view(fruit, \"apple|melon|nut\")\n\n [1] │ &lt;apple&gt;\n[13] │ canary &lt;melon&gt;\n[20] │ coco&lt;nut&gt;\n[52] │ &lt;nut&gt;\n[62] │ pine&lt;apple&gt;\n[72] │ rock &lt;melon&gt;\n[80] │ water&lt;melon&gt;\n\n\nExercise: Using the fruit data, find fruits that have a repeated vowel (“aa”, “ee”, “ii”, “oo”, or “uu”.)\n\nCode# Your code\n# There has to be an \"a\" followed by at least one b\n# This is why the first string \"a\" isn't matched\nstr_view(c(\"a\", \"ab\", \"abb\"), \"ab+\")\n\n[2] │ &lt;ab&gt;\n[3] │ &lt;abb&gt;\n\n\n\nThe ^ operator indicates the beginning of a string, and the $ operator indicates the end of a string. e.g., ^a matches strings that start with “a”, and a$ matches words that end with “a”.\nParentheses group together parts of a regular expression that should be taken as a bundle. (Much like parentheses in arithmetic statements.)\n\ne.g., ab+ is a little confusing. Does it match “ab” one or more times? Or does it match “a” first, then just “b” one or more times? (The latter, as we saw in an earlier example.) We can be very explicit and use a(b)+.\n\n\n\nExercise: Using the words data, find (1) words that start with “y” and (2) words that don’t start with “y”.\n\nCode# Your code\n# There must be an \"a\" and then any number of b's (including zero)\nstr_view(c(\"a\", \"ab\", \"abb\"), \"ab*\")\n\n[1] │ &lt;a&gt;\n[2] │ &lt;ab&gt;\n[3] │ &lt;abb&gt;",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#exploring-stringr-functions",
+    "href": "ica/07-wrangling-2-notes.html#exploring-stringr-functions",
+    "title": "7 Adv Data wrangling II",
+    "section": "Exploring stringr functions",
+    "text": "Exploring stringr functions\nRead in the “Dear Abby” data underlying The Pudding’s 30 Years of American Anxieties article.\n\nCodeposts &lt;- read_csv(\"https://raw.githubusercontent.com/the-pudding/data/master/dearabby/raw_da_qs.csv\")\n\n\nTake a couple minutes to scroll through the 30 Years of American Anxieties article to get ideas for themes that you might want to search for using regular expressions.\n\nThe following are core stringr functions that use regular expressions:\n\n\nstr_view() - View the first occurrence in a string that matches the regex\n\nstr_count() - Count the number of times a regex matches within a string\n\nstr_detect() - Determine if (TRUE/FALSE) the regex is found within string\n\nstr_subset() - Return subset of strings that match the regex\n\nstr_extract(), str_extract_all() - Return portion of each string that matches the regex. str_extract() extracts the first instance of the match. str_extract_all() extracts all matches.\n\nstr_replace(), str_replace_all() - Replace portion of string that matches the regex with something else. str_replace() replaces the first instance of the match. str_replace_all() replaces all instances of the match.\n\nstr_remove(), str_remove_all() - Removes the portion of the string that matches the pattern. Equivalent to str_replace(x, \"THE REGEX PATTERN\", \"\")\n\n\nExercise: Starting from str_count(), explore each of these functions by pulling up the function documentation page and reading through the arguments. Try out each function using the posts data.\n\nCodestr_view(words, \"[aeiou][aeiou]m\")\n\n[154] │ cl&lt;aim&gt;\n[714] │ r&lt;oom&gt;\n[735] │ s&lt;eem&gt;\n[844] │ t&lt;eam&gt;\n\n\n\nCodestr_view(fruit, \"aa|ee|ii|oo|uu\")\n\n [9] │ bl&lt;oo&gt;d orange\n[33] │ g&lt;oo&gt;seberry\n[47] │ lych&lt;ee&gt;\n[66] │ purple mangost&lt;ee&gt;n\n\n\n\nCode# Words that start with y\nstr_view(words, \"^y\")\n\n[975] │ &lt;y&gt;ear\n[976] │ &lt;y&gt;es\n[977] │ &lt;y&gt;esterday\n[978] │ &lt;y&gt;et\n[979] │ &lt;y&gt;ou\n[980] │ &lt;y&gt;oung\n\nCode# Words that don't start with y\nstr_view(words, \"^[^y]\")\n\n [1] │ &lt;a&gt;\n [2] │ &lt;a&gt;ble\n [3] │ &lt;a&gt;bout\n [4] │ &lt;a&gt;bsolute\n [5] │ &lt;a&gt;ccept\n [6] │ &lt;a&gt;ccount\n [7] │ &lt;a&gt;chieve\n [8] │ &lt;a&gt;cross\n [9] │ &lt;a&gt;ct\n[10] │ &lt;a&gt;ctive\n[11] │ &lt;a&gt;ctual\n[12] │ &lt;a&gt;dd\n[13] │ &lt;a&gt;ddress\n[14] │ &lt;a&gt;dmit\n[15] │ &lt;a&gt;dvertise\n[16] │ &lt;a&gt;ffect\n[17] │ &lt;a&gt;fford\n[18] │ &lt;a&gt;fter\n[19] │ &lt;a&gt;fternoon\n[20] │ &lt;a&gt;gain\n... and 954 more",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/07-wrangling-2-notes.html#done",
+    "href": "ica/07-wrangling-2-notes.html#done",
+    "title": "7 Adv Data wrangling II",
+    "section": "Done!",
+    "text": "Done!\n\nCheck the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>7 Adv Data wrangling II</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html",
+    "href": "ica/08-missing-data-notes.html",
+    "title": "8 Missing Data",
+    "section": "",
+    "text": "🧩 Learning Goals\nBy the end of this lesson, you should be able to:",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#learning-goals",
+    "href": "ica/08-missing-data-notes.html#learning-goals",
+    "title": "8 Missing Data",
+    "section": "",
+    "text": "Go through a data quality checklist when data wrangling\nExplain the difference between MCAR, MAR, and MNAR missing data mechanisms\nAssess what missing data mechanisms might be at play in a given dataset\nUse visualizations to explore missing data patterns\nExplain why multiple imputation is preferred to single imputation\nExplain how a simulation study can be used to investigate properties of statistical methods",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#data-quality-checklist",
+    "href": "ica/08-missing-data-notes.html#data-quality-checklist",
+    "title": "8 Missing Data",
+    "section": "Data Quality Checklist",
+    "text": "Data Quality Checklist\nAssumptions\n\nWhen wrangling or cleaning data, make sure to check the assumptions you are making about the data to ensure you don’t lose data quality.\n\n\nData Parsing (reading data into a different data format)\n\n\nRaw Data. Always keep the original raw data and do not manually change it.\n\nWrangling. When wrangling date, check that the result is as expected by inspecting rows or writing test cases.\n\nDates. When using lubridate to parse dates and times, ensure the strings are consistently ordered and formatted correctly, eg, mm/dd/yy vs. dd/mm/yy.\n\nStrings. When using stringr to parse strings with regular expressions, check example rows to ensure that the pattern captured all of the examples you want and excluded the patterns you don’t want.\n\nMissing Data. Always check for missing values to see if the missing ones are expected given the original data.\n\n\nData Joining\n\n\nIdentify missing values in the key variables and decide how to handle them before the merge process (e.g., omitting rows with missing values, imputing missing values).\nDecide on the correct join type (left, right, inner, full, etc.) OR if the data structure is the same use list_rbind() to bind rows or list_cbind() to bind columns.\nIf doing a join, make sure that the key variables (by) have the same meaning in both datasets and are represented in the same way (e.g., id = 1 to 20 in first dataset will match id = 1 - 20 in undesirable ways)\nPredict the number of rows that will result from the join and double check the anti_join() to see which rows did not find a match.\nCheck for duplicate records within each dataset and ensure they are handled appropriately before merging.\nVerify that the merged dataset maintains consistency with the original datasets in terms of data values, variable names, and variable types.\nPerform some preliminary analysis or validation checks on the merged dataset to ensure that it meets the requirements of your analysis.\n\n\nSanity Check: Visualize your data!!!\n\n\nDo the right number of points appear?\nDo the values seem reasonable?",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#explicit-v.-implicit-missing-data",
+    "href": "ica/08-missing-data-notes.html#explicit-v.-implicit-missing-data",
+    "title": "8 Missing Data",
+    "section": "Explicit v. Implicit Missing Data",
+    "text": "Explicit v. Implicit Missing Data\nExplicit missing data is data that is explicitly marked as missing. In R, this is done with NA.\nImplicit missing data is data that is missing but not explicitly marked as such.\n\nThis can happen when an entire row is missing from a dataset.\n\nFor example, if a study participant doesn’t attend a follow-up visit. It maybe not even be recorded in the data.\n\n\n\nWe need to make implicit missingness explicit before we can work with the data.\n\nConsider the combinations of variables that you’d expect to be fully present in a complete dataset.\n\nIf a combination is missing, you can create a new row with explicit missing values.\n\nFor example, if you expect every participant (each has a unique pid) to have an observation for each visit, you could use the function complete() to create that new row and plug in values of NA for the missing data.\n\n\n\n\n\n\nCode#study_data_full &lt;- study_data |&gt; \n#  complete(pid, visit)",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#dealing-with-missing-data",
+    "href": "ica/08-missing-data-notes.html#dealing-with-missing-data",
+    "title": "8 Missing Data",
+    "section": "Dealing with missing data",
+    "text": "Dealing with missing data\nIf you have explicit missing data, there are 3 main ways of proceeding:\n\n\nDrop the cases or rows with any missing data from the analysis–a complete case analysis\n\nPro: Easy to implement\nCon: reduces sample size, introduces bias if the missing data is not “missing completely at random (MCAR)”\n\n\nCreate a category for missing values.\n\nExample: The survey question “What is your gender?” might only provide two possible responses: “male” and “female”. Missing values for this could indicate that the respondent uses a non-binary designation. Instead of dropping these cases, treating the missing data as its own category (“Does not wish to answer”) would be more appropriate.\nPros: Maintains sample size, may help us if data is “missing not at random (MNAR)”\nCons: Not directly applicable to continuous outcomes (could include interactions with a categorical version in models to account for it)\n\n\n\nImpute (or fill in values for) the missing data using imputation algorithms.\n\nImputation algorithms can be as simple as replacing missing values with the mean of the non-missing values (very simplistic).\nRegression imputation algorithms use models to predict missing values as a function of other variables in the data.\nPros: Maintains sample size, multiple regression imputation minimizes bias if “missing at random (MAR)”\nCons: Computationally intensive\n\n\n\n\nDeciding between these options and proceeding with choosing finer details within an option requires an understanding of the mechanism by which data become missing.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#missing-data-mechanisms",
+    "href": "ica/08-missing-data-notes.html#missing-data-mechanisms",
+    "title": "8 Missing Data",
+    "section": "Missing Data Mechanisms",
+    "text": "Missing Data Mechanisms\nThe reasons for which a variable might have missing data are divided into 3 mechanisms: MCAR, MAR, and MNAR.\nWithin a dataset, multiple mechanisms may be present–we need to consider the missingness mechanism for each variable individually.\n\nMissing completely at random (MCAR)\n\nThe probability of missing data for a variable is the same for all cases. Implies that causes of the missing data are unrelated to the data. (https://stefvanbuuren.name/fimd/sec-MCAR.html)\nExamples:\n\nMeasurement device that runs out of batteries causes the remainder of observations for the day to be missing.\nData entry software requires a particular field to be typo-free, and missing values are introduced when there are typos.\n\n\nImplications for downstream work:\n\nIf a variable has MCAR missingness, a complete case analysis will be unbiased (still valid).\nHowever, with a lot of missing observations, a complete case analysis will suffer from loss of statistical power (ability to detect a real difference), and imputation will be useful to retain the original sample size.\n\n\n\nMissing at random (MAR):\n\nThe probability of missing data is related to observed variables but unrelated to unobserved information.\nExamples:\n\nBlood pressure measurements tend to be missing in patients in worse health. (Those in worse health are more likely to miss clinic visits.) Better and worse health can be measured by a variety of indicators in their health record.\nIn a survey, older people are more likely to report their income than younger people. Missingness is related to the observed age variable, but not to unobserved information.\n\n\nImplications for downstream work:\n\nTry to use imputation methods that predict the value of the missing variables from other observed variables. Assessing whether this can be done accurately takes some exploration–we’ll explore this shortly.\n\n\n\nMissing not at random (MNAR):\n\nThe probability of missing data is related to unobserved variables (and probably observed variables too).\nExamples:\n\nBlood pressure measurements are more likely to be missing for those with the highest blood pressure. This is MNAR rather than MAR because the missing data on blood pressure is related to the unobserved values themselves.\nHigh-income individuals may be less likely to report their income.\n\n\nImplications for downstream work:\n\nIdeally, we would learn more about the causes for the missingness. This could allow us to use more informed imputation models.\n\nExample: Biological measurements that tend to be missing because of concentrations that are too low (a phenomenon known as left-censoring). Imputation methods specifically suited to left-censoring are useful here.\n\n\nWe can use imputation methods with different assumptions about the missing data and try out a variety of assumptions. This lets us see how sensitive the results are under various scenarios.\n\nExample: If higher incomes are more likely to be missing, we can make different assumptions about what “high” could be to fill in the missing values and see how our results change under these different assumptions.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#exercise",
+    "href": "ica/08-missing-data-notes.html#exercise",
+    "title": "8 Missing Data",
+    "section": "Exercise",
+    "text": "Exercise\n\n\nMissing data mechanism For each of the following situations, propose what missing data mechanism you think is most likely at play.\n\n\nIn a clinical trial, some patients dropped out before the end of the study. Their reasons for dropping out were not recorded. MNAR probably: The chance of missingness is likely due to factors that aren’t recorded (like discomfort).\nA weather station records temperature, humidity, and wind speed every hour. Some of the recorded values are missing. Could be MCAR if the missing values are from technical glitches. Could be MAR if the missing values are related to other measured weather variables. Could be MNAR if the values tend to be missing when the values themselves are high (e.g., high temperature, humidity, and wind speed causing measurement devices to malfunction).\nA social media platform collects data on user interactions, such as likes, comments, and shares. Some interactions are not recorded due to bugs in the code. Could be MCAR if the bugs affected the platform uniformly. Could be MAR if the bugs affected groups of users differently, but where the groupings are known (e.g., bugs affect mobile users more and mobile vs. desktop usage is measurable). Could be MNAR if the bugs lead to performance issues that affect users with slower internet more (where internet speed is likely not measured).",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#exploring-missing-data",
+    "href": "ica/08-missing-data-notes.html#exploring-missing-data",
+    "title": "8 Missing Data",
+    "section": "Exploring Missing Data",
+    "text": "Exploring Missing Data\nGuiding question: How can we use visualizations and tabulations to explore what missing data mechanisms may be at play?\nWe’ll look at the airquality dataset available in base R, which gives daily air quality measurements in New York from May to September 1973. You can pull up the codebook with ?airquality in the Console.\n\nCodedata(airquality)",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#missingness-by-variable",
+    "href": "ica/08-missing-data-notes.html#missingness-by-variable",
+    "title": "8 Missing Data",
+    "section": "Missingness by Variable",
+    "text": "Missingness by Variable\nWe can explore how much missingness there is for each variable with the following functions:\n\nCodesummary(airquality) # Summary statistics in addition to number of NA's\n\n     Ozone           Solar.R           Wind             Temp      \n Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  \n 1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  \n Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  \n Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  \n 3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  \n Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  \n NA's   :37       NA's   :7                                       \n     Month            Day      \n Min.   :5.000   Min.   : 1.0  \n 1st Qu.:6.000   1st Qu.: 8.0  \n Median :7.000   Median :16.0  \n Mean   :6.993   Mean   :15.8  \n 3rd Qu.:8.000   3rd Qu.:23.0  \n Max.   :9.000   Max.   :31.0  \n                               \n\nCodenaniar::vis_miss(airquality) # Where are NA's located?\n\n\n\n\n\n\nCodenaniar::miss_var_summary(airquality) # Information from vis_miss() in table form\n\n# A tibble: 6 × 3\n  variable n_miss pct_miss\n  &lt;chr&gt;     &lt;int&gt;    &lt;num&gt;\n1 Ozone        37    24.2 \n2 Solar.R       7     4.58\n3 Wind          0     0   \n4 Temp          0     0   \n5 Month         0     0   \n6 Day           0     0",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#missingness-by-case",
+    "href": "ica/08-missing-data-notes.html#missingness-by-case",
+    "title": "8 Missing Data",
+    "section": "Missingness by Case",
+    "text": "Missingness by Case\nWe can explore how much missingness there is for each case with naniar::miss_case_summary(). For each case, this function calculates the number and percentage of variables with a missing value.\nImpact of Information: If the pct_miss column is large for a case, we likely won’t be able to impute any of its missing values because there just isn’t enough known information–this case will have to be dropped from the analysis.\n\nCodenaniar::miss_case_summary(airquality)\n\n# A tibble: 153 × 3\n    case n_miss pct_miss\n   &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt;\n 1     5      2     33.3\n 2    27      2     33.3\n 3     6      1     16.7\n 4    10      1     16.7\n 5    11      1     16.7\n 6    25      1     16.7\n 7    26      1     16.7\n 8    32      1     16.7\n 9    33      1     16.7\n10    34      1     16.7\n# ℹ 143 more rows",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#exploring-missingness-mechanisms",
+    "href": "ica/08-missing-data-notes.html#exploring-missingness-mechanisms",
+    "title": "8 Missing Data",
+    "section": "Exploring Missingness Mechanisms",
+    "text": "Exploring Missingness Mechanisms\nAssessing missingness mechanisms involves checking if missingness in a variable is related to other variables.\nNote: Through our available data, we are really only able to explore the potential for MCAR or MAR mechanisms.\nImpact of Information: There is always the chance that unobserved information (unobserved other variables or unobserved values of the variables we do have) is related to missingness for our variables, so to think through the potential for MNAR, more contextual information is necessary.\nTo explore these relationships, we can create TRUE/FALSE indicators of whether a variable is missing. In the plots below, we use is.na(Ozone) to explore whether cases with missing ozone values are noticeably different from cases with observed ozone values in terms of Solar.R.\n\nCodeggplot(airquality, aes(x = is.na(Ozone), y = Solar.R)) + \n    geom_boxplot()\n\n\n\n\n\n\nCodeggplot(airquality, aes(x = Solar.R, color = is.na(Ozone))) + \n    geom_density()\n\n\n\n\n\n\n\nThe above boxplots and density plots suggest that missing ozone is not strongly related to solar radiation levels.\nWe still should check if ozone missingness is related to the Wind, Temp, Month, and Day variables (to be done in Exercises).\nIn addition to checking if the chance of ozone missingness is related to Solar.R, we should check if the values of ozone could be predicted by Solar.R.\nIn the scaterrplot below, we look at the relationship between Ozone and Solar.R and use vertical lines to indicate the Solar.R values for cases that are missing Ozone.\n\n\nImpact of Information: We see that missing Ozone cases are within the observed span of Solar.R, so we would be ok with predicting Ozone from Solar.R because there would be no extrapolation.\n\n\nCodeggplot(airquality, aes(x = Solar.R, y = Ozone)) +\n    geom_point() +\n    geom_smooth() +\n    geom_vline(data = airquality |&gt; filter(is.na(Ozone)), mapping = aes(xintercept = Solar.R))",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#exercises",
+    "href": "ica/08-missing-data-notes.html#exercises",
+    "title": "8 Missing Data",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nMechanism detection practice Look at the boxplot + scatterplot pairs for Alternate Situations 1 and 2 below. How do these situations compare to our actual situation and to each other? What concerns might arise from using a model to impute Ozone?\n\nOzone is missing when solar is at higher values for both alternative situations.\nIn Alt 1 version, we have some observed data in the range of Solar for where Ozone is missing so we could predict it fairly well.\nIn Alt 2 version, Ozone is missing when Solar is beyond the values of our observed data so we don’t have good sense of what the relationship would be between Solar and Ozone.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOzone mechanism detection Continue the investigation of missingness for Ozone.\n\nWe want to see how Month, Wind, and Temp relate to the chance of missingness for Ozone and to the value of Ozone.\nDoes it look like a linear regression model (perhaps with variable transformations) could be effective in imputing the missing ozone data?\n\nCodeairquality_mod &lt;- airquality |&gt;\n  mutate(Ozone_miss = is.na(Ozone))\n\nggplot(airquality_mod, aes(x = Ozone_miss, y = Month)) +\n  geom_boxplot()\n\n\n\n\n\n\nCodeggplot(airquality_mod, aes(x = factor(Month), y = Ozone)) +\n  geom_boxplot()\n\n\n\n\n\n\nCodeggplot(airquality_mod, aes(x = Ozone_miss, y = Wind)) +\n  geom_boxplot()\n\n\n\n\n\n\nCodeggplot(airquality_mod, aes(x = Wind, y = Ozone)) +\n  geom_point() +\n  geom_smooth()\n\n\n\n\n\n\nCodeggplot(airquality_mod, aes(x = Ozone_miss, y = Temp)) +\n  geom_boxplot()\n\n\n\n\n\n\nCodeggplot(airquality_mod, aes(x = Temp, y = Ozone)) +\n  geom_point() +\n  geom_smooth()\n\n\n\n\n\n\nCodelm_mod &lt;- lm(Ozone ~ Temp + Wind + factor(Month),\n             data = airquality_mod,\n             subset = !is.na(Ozone))\n\nsummary(lm_mod)\n\n\nCall:\nlm(formula = Ozone ~ Temp + Wind + factor(Month), data = airquality_mod, \n    subset = !is.na(Ozone))\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-44.594 -12.477  -2.234  11.133  99.904 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)    -84.9713    26.6231  -3.192  0.00185 ** \nTemp             2.1049     0.3301   6.377 4.48e-09 ***\nWind            -2.7817     0.6688  -4.159 6.38e-05 ***\nfactor(Month)6 -16.3557     9.1998  -1.778  0.07822 .  \nfactor(Month)7  -8.7696     7.8358  -1.119  0.26553    \nfactor(Month)8  -7.9676     7.8533  -1.015  0.31256    \nfactor(Month)9 -17.4084     6.5403  -2.662  0.00895 ** \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 21.39 on 109 degrees of freedom\nMultiple R-squared:  0.6016,    Adjusted R-squared:  0.5796 \nF-statistic: 27.43 on 6 and 109 DF,  p-value: &lt; 2.2e-16",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#regression-imputation",
+    "href": "ica/08-missing-data-notes.html#regression-imputation",
+    "title": "8 Missing Data",
+    "section": "Regression Imputation",
+    "text": "Regression Imputation\nWhen a model is built and used to generate a single set of predictions for missing values, this is known as single imputation.\n\nWhen using singly imputed data in subsequent modeling, the uncertainty in estimates tends to be underestimated. This means that:\n\nStandard errors are lower than they should be.\nConfidence intervals won’t contain the true parameter value the “advertised” percentage of times\n\ne.g., 95% confidence intervals will not contain the truth in 95% of samples–the coverage probability will be less than 95%\n\n\n\n\n\nIn multiple imputation, multiple imputed datasets are generated with different values for the filled-in data.\n\nSubsequent models are fit on each of these datasets, and both estimates and uncertainty measures are pooled across all of these fits.\nMultiple imputation more accurately estimates uncertainty measures.",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#simulation-studies",
+    "href": "ica/08-missing-data-notes.html#simulation-studies",
+    "title": "8 Missing Data",
+    "section": "Simulation Studies",
+    "text": "Simulation Studies\nWe can use a simulation study to investigate the statistical properties described above.\n\n\nGenerate (simulate) data where we are in control of missing data mechanisms and the true relationship between an outcome and the predictors.\nOn that simulated data, use single imputation to fill in the missing values. Fit the desired model, and obtain a confidence interval for a coefficient of interest.\nOn that simulated data, use multiple imputation to fill in the missing values. Fit the desired models on all imputed datasets, pool results, and obtain a confidence interval for a coefficient of interest.\nSteps 1 - 3 are repeated a lot of times (num_simulations &lt;- 1000) to see how things work out in lots of different samples.\nSummarize the performance of single and multiple imputation across the num_simulations simulations.\n\n\nWe will slowly step through the simulation study code below. We will pause frequently for you to add comments documenting what is happening.\nLet’s start with few functions.\n\nCode# enerate simulation data of size n\ngen_sim_data &lt;- function(n) {\n  tibble::tibble(\n    # generate values from a uniform distribution b/w 0 & 1\n    # this the independent variable\n    x1 = runif(n, min = 0, max = 1),\n    \n    # create second variable that correlates with x1\n    # but include some random (normally distributed) noise\n    x2 = x1 + rnorm(n, mean = 0, sd = 1),\n    \n    # the missingness trigger, the probability of being 1 (missing)\n    # depend on x1 (because of the Binomial distribution).  If x1 is high,\n    # the data is more likely to be missing\n    x2_miss_bool = rbinom(n, size = 1, prob = x1/2),\n    \n    # apply the trigger\n    x2_NA = dplyr::if_else(x2_miss_bool == 1, NA, x2),\n    \n    # the outcome variable which is a linear combination of \n    # the original (complete) x1 & x2 plus some random error\n    y = x1 + x2 + rnorm(n, mean = 0, sd = 1)\n  )\n}\n\n\n\nCode# given some data, build imputation model with m = num\nbuild_imputation_model &lt;- function(data, num) {\n  # Multiple Imputation by Chained Equations (MICE)\n  mice_obj &lt;- mice::mice(data |&gt; dplyr::select(x1, x2_NA, y), \n                         m = num,          # num of dataset versions to generate\n                         method = \"norm\",  # Bayesian liner regression\n                         printFlag = FALSE)\n  \n  # run the model on every dataset version\n  with(mice_obj, lm(y ~ x1 + x2_NA))\n}\n\n\n\nCode# pull the CI of a single imputation model\nget_single_imputation_ci &lt;- function(single_imputation_model) {\n  ci &lt;- single_imputation_model$analyses[[1]] |&gt; confint(level = .95)\n  ci_lower &lt;- ci[\"x2_NA\", \"2.5 %\"]\n  ci_upper &lt;- ci[\"x2_NA\", \"97.5 %\"]\n  c(ci_lower, ci_upper)\n}\n\n\n\nCode# pull the CI of a multiple imputation model\nget_multiple_imputation_ci &lt;- function(multiple_imputation_models) {\n  pooled_res &lt;- mice::pool(multiple_imputation_models)\n  summ_pooled_res &lt;- summary(pooled_res, conf.int = TRUE, conf.level = 0.95)\n  ci_lower &lt;- summ_pooled_res |&gt; dplyr::filter(term == \"x2_NA\") |&gt; dplyr::pull(`2.5 %`)\n  ci_upper &lt;- summ_pooled_res |&gt; dplyr::filter(term == \"x2_NA\") |&gt; dplyr::pull(`97.5 %`)\n  c(ci_lower, ci_upper)\n}\n\n\nThe following code chunk uses the functions defined above to run the simulation. Note that the process may take a few minutes.\n\nCodeset.seed(224)\nnum_simulations &lt;- 10\ndataset_size &lt;- 100\n\n# prepare empty vector for faster data handling\nci_list &lt;- vector(\"list\", length = num_simulations)\n\nsystem.time({\n  for (i in 1:num_simulations) {\n    sim_data &lt;- gen_sim_data(dataset_size)\n    \n    model_single &lt;- build_imputation_model(sim_data, 1)\n    ci_single &lt;- get_single_imputation_ci(model_single)\n    \n    model_multiple &lt;- build_imputation_model(sim_data, 10)\n    ci_multiple &lt;- get_multiple_imputation_ci(model_multiple)\n    \n    ci_list[[i]] &lt;- tibble::tribble(\n      ~imputation, ~ci_lower, ~ci_upper,\n      \"single\", ci_single[1], ci_single[2],\n      \"multiple\", ci_multiple[1], ci_multiple[2]\n    )\n  }\n})\n\n   user  system elapsed \n  0.489   0.005   0.495 \n\n\nBelow we compute the confidence interval (CI) coverage probability (fraction of times the CI contains the true value of 1) for the CIs generated from single and multiple imputation:\n\nCodedplyr::bind_rows(ci_list) |&gt; \n  dplyr::mutate(contain_truth = ci_lower &lt; 1 & ci_upper &gt; 1) |&gt; \n  dplyr::group_by(imputation) |&gt; \n  dplyr::summarise(frac_contain_truth = mean(contain_truth))\n\n# A tibble: 2 × 2\n  imputation frac_contain_truth\n  &lt;chr&gt;                   &lt;dbl&gt;\n1 multiple                  1  \n2 single                    0.9",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
+    "objectID": "ica/08-missing-data-notes.html#done",
+    "href": "ica/08-missing-data-notes.html#done",
+    "title": "8 Missing Data",
+    "section": "Done!",
+    "text": "Done!\n\nCheck the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website",
+    "crumbs": [
+      "In-Class Activities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>8 Missing Data</span>"
+    ]
+  },
+  {
     "objectID": "extra/extra-sample1.html",
     "href": "extra/extra-sample1.html",
     "title": "Extra Sample 1",
@@ -677,7 +952,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Extra Sample 1</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Extra Sample 1</span>"
     ]
   },
   {
@@ -688,7 +963,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Extra Sample 2</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Extra Sample 2</span>"
     ]
   }
 ]
