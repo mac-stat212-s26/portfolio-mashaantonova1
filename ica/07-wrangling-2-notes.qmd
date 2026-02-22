@@ -97,7 +97,9 @@ str_view(string3)
 
 ```{r ex_create_string}
 # Your code
-
+x <- "It's Thursday" 
+x
+x <- 'Its Thursday'
 ```
 
 
@@ -117,6 +119,8 @@ Given that `\` is a special character, how can we put the `\` character in strin
 
 ```{r ex_create_string_slash}
 # Your code
+x <- "C:\\Users"
+str_view(x)
 ```
 
 
@@ -171,7 +175,11 @@ df_dates <- tibble(
     day = c(3, 4, 5)
 )
 
-
+df_dates |>
+    mutate(
+        date1 = str_c(month, "-", day, "-", year),
+        date2 = str_glue("{month}-{day}-{year}")
+    )
 ```
 
 
@@ -216,7 +224,12 @@ df <- tibble(
     word = c("replace", "match", "pattern")
 )
 
-
+df |>
+    mutate(
+        word_length = str_length(word),
+        middle_pos = ceiling(word_length/2),
+        middle_letter = str_sub(word, middle_pos, middle_pos)
+    )
 
 ```
 
@@ -280,7 +293,8 @@ str_view(words, "[^aeiou]y[^aeiou]")
 
 ```{r ex_regex_classes}
 # Your code
-
+# This regex finds "a" then "b" at most once (can't have 2 or more b's in a row)
+str_view(c("a", "ab", "abb"), "ab?")
 ```
 
 
@@ -297,7 +311,9 @@ str_view(fruit, "apple|melon|nut")
 
 ```{r ex_regex_alternation}
 # Your code
-
+# There has to be an "a" followed by at least one b
+# This is why the first string "a" isn't matched
+str_view(c("a", "ab", "abb"), "ab+")
 ```
 
 
@@ -311,7 +327,8 @@ str_view(fruit, "apple|melon|nut")
 
 ```{r ex_regex_start_end_group}
 # Your code
-
+# There must be an "a" and then any number of b's (including zero)
+str_view(c("a", "ab", "abb"), "ab*")
 
 ```
 
@@ -342,7 +359,17 @@ The following are core `stringr` functions that use regular expressions:
 **Exercise:** Starting from `str_count()`, explore each of these functions by pulling up the function documentation page and reading through the arguments. Try out each function using the `posts` data.
 
 ```{r}
+str_view(words, "[aeiou][aeiou]m")
+```
+```{r}
+str_view(fruit, "aa|ee|ii|oo|uu")
+```
+```{r}
+# Words that start with y
+str_view(words, "^y")
 
+# Words that don't start with y
+str_view(words, "^[^y]")
 ```
 
 ## Done!
