@@ -1,0 +1,84 @@
+---
+title: "HW04-P2 Data wrangling"
+format: 
+  html: 
+    embed-resources: true
+---
+
+## Instructions
+
+**Requirements:**
+
+Use tidyverse functions to do the following:
+
+- Create a new `year` variable that covered requirements for BCE and century listed
+- Create a `artist_name` variable with only the name of first artist and checking to other missing values (unknown artists)
+- Create a `classification_first` variable with only the name of first classification
+
+
+##  Mia Data
+
+Load in the `mia_collection.csv` dataset of the collection of objects from the Minneapolis Institute of Art (Mia).  The dataset can be downloaded from the homework page on the course website.
+
+```{r}
+library(tidyverse)
+
+mia_collection <- read_csv("mia_collection.csv")
+
+mia_cleaned <- mia_collection %>%
+  mutate(
+
+    year_temp = as.numeric(str_extract(dated, "\\d+")),
+    is_century = str_detect(dated, "[Cc]entury"),
+    is_bce = str_detect(dated, "BCE|B\\.C\\.E\\."),
+    
+    year = case_when(
+      is_century ~ (year_temp - 1) * 100 + 1,
+      TRUE ~ year_temp
+    ),
+    year = if_else(is_bce, year * -1, year),
+
+    artist_clean = str_extract(artist, "^[^;,(]+"),
+    artist_name = str_trim(artist_clean),
+    artist_name = case_when(
+      is.na(artist_name) ~ "Unknown Artist",
+      artist_name == "" ~ "Unknown Artist",
+      str_detect(artist_name, "[Uu]nknown") ~ "Unknown Artist",
+      TRUE ~ artist_name),
+  
+    classification_first = str_extract(classification, "^[^;]+")) 
+
+mia_final <- mia_cleaned %>%
+  select(any_of(c("dated", "year", "artist", "artist_name", "classification", "classification_first")))
+
+print(head(mia_final))
+```
+
+
+Clean the data in the `mia_collection` tibble in the following way:
+
+- Create a new column `year` that extracts the first listed year from the `dated` column; if it is BCE, make the year negative; if it says a century, make the year the first year of that century (e.g., 19th century should be 1801)
+- Create a new column `artist_name` that extracts the first listed name from the `artist` column. Make sure to make any missingness explicit. Do not include the type of artist (e.g., painter, sculptor) in the name.
+- Create a new column `classification_first` that extracts the first listed classification from the `classification` column
+
+
+Make sure that you are checking the assumptions you are making about the data and that you are appropriately handling any missingness in the data.
+
+## Resources Reflection (required)
+
+List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
+
+**Resources:**
+
+- RStudio stringr Cheatsheet: Specifically the section on "Patterns" to understand how to use ^ (start of string) and [^;]+ (match everything until a semicolon).
+
+- The Tidyverse case_when() Documentation: Essential for mapping the complex conditional logic required for BCE years and Century conversions.
+
+- RegEx101.com: A sandbox tool used to test the regular expressions for the dated column before implementing them in the R script.
+
+
+**Reflection:**
+
+The most helpful resource for this assignment was the stringr documentation, as it provided the regex syntax needed to handle the "messy" archival strings in the artist and classification columns. I found that using str_extract with an anchor like ^ was the most efficient way to isolate the first listed item while ignoring secondary descriptors. Additionally, implementing case_when() was a breakthrough for the "year" calculation; it allowed me to handle three distinct data types—standard years, centuries, and BCE dates—within a single, readable block of code. This task reinforced the importance of checking assumptions, as I had to explicitly handle missingness by transforming NA values into "Unknown Artist" to maintain data integrity.
+
+

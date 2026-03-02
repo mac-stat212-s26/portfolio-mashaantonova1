@@ -1,0 +1,179 @@
+---
+title: "HW04-P1 Data wrangling"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## Instructions
+
+**Requirements:**
+
+Use tidyverse functions to do the following:
+
+- Ex. 1 Calculate departure hour based on `dep_time` and calculate the most common hour.
+- Ex. 2 Calculate the largest delay and then make an appropriate plot to show distribution.
+- Ex. 3 Calculate average delay and proportion of missing values for each origin using the correct delay variable. Then calculate and show which origin airport had longest delay and most missing values.
+- Ex. 4 Ccalculate IQR and then calculate/show which desintation airport had largest variability.
+- Ex. 5 Calculate average dep delay per hour and show plot of relationship with previous hour.
+- Ex. 6 Ensure data quality by re-calculating departure delay and show which rows, if any, are not consistent.
+- Ex. 7 Calculate the fraction of flights that have any delay by weekday and show which day has the fewest delayed flights, proportionally.
+- Ex. 8 Make an appropriate, professional plot.
+- Ex. 9 Make an appropriate, professional plot.
+
+
+## Flights
+
+Install the `nycflights13` package for the data used in this exercise. You can look at the codebook for the `flights` dataset with `?flights`. Each case represents one flight from a NYC airport in 2013.
+
+```{r load_flights_data}
+library(tidyverse)
+library(nycflights13)
+data(flights)
+```
+
+Using the `flights` dataset, complete the following:
+
+1. What is the most common departure hour? Use the `dep_time` variable.
+
+```{r}
+flights %>%
+  mutate(hour = dep_time %/% 100) %>%
+  count(hour, sort = TRUE) %>%
+  slice(1)
+```
+
+
+2. Make a plot of the distribution of the largest delay for each flight (the larger of `dep_delay` and `arr_delay`).
+
+```{r}
+flights %>%
+  mutate(max_delay = pmax(dep_delay, arr_delay, na.rm = TRUE)) %>%
+  ggplot(aes(x = max_delay)) +
+  geom_histogram(binwidth = 15) +
+  labs(title = "Distribution of Maximum Flight Delays", x = "Max Delay (minutes)") +
+  xlim(-50, 300)
+```
+
+
+3. Which `origin` airport had the longest average delay? Should you use `dep_delay` or `arr_delay` here? Which had the largest proportion of missing values for this delay variable?
+
+```{r}
+flights %>%
+  group_by(origin) %>%
+  summarise(
+    avg_dep_delay = mean(dep_delay, na.rm = TRUE),
+    prop_missing = sum(is.na(dep_delay)) / n()
+  ) %>%
+  arrange(desc(avg_dep_delay))
+```
+
+
+4. Which destination (`dest`) airport had the largest variability in delays in terms of the difference between the 25th and 75th percentiles? Should you use `dep_delay` or `arr_delay` here?
+
+```{r}
+flights %>%
+  group_by(dest) %>%
+  summarise(delay_iqr = IQR(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(delay_iqr))
+```
+
+
+5. Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Use `lag()` to explore how the average departure delay for an hour is related to the average departure delay for the previous hour.
+
+```{r}
+hourly_delays <- flights %>%
+  group_by(hour) %>%
+  summarise(avg_dep_delay = mean(dep_delay, na.rm = TRUE)) %>%
+  mutate(prev_hour_delay = lag(avg_dep_delay))
+
+ggplot(hourly_delays, aes(x = prev_hour_delay, y = avg_dep_delay)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Average Delay vs. Previous Hour Delay")
+```
+
+
+6. Compare `dep_time`, `sched_dep_time`, and `dep_delay`. Check the data quality of these three variables. Are they internally consistent with each other? If not, how are they not consistent?
+
+```{r}
+flights %>%
+  mutate(
+    dep_time_min = (dep_time %/% 100) * 60 + (dep_time %% 100),
+    sched_dep_time_min = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100),
+    calc_diff = dep_time_min - sched_dep_time_min
+  ) %>%
+  filter(dep_delay != calc_diff) %>%
+  select(dep_time, sched_dep_time, dep_delay, calc_diff)
+```
+Mathematically, dep_delay = dep_time - sched_dep_time. However, these times are in HHMM format, not raw minutes, which causes issues at hour rollovers (example, 2:00 - 1:55 = 45 in HHMM, but should be 5 minutes).
+
+7. On what day of the week are delays least likely?
+
+```{r}
+library(lubridate)
+flights %>%
+  mutate(dow = wday(time_hour, label = TRUE)) %>%
+  group_by(dow) %>%
+  summarise(prop_delayed = mean(dep_delay > 0, na.rm = TRUE)) %>%
+  arrange(prop_delayed)
+```
+
+
+## General Social Survey
+
+In the remainder of the exercises, we'll use a subset of the General Social Survey (GSS) dataset available in the `forcats` pacakges.
+
+```{r load_gss}
+data(gss_cat)
+```
+
+Using the `gss_cat` dataset, use `fct_*` functions to accomplish the following tasks:
+
+8. Make a plot that shows the relationship between marital status (`marital`) and `age` in a way that makes a trend clear.
+
+```{r}
+gss_cat %>%
+  filter(!is.na(age)) %>%
+  mutate(marital = fct_reorder(marital, age, .fun = median)) %>%
+  ggplot(aes(x = marital, y = age)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = "Age Distribution by Marital Status", x = "Marital Status", y = "Age")
+```
+
+
+9. Make a plot that shows the relationship between religion followed (`relig`) and income `rincome`. Combine income categories for better readability.
+
+```{r}
+gss_cat %>%
+  mutate(income_group = fct_collapse(rincome,
+    "Low" = c("Lt $1000", "$1000 - 2999", "$3000 - 3999", "$4000 - 4999", "$5000 - 5999", "$6000 - 6999", "$7000 - 7999"),
+    "Middle" = c("$8000 - 9999", "$10000 - 14999", "$15000 - 19999", "$20000 - 24999"),
+    "High" = "$25000 or more",
+    "Other/Unknown" = c("No answer", "Don't know", "Refused", "Not applicable")
+  )) %>%
+  ggplot(aes(y = fct_infreq(relig), fill = income_group)) +
+  geom_bar(position = "fill") +
+  labs(title = "Proportion of Income Groups by Religion", x = "Proportion", y = "Religion", fill = "Income Group") +
+  theme_minimal()
+```
+
+
+## Resources Reflection (required)
+
+List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
+
+**Resources:**
+
+- ggplot2 official documentation(https://ggplot2.tidyverse.org/reference)
+
+- Patchwork package documentation for combining plots
+
+- RStudio ggplot2 cheatsheet
+
+
+**Reflection:**
+
+The dplyr and tidyverse documentation were important for understanding the logic behind time-based calculations, specifically using integer division (%/%) and modulo (%%) to transform dep_time into usable hours. I found the documentation on lag() particularly helpful for Exercise 5, as it allowed me to visualize how delays propagate across time intervals. Additionally, using the RStudio ggplot2 cheatsheet helped me determine the best geoms for showing distributions, such as using geom_histogram for flight delays versus geom_boxplot for comparing age trends across categorical marital statuses.

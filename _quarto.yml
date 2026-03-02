@@ -76,6 +76,7 @@ book:
       - tt/hw01-tt.qmd
       - tt/hw02-tt.qmd
       - tt/hw03-tt.qmd
+      - tt/hw04-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
@@ -92,6 +93,7 @@ book:
       - ica/07-wrangling-2-notes.qmd
       - ica/08-missing-data-notes.qmd
       - ica/09-functions-notes.qmd
+      - ica/10-base-r-notes.qmd
 
     - part: "Extras"
       chapters:
