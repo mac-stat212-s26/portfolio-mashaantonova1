@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>11 Loops+Iter I – COMP/STAT212 Portfolio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../extra/extra-sample1.html" rel="next">
+<link href="../ica/10-base-r-notes.html" rel="prev">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b1525fc7443f827935229f0f56e36607.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link rel="stylesheet" href="../style/custom.css">
+</head>
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/11-iteration-1-notes.html"><span class="chapter-title">11 Loops+Iter I</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Masha Antonova</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Prof Viz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pv/pv-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Professional Viz</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">TidyTuesday</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-08.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-15.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw01-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 01</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw02-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 02</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw03-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 03</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw04-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 04</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pre-Class Learnings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pcl/pcl.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Pre-Class Learning Summaries</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">In-Class Activities</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cleaning SFO Weather Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Adv Data Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/04_adv_maps/code/04-adv-maps-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4 Adv Spatial Viz P1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/06-wrangling-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6 Adv Data wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/07-wrangling-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7 Adv Data wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/08-missing-data-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8 Missing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/09-functions-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9 Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/10-base-r-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10 Base R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/11-iteration-1-notes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">11 Loops+Iter I</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">🧩 Learning Goals</a></li>
+  <li><a href="#iteration" id="toc-iteration" class="nav-link" data-scroll-target="#iteration">Iteration</a></li>
+  <li><a href="#purposes-of-iteration" id="toc-purposes-of-iteration" class="nav-link" data-scroll-target="#purposes-of-iteration">Purposes of Iteration</a></li>
+  <li>
+<a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><code>for</code> loops</a>
+  <ul class="collapse">
+<li><a href="#for-loops-and-memory-allocation" id="toc-for-loops-and-memory-allocation" class="nav-link" data-scroll-target="#for-loops-and-memory-allocation"><code>for</code> loops and memory allocation</a></li>
+  </ul>
+</li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#iteration-across-data-frame-columns" id="toc-iteration-across-data-frame-columns" class="nav-link" data-scroll-target="#iteration-across-data-frame-columns">Iteration <code>across</code> data frame columns</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercises</a></li>
+  <li><a href="#case-study-performing-many-different-versions-of-an-analysis" id="toc-case-study-performing-many-different-versions-of-an-analysis" class="nav-link" data-scroll-target="#case-study-performing-many-different-versions-of-an-analysis">Case study: performing many different versions of an analysis</a></li>
+  <li><a href="#exercises-2" id="toc-exercises-2" class="nav-link" data-scroll-target="#exercises-2">Exercises</a></li>
+  <li><a href="#done" id="toc-done" class="nav-link" data-scroll-target="#done">Done!</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/11-iteration-1-notes.html"><span class="chapter-title">11 Loops+Iter I</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">11 Loops+Iter I</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="learning-goals" class="level2"><h2 class="anchored" data-anchor-id="learning-goals">🧩 Learning Goals</h2>
+<p>By the end of this lesson, you should be able to:</p>
+<ul>
+<li>Write a <code>for</code> loop in R to handle repeated tasks
+<ul>
+<li>Use <code><a href="https://rdrr.io/r/base/seq.html">seq_along()</a></code> and <code><a href="https://rdrr.io/r/base/seq.html">seq_len()</a></code> to iterate over vectors or rows of a data frame</li>
+<li>Store output from a <code>for</code> loop in a list or other storage container</li>
+</ul>
+</li>
+<li>Recognize that vectorized functions help us avoid <code>for</code> loops in many situations</li>
+<li>Use the <code>across()</code> function to wrangle multiple variables simultaneously</li>
+</ul></section><section id="iteration" class="level2"><h2 class="anchored" data-anchor-id="iteration">Iteration</h2>
+<p>When we want to reuse code, we can use:</p>
+<ul>
+<li>functions to save the steps of the task</li>
+<li>iteration to apply that function to new inputs</li>
+</ul>
+<p>Let’s talk about iteration in R.</p>
+<ul>
+<li>Iterating using a <code>for</code> loop &amp; how to do it appropriately in R (today)</li>
+<li>Iterating <code>across</code> data frame columns (today)</li>
+<li>Iterating using <code>map</code> and <code>walk</code> for iteration, instead of a <code>for</code> loop (next lesson)</li>
+</ul></section><section id="purposes-of-iteration" class="level2"><h2 class="anchored" data-anchor-id="purposes-of-iteration">Purposes of Iteration</h2>
+<p><strong>Creating or saving a new object</strong></p>
+<ul>
+<li>Performing an action with a return output</li>
+<li>Ex. creating new variables/datasets, fitting models, etc.</li>
+<li>We’ll need to consider storage (memory allocation).</li>
+<li>Next class, we’ll use <code>map()</code> for this…</li>
+</ul>
+<p><strong>Side effects</strong></p>
+<ul>
+<li>Performing an action without a R return output</li>
+<li>Ex: saving data using <code>write_csv()</code> or saving a plot with <code><a href="https://rdrr.io/r/grDevices/png.html">png()</a></code>
+</li>
+<li>We don’t need to worry about storage in R.</li>
+<li>We could use <code>walk()</code> for this…</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="for-loops" class="level2"><h2 class="anchored" data-anchor-id="for-loops">
+<code>for</code> loops</h2>
+<p>In R, <code>for</code> loops have the following general structure:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="cf">for</span> (i <span class="cf">in</span> some_vector) {</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="co"># Code to do stuff based on i</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><code>some_vector</code> can be <strong>any</strong> vector, including:</p>
+<ul>
+<li>An <strong>indexing</strong> integer vector: <code>1:3</code> [Most common!]</li>
+<li>A character vector: <code>c("group1", "group2", "group3")</code>
+</li>
+<li>A vector of any other class</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"group2"</span>, <span class="st">"group3"</span>) <span class="co"># a vector to iterate over</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a> </span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) { <span class="co"># i: index</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb3-5"><a href="#cb3-5"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "group1"
+[1] "group2"
+[1] "group3"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="cf">for</span> (g <span class="cf">in</span> groups) { <span class="co"># iterating over the vector</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>    <span class="fu">print</span>(g)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "group1"
+[1] "group2"
+[1] "group3"</code></pre>
+</div>
+</div>
+<p>To iterate over an <strong>indexing</strong> vector, it is useful to know about the following two functions:</p>
+<ul>
+<li>
+<code>seq_along(v)</code>: generates an integer sequence from 1 to the length of the vector <code>v</code> supplied</li>
+<li>
+<code>seq_len(n)</code>: generates an integer sequence from 1 to <code>n</code>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(groups)) {</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb7-3"><a href="#cb7-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "group1"
+[1] "group2"
+[1] "group3"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">length</span>(groups))) {</span>
+<span id="cb9-2"><a href="#cb9-2"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb9-3"><a href="#cb9-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "group1"
+[1] "group2"
+[1] "group3"</code></pre>
+</div>
+</div>
+<p>A nice feature of <code><a href="https://rdrr.io/r/base/seq.html">seq_along()</a></code> is that it generates an empty iteration vector if the vector you’re iterating over itself has length 0.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>no_groups <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">seq_along</span>(no_groups)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>integer(0)</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(no_groups)) {</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    <span class="fu">print</span>(no_groups[i])</span>
+<span id="cb13-3"><a href="#cb13-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><code><a href="https://rdrr.io/r/base/seq.html">seq_len()</a></code> is useful for iterating over the rows of a data frame because <code><a href="https://rdrr.io/r/base/seq.html">seq_along()</a></code> would iterate over columns:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>small_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">b =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">c =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="cf">for</span> (col <span class="cf">in</span> small_data) { <span class="co"># each element is the column </span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="fu">print</span>(col)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2
+[1] 2 3
+[1] 4 5</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(small_data))) {</span>
+<span id="cb16-2"><a href="#cb16-2"></a>    <span class="fu">print</span>(r)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 2</code></pre>
+</div>
+</div>
+<p><strong>Indexing</strong> is particularly important when we want to create/save new objects as we need to store output created during a <code>for</code> loop.</p>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>When using a for loop to create/save output, we should create storage containers ahead of time with the <code><a href="https://rdrr.io/r/base/vector.html">vector()</a></code> function. This allocates memory for the output and is a more efficient use of memory.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>char_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a>num_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb18-3"><a href="#cb18-3"></a>list_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>char_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "" "" ""</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>num_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0 0</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>list_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">3</span>)) {</span>
+<span id="cb24-2"><a href="#cb24-2"></a>    char_storage[i] <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"Number: "</span>, i)</span>
+<span id="cb24-3"><a href="#cb24-3"></a>    num_storage[i] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>i</span>
+<span id="cb24-4"><a href="#cb24-4"></a>    list_storage[[i]] <span class="ot">&lt;-</span> i <span class="co"># Note the [[ for subsetting here</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>}</span>
+<span id="cb24-6"><a href="#cb24-6"></a></span>
+<span id="cb24-7"><a href="#cb24-7"></a>char_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "Number: 1" "Number: 2" "Number: 3"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>num_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 4 6</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>list_storage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 3</code></pre>
+</div>
+</div>
+<section id="for-loops-and-memory-allocation" class="level3"><h3 class="anchored" data-anchor-id="for-loops-and-memory-allocation">
+<code>for</code> loops and memory allocation</h3>
+<p>If you don’t create a storage container ahead of time, you will regret it. Let’s bench mark our code to see the difference!</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># Example 1: No storage container; append new value to existing vector</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>x <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb30-3"><a href="#cb30-3"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb30-5"><a href="#cb30-5"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, i)</span>
+<span id="cb30-6"><a href="#cb30-6"></a>  }</span>
+<span id="cb30-7"><a href="#cb30-7"></a>)</span>
+<span id="cb30-8"><a href="#cb30-8"></a></span>
+<span id="cb30-9"><a href="#cb30-9"></a><span class="co"># Example 2: Using a storage container!</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="co">#Notice median (time to run), mem_alloc (how much memory you are using), and gc (garbage collection)</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a>x <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">'integer'</span>, <span class="at">length =</span> <span class="fl">1e5</span>)</span>
+<span id="cb30-12"><a href="#cb30-12"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb30-13"><a href="#cb30-13"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb30-14"><a href="#cb30-14"></a>    x[i] <span class="ot">&lt;-</span> i</span>
+<span id="cb30-15"><a href="#cb30-15"></a>  }</span>
+<span id="cb30-16"><a href="#cb30-16"></a>)</span>
+<span id="cb30-17"><a href="#cb30-17"></a></span>
+<span id="cb30-18"><a href="#cb30-18"></a></span>
+<span id="cb30-19"><a href="#cb30-19"></a><span class="co"># Example 3: Vectorized function</span></span>
+<span id="cb30-20"><a href="#cb30-20"></a><span class="co">#Notice median (time to run), mem_alloc (how much memory you are using), and gc (garbage collection)</span></span>
+<span id="cb30-21"><a href="#cb30-21"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb30-22"><a href="#cb30-22"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fl">1e5</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb30-23"><a href="#cb30-23"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section></section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p><strong>Pair programming exercises:</strong> Whoever has most recently eaten dessert (broadly interpreted) should be the driver first. Switch after Exercise 2.</p>
+<p>Write <code>for</code>-loops that do each of the following:</p>
+<ol type="1">
+<li>Prints the even numbers from 2:20
+<ul>
+<li>Then, produce the same output with the <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> function</li>
+</ul>
+</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># for loop</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">10</span>)) {</span>
+<span id="cb31-3"><a href="#cb31-3"></a>    <span class="fu">print</span>(<span class="dv">2</span><span class="sc">*</span>i)</span>
+<span id="cb31-4"><a href="#cb31-4"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 2
+[1] 4
+[1] 6
+[1] 8
+[1] 10
+[1] 12
+[1] 14
+[1] 16
+[1] 18
+[1] 20</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Iterates over the <code>month.name</code> vector and stores a character vector of output containing strings like “Month 1: January”, “Month 2: February”.
+<ul>
+<li>Then, produce the same output with <code>str_c()</code> only.</li>
+</ul>
+</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># for loop</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>month_strings <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="at">length =</span> <span class="fu">length</span>(month.name))</span>
+<span id="cb35-3"><a href="#cb35-3"></a></span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(month.name)) {</span>
+<span id="cb35-5"><a href="#cb35-5"></a>    month_strings[i] <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"Month "</span>, i, <span class="st">": "</span>, month.name[i])</span>
+<span id="cb35-6"><a href="#cb35-6"></a>}</span>
+<span id="cb35-7"><a href="#cb35-7"></a>month_strings</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] "Month 1: January"   "Month 2: February"  "Month 3: March"    
+ [4] "Month 4: April"     "Month 5: May"       "Month 6: June"     
+ [7] "Month 7: July"      "Month 8: August"    "Month 9: September"
+[10] "Month 10: October"  "Month 11: November" "Month 12: December"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">str_c</span>(<span class="st">"Month "</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="st">": "</span>, month.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code> [1] "Month 1: January"   "Month 2: February"  "Month 3: March"    
+ [4] "Month 4: April"     "Month 5: May"       "Month 6: June"     
+ [7] "Month 7: July"      "Month 8: August"    "Month 9: September"
+[10] "Month 10: October"  "Month 11: November" "Month 12: December"</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>On the <code>diamonds</code> dataset, fit stratified models of price vs.&nbsp;carat, model separately estimated for each value of <code>cut</code>, and store the fitted models in a list storage container.</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">data</span>(diamonds)</span>
+<span id="cb39-2"><a href="#cb39-2"></a></span>
+<span id="cb39-3"><a href="#cb39-3"></a><span class="co"># Fit models of price vs. carat separately for each value of cut</span></span>
+<span id="cb39-4"><a href="#cb39-4"></a>unique_cuts <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">pull</span>(cut) <span class="sc">|&gt;</span> <span class="fu">levels</span>()</span>
+<span id="cb39-5"><a href="#cb39-5"></a>lin_mod_results <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(unique_cuts))</span>
+<span id="cb39-6"><a href="#cb39-6"></a></span>
+<span id="cb39-7"><a href="#cb39-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(unique_cuts)) {</span>
+<span id="cb39-8"><a href="#cb39-8"></a>    this_cut <span class="ot">&lt;-</span> unique_cuts[i]</span>
+<span id="cb39-9"><a href="#cb39-9"></a>    diamonds_sub <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>        <span class="fu">filter</span>(cut<span class="sc">==</span>this_cut)</span>
+<span id="cb39-11"><a href="#cb39-11"></a>    <span class="co"># The double square brackets [[i]] accesses the ith element of a list</span></span>
+<span id="cb39-12"><a href="#cb39-12"></a>    lin_mod_results[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> carat, <span class="at">data =</span> diamonds_sub)</span>
+<span id="cb39-13"><a href="#cb39-13"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="iteration-across-data-frame-columns" class="level2"><h2 class="anchored" data-anchor-id="iteration-across-data-frame-columns">Iteration <code>across</code> data frame columns</h2>
+<p>Often we will have to perform the same data wrangling on many variables (e.g., rounding numbers)</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb40-3"><a href="#cb40-3"></a>        <span class="at">carat =</span> <span class="fu">round</span>(carat, <span class="dv">1</span>),</span>
+<span id="cb40-4"><a href="#cb40-4"></a>        <span class="at">x =</span> <span class="fu">round</span>(x, <span class="dv">1</span>),</span>
+<span id="cb40-5"><a href="#cb40-5"></a>        <span class="at">y =</span> <span class="fu">round</span>(y, <span class="dv">1</span>),</span>
+<span id="cb40-6"><a href="#cb40-6"></a>        <span class="at">z =</span> <span class="fu">round</span>(z, <span class="dv">1</span>)</span>
+<span id="cb40-7"><a href="#cb40-7"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price     x     y     z
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1   0.2 Ideal     E     SI2      61.5    55   326   4     4     2.4
+ 2   0.2 Premium   E     SI1      59.8    61   326   3.9   3.8   2.3
+ 3   0.2 Good      E     VS1      56.9    65   327   4     4.1   2.3
+ 4   0.3 Premium   I     VS2      62.4    58   334   4.2   4.2   2.6
+ 5   0.3 Good      J     SI2      63.3    58   335   4.3   4.3   2.8
+ 6   0.2 Very Good J     VVS2     62.8    57   336   3.9   4     2.5
+ 7   0.2 Very Good I     VVS1     62.3    57   336   4     4     2.5
+ 8   0.3 Very Good H     SI1      61.9    55   337   4.1   4.1   2.5
+ 9   0.2 Fair      E     VS2      65.1    61   337   3.9   3.8   2.5
+10   0.2 Very Good H     VS1      59.4    61   338   4     4     2.4
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+<p><code>dplyr</code> provides the <code>across()</code> function for performing these repeated function calls:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># Option 1: Create our own named function</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a>round_to_one <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb42-3"><a href="#cb42-3"></a>    <span class="fu">round</span>(x, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb42-4"><a href="#cb42-4"></a>}</span>
+<span id="cb42-5"><a href="#cb42-5"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb42-6"><a href="#cb42-6"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(carat, x, y, z), <span class="at">.fns =</span> round_to_one))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price     x     y     z
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1   0.2 Ideal     E     SI2      61.5    55   326   4     4     2.4
+ 2   0.2 Premium   E     SI1      59.8    61   326   3.9   3.8   2.3
+ 3   0.2 Good      E     VS1      56.9    65   327   4     4.1   2.3
+ 4   0.3 Premium   I     VS2      62.4    58   334   4.2   4.2   2.6
+ 5   0.3 Good      J     SI2      63.3    58   335   4.3   4.3   2.8
+ 6   0.2 Very Good J     VVS2     62.8    57   336   3.9   4     2.5
+ 7   0.2 Very Good I     VVS1     62.3    57   336   4     4     2.5
+ 8   0.3 Very Good H     SI1      61.9    55   337   4.1   4.1   2.5
+ 9   0.2 Fair      E     VS2      65.1    61   337   3.9   3.8   2.5
+10   0.2 Very Good H     VS1      59.4    61   338   4     4     2.4
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># Option 2: Use an "anonymous" or "lambda" function that isn't named/saved</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb44-3"><a href="#cb44-3"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(carat, x, y, z), <span class="at">.fns =</span> <span class="cf">function</span>(x) {<span class="fu">round</span>(x, <span class="at">digits =</span> <span class="dv">1</span>)} ))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price     x     y     z
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1   0.2 Ideal     E     SI2      61.5    55   326   4     4     2.4
+ 2   0.2 Premium   E     SI1      59.8    61   326   3.9   3.8   2.3
+ 3   0.2 Good      E     VS1      56.9    65   327   4     4.1   2.3
+ 4   0.3 Premium   I     VS2      62.4    58   334   4.2   4.2   2.6
+ 5   0.3 Good      J     SI2      63.3    58   335   4.3   4.3   2.8
+ 6   0.2 Very Good J     VVS2     62.8    57   336   3.9   4     2.5
+ 7   0.2 Very Good I     VVS1     62.3    57   336   4     4     2.5
+ 8   0.3 Very Good H     SI1      61.9    55   337   4.1   4.1   2.5
+ 9   0.2 Fair      E     VS2      65.1    61   337   3.9   3.8   2.5
+10   0.2 Very Good H     VS1      59.4    61   338   4     4     2.4
+# ℹ 53,930 more rows</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># Anonymous functions can be written in a more concise way</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="co"># function(x){ length(unique(x)) } OR ~ length(unique(.x))</span></span>
+<span id="cb46-3"><a href="#cb46-3"></a><span class="co"># function(x,y){ length(unique(x + y)) } OR ~ length(unique(.x + .y))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>When we look at the <a href="https://dplyr.tidyverse.org/reference/across.html">documentation for <code>across()</code></a>, we see that the <code>.cols</code> argument specifies which variables we want to transform, and it has a <code>&lt;tidy-select&gt;</code> tag. This means that the syntax we use for <code>.cols</code> follows certain rules.</p>
+<p>Let’s click <a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html">this link</a> to explore the possibilities for selecting variables.</p>
+<ul>
+<li>Read through the “Overview of selection features” section to get an overall sense of the many ways to select variables.</li>
+<li>Navigate back to the <code>across()</code> documentation and read through the Examples section at the bottom. Click the “Run examples” link to view the output for all of the examples.</li>
+</ul>
+<p>What if we wanted to perform multiple transformations on each of many variables?</p>
+<p>Within the different values of diamond <code>cut</code>, let’s summarize the mean, median, and standard deviation of the numeric variables. When we look at the <code>.fns</code> argument in the <code>across()</code> documentation, we see that we can provide a <strong>list</strong> of functions:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3"></a>    <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">med =</span> median, <span class="at">sd =</span> sd)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 22
+  cut     carat_mean carat_med carat_sd depth_mean depth_med depth_sd table_mean
+  &lt;ord&gt;        &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+1 Fair         1.05       1       0.516       64.0      65      3.64        59.1
+2 Good         0.849      0.82    0.454       62.4      63.4    2.17        58.7
+3 Very G…      0.806      0.71    0.459       61.8      62.1    1.38        58.0
+4 Premium      0.892      0.86    0.515       61.3      61.4    1.16        58.7
+5 Ideal        0.703      0.54    0.433       61.7      61.8    0.719       56.0
+# ℹ 14 more variables: table_med &lt;dbl&gt;, table_sd &lt;dbl&gt;, price_mean &lt;dbl&gt;,
+#   price_med &lt;dbl&gt;, price_sd &lt;dbl&gt;, x_mean &lt;dbl&gt;, x_med &lt;dbl&gt;, x_sd &lt;dbl&gt;,
+#   y_mean &lt;dbl&gt;, y_med &lt;dbl&gt;, y_sd &lt;dbl&gt;, z_mean &lt;dbl&gt;, z_med &lt;dbl&gt;,
+#   z_sd &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>What does the list of functions look like? What is the structure of this list object?</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>list_of_fcts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">med =</span> median, <span class="at">sd =</span> sd)</span>
+<span id="cb49-2"><a href="#cb49-2"></a>list_of_fcts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>$mean
+function (x, ...) 
+UseMethod("mean")
+&lt;bytecode: 0x1111a64f0&gt;
+&lt;environment: namespace:base&gt;
+
+$med
+function (x, na.rm = FALSE, ...) 
+UseMethod("median")
+&lt;bytecode: 0x1313c5720&gt;
+&lt;environment: namespace:stats&gt;
+
+$sd
+function (x, na.rm = FALSE) 
+sqrt(var(if (is.vector(x) || is.factor(x)) x else as.double(x), 
+    na.rm = na.rm))
+&lt;bytecode: 0x11686de40&gt;
+&lt;environment: namespace:stats&gt;</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="fu">str</span>(list_of_fcts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>List of 3
+ $ mean:function (x, ...)  
+ $ med :function (x, na.rm = FALSE, ...)  
+ $ sd  :function (x, na.rm = FALSE)  </code></pre>
+</div>
+</div>
+</section><section id="exercises-1" class="level2"><h2 class="anchored" data-anchor-id="exercises-1">Exercises</h2>
+<p>Using the <code>diamonds</code> dataset:</p>
+<ol type="1">
+<li>Transform the <code>x</code>, <code>y</code>, and <code>z</code> columns so that the units of millimeters are displayed (e.g., “4.0 mm”).</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>add_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb53-2"><a href="#cb53-2"></a>    <span class="fu">str_c</span>(x, <span class="st">" mm"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3"></a>}</span>
+<span id="cb53-4"><a href="#cb53-4"></a></span>
+<span id="cb53-5"><a href="#cb53-5"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb53-6"><a href="#cb53-6"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(x, y, z), <span class="at">.fns =</span> add_mm))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price x       y       z      
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+ 1  0.23 Ideal     E     SI2      61.5    55   326 3.95 mm 3.98 mm 2.43 mm
+ 2  0.21 Premium   E     SI1      59.8    61   326 3.89 mm 3.84 mm 2.31 mm
+ 3  0.23 Good      E     VS1      56.9    65   327 4.05 mm 4.07 mm 2.31 mm
+ 4  0.29 Premium   I     VS2      62.4    58   334 4.2 mm  4.23 mm 2.63 mm
+ 5  0.31 Good      J     SI2      63.3    58   335 4.34 mm 4.35 mm 2.75 mm
+ 6  0.24 Very Good J     VVS2     62.8    57   336 3.94 mm 3.96 mm 2.48 mm
+ 7  0.24 Very Good I     VVS1     62.3    57   336 3.95 mm 3.98 mm 2.47 mm
+ 8  0.26 Very Good H     SI1      61.9    55   337 4.07 mm 4.11 mm 2.53 mm
+ 9  0.22 Fair      E     VS2      65.1    61   337 3.87 mm 3.78 mm 2.49 mm
+10  0.23 Very Good H     VS1      59.4    61   338 4 mm    4.05 mm 2.39 mm
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Convert all numeric columns into character columns.
+<ul>
+<li>Hint: type <code>is.</code> and hit Tab in the Console. Scroll through the function options. Do the same with <code>as.</code>
+</li>
+</ul>
+</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.character))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price x     y     z    
+   &lt;chr&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 0.23  Ideal     E     SI2     61.5  55    326   3.95  3.98  2.43 
+ 2 0.21  Premium   E     SI1     59.8  61    326   3.89  3.84  2.31 
+ 3 0.23  Good      E     VS1     56.9  65    327   4.05  4.07  2.31 
+ 4 0.29  Premium   I     VS2     62.4  58    334   4.2   4.23  2.63 
+ 5 0.31  Good      J     SI2     63.3  58    335   4.34  4.35  2.75 
+ 6 0.24  Very Good J     VVS2    62.8  57    336   3.94  3.96  2.48 
+ 7 0.24  Very Good I     VVS1    62.3  57    336   3.95  3.98  2.47 
+ 8 0.26  Very Good H     SI1     61.9  55    337   4.07  4.11  2.53 
+ 9 0.22  Fair      E     VS2     65.1  61    337   3.87  3.78  2.49 
+10 0.23  Very Good H     VS1     59.4  61    338   4     4.05  2.39 
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+</section><section id="case-study-performing-many-different-versions-of-an-analysis" class="level2"><h2 class="anchored" data-anchor-id="case-study-performing-many-different-versions-of-an-analysis">Case study: performing many different versions of an analysis</h2>
+<p>One of my most common use cases for writing functions and iteration/looping is to perform some exploration or modeling repeatedly for several different “settings”.</p>
+<p>For example, our broad goal might be to fit a linear regression model to our data. However, there are often multiple choices that we have to make in practice:</p>
+<ul>
+<li>Keep missing values or fill them in (imputation)?</li>
+<li>Fit the model only on a certain group of cases?</li>
+<li>Filter out outliers in one or more variables?</li>
+<li>Transform certain variables? (e.g., log transformation)</li>
+</ul>
+<p>We can map any number of these choices to <strong>arguments</strong> in a custom model-fitting function:</p>
+<ul>
+<li>
+<code>impute</code>: TRUE or FALSE</li>
+<li>
+<code>filter_to</code>: This could be a string description like “All cases”, “Group 1”, or “Groups 1 and 2”</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, impute, filter_to) {</span>
+<span id="cb57-2"><a href="#cb57-2"></a>    <span class="cf">if</span> (impute) {</span>
+<span id="cb57-3"><a href="#cb57-3"></a>        data <span class="ot">&lt;-</span> <span class="fu">some_imputation_function</span>(data)</span>
+<span id="cb57-4"><a href="#cb57-4"></a>    }</span>
+<span id="cb57-5"><a href="#cb57-5"></a>    </span>
+<span id="cb57-6"><a href="#cb57-6"></a>    <span class="cf">if</span> (filter_to<span class="sc">==</span><span class="st">"Group 1"</span>) {</span>
+<span id="cb57-7"><a href="#cb57-7"></a>        data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb57-8"><a href="#cb57-8"></a>            <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb57-9"><a href="#cb57-9"></a>    } <span class="cf">else</span> <span class="cf">if</span> (filter_to <span class="sc">==</span> <span class="st">"Groups 1 and 2"</span>) {</span>
+<span id="cb57-10"><a href="#cb57-10"></a>        data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb57-11"><a href="#cb57-11"></a>            <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb57-12"><a href="#cb57-12"></a>    }</span>
+<span id="cb57-13"><a href="#cb57-13"></a>    </span>
+<span id="cb57-14"><a href="#cb57-14"></a>    <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> data)</span>
+<span id="cb57-15"><a href="#cb57-15"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The <code>tidyr</code> package has a useful function called <code>crossing()</code> that is useful for generating argument combinations.</p>
+<p>For each argument, we specify all possible values for that argument. <code>crossing()</code> generates all combinations:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb58-2"><a href="#cb58-2"></a>    <span class="at">impute =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb58-3"><a href="#cb58-3"></a>    <span class="at">filter_to =</span> <span class="fu">c</span>(<span class="st">"All cases"</span>, <span class="st">"Group 1"</span>, <span class="st">"Groups 1 and 2"</span>)</span>
+<span id="cb58-4"><a href="#cb58-4"></a>)</span>
+<span id="cb58-5"><a href="#cb58-5"></a>df_arg_combos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  impute filter_to     
+  &lt;lgl&gt;  &lt;chr&gt;         
+1 FALSE  All cases     
+2 FALSE  Group 1       
+3 FALSE  Groups 1 and 2
+4 TRUE   All cases     
+5 TRUE   Group 1       
+6 TRUE   Groups 1 and 2</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a><span class="co"># Another example</span></span>
+<span id="cb60-2"><a href="#cb60-2"></a><span class="fu">crossing</span>(</span>
+<span id="cb60-3"><a href="#cb60-3"></a>    <span class="at">option1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb60-4"><a href="#cb60-4"></a>    <span class="at">option2 =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb60-5"><a href="#cb60-5"></a>    <span class="at">option3 =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>)</span>
+<span id="cb60-6"><a href="#cb60-6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 3
+   option1 option2 option3
+     &lt;int&gt; &lt;lgl&gt;   &lt;chr&gt;  
+ 1       1 FALSE   high   
+ 2       1 FALSE   low    
+ 3       1 FALSE   medium 
+ 4       1 TRUE    high   
+ 5       1 TRUE    low    
+ 6       1 TRUE    medium 
+ 7       2 FALSE   high   
+ 8       2 FALSE   low    
+ 9       2 FALSE   medium 
+10       2 TRUE    high   
+11       2 TRUE    low    
+12       2 TRUE    medium 
+13       3 FALSE   high   
+14       3 FALSE   low    
+15       3 FALSE   medium 
+16       3 TRUE    high   
+17       3 TRUE    low    
+18       3 TRUE    medium </code></pre>
+</div>
+</div>
+<p>With iteration in our toobox, we can iterate the <code>fit_model()</code> function over the combinations in <code>df_arg_combos</code>.</p>
+</section><section id="exercises-2" class="level2"><h2 class="anchored" data-anchor-id="exercises-2">Exercises</h2>
+<p><strong>Goal:</strong> In the <code>diamonds</code> dataset, we want to understand the relationship between <code>price</code> and size (<code>carat</code>). We want to explore variation along two choices:</p>
+<ul>
+<li>The variables included in the model. We’ll explore 3 sets of variables:
+<ul>
+<li>No further variables (just <code>price</code> and <code>carat</code>)</li>
+<li>Adjusting for <code>cut</code>
+</li>
+<li>Adjusting for <code>cut</code> and <code>clarity</code>
+</li>
+<li>Adjusting for <code>cut</code>, <code>clarity</code>, and <code>color</code>
+</li>
+</ul>
+</li>
+<li>Whether or not to remove outliers in the <code>carat</code> variable. We’ll define outliers as cases whose <code>carat</code> is over 3 SDs away from the mean.</li>
+</ul>
+<p>Work with your partner on the following exercises. As you work, make note of what is challenging and any helpful thought processes/strategies that arise from the collaboration.</p>
+<ol type="1">
+<li>Use <code>crossing()</code> to create the data frame of argument combinations for our analyses. Call it <code>df_arg_combos</code>. Note that you can create a list of <strong>formula</strong> objects in R with <code>c(y ~ x1, y ~ x1 + x2)</code>. (Something like this will be the right hand side of an argument to <code>crossing()</code>.)</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb62-2"><a href="#cb62-2"></a>    <span class="at">mod_formula =</span> <span class="fu">c</span>(price <span class="sc">~</span> carat, price <span class="sc">~</span> carat <span class="sc">+</span> cut,  price <span class="sc">~</span> carat <span class="sc">+</span> cut <span class="sc">+</span> clarity,  price <span class="sc">~</span> carat <span class="sc">+</span> cut <span class="sc">+</span> clarity <span class="sc">+</span> color),</span>
+<span id="cb62-3"><a href="#cb62-3"></a>    <span class="at">remove_outliers =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb62-4"><a href="#cb62-4"></a>)</span>
+<span id="cb62-5"><a href="#cb62-5"></a>df_arg_combos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 2
+  mod_formula remove_outliers
+  &lt;list&gt;      &lt;lgl&gt;          
+1 &lt;formula&gt;   FALSE          
+2 &lt;formula&gt;   TRUE           
+3 &lt;formula&gt;   FALSE          
+4 &lt;formula&gt;   TRUE           
+5 &lt;formula&gt;   FALSE          
+6 &lt;formula&gt;   TRUE           
+7 &lt;formula&gt;   FALSE          
+8 &lt;formula&gt;   TRUE           </code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Write a function called <code>remove_outliers</code> that removes outliers in a dataset. The user should be able to supply the dataset (<code>data</code>), the variable to remove outliers in (<code>what_var</code>), and a threshold on the number of SDs away from the mean used to define outliers (<code>sd_thresh</code>). Write your function so that it runs as follows: <code>remove_outliers(diamonds, what_var = carat, sd_thresh = 3)</code>.</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>remove_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(data, what_var, sd_thresh) {</span>
+<span id="cb64-2"><a href="#cb64-2"></a>    data <span class="sc">|&gt;</span> </span>
+<span id="cb64-3"><a href="#cb64-3"></a>        <span class="fu">mutate</span>(<span class="at">zscore =</span> ({{ what_var }} <span class="sc">-</span> <span class="fu">mean</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span><span class="fu">sd</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb64-4"><a href="#cb64-4"></a>        <span class="fu">filter</span>(zscore <span class="sc">&lt;=</span> sd_thresh)</span>
+<span id="cb64-5"><a href="#cb64-5"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<ol start="3" type="1">
+<li>Write a function called <code>fit_model</code> that implements the different settings for our <code>diamonds</code> analysis.</li>
+</ol>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mod_formula, remove_outliers) {</span>
+<span id="cb65-2"><a href="#cb65-2"></a>    <span class="cf">if</span> (remove_outliers) {</span>
+<span id="cb65-3"><a href="#cb65-3"></a>        data_clean <span class="ot">&lt;-</span> <span class="fu">remove_outliers</span>(data, <span class="at">what_var =</span> carat, <span class="at">sd_thresh =</span> <span class="dv">3</span>)</span>
+<span id="cb65-4"><a href="#cb65-4"></a>    } <span class="cf">else</span> {</span>
+<span id="cb65-5"><a href="#cb65-5"></a>        data_clean <span class="ot">&lt;-</span> data</span>
+<span id="cb65-6"><a href="#cb65-6"></a>    }</span>
+<span id="cb65-7"><a href="#cb65-7"></a>    </span>
+<span id="cb65-8"><a href="#cb65-8"></a>    <span class="fu">lm</span>(mod_formula, <span class="at">data =</span> data_clean)</span>
+<span id="cb65-9"><a href="#cb65-9"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<ol start="4" type="1">
+<li>Write a <code>for</code> loop that stores the fitted linear models from all versions of the analysis.</li>
+</ol>
+<p>Recall that you can pull out the contents of a single data frame column in many ways. For a data frame <code>df</code> with a variable named <code>x</code>:</p>
+<ul>
+<li><code>df$x</code></li>
+<li><code>df |&gt; pull(x)</code></li>
+<li><code>df[["x"]]</code></li>
+</ul>
+<p>Note that in <code>df_arg_combos</code>:</p>
+<ul>
+<li>
+<code>mod_formula</code>: this column is a <strong>list</strong> and you can extract the 1st element with <code>[[1]]</code>
+</li>
+<li>
+<code>remove_outliers</code>: this column is a <strong>vector</strong> and you can extract the 1st element with <code>[1]</code>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>lin_mod_res_for <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">nrow</span>(df_arg_combos))</span>
+<span id="cb66-2"><a href="#cb66-2"></a></span>
+<span id="cb66-3"><a href="#cb66-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(lin_mod_res_for)) {</span>
+<span id="cb66-4"><a href="#cb66-4"></a>    this_formula <span class="ot">&lt;-</span> df_arg_combos<span class="sc">$</span>mod_formula[[i]] <span class="co"># Double [[ for the **list** of formulas</span></span>
+<span id="cb66-5"><a href="#cb66-5"></a>    this_remove_outliers <span class="ot">&lt;-</span> df_arg_combos<span class="sc">$</span>remove_outliers[i] <span class="co"># Single [ for the **atomic vector** of logicals</span></span>
+<span id="cb66-6"><a href="#cb66-6"></a>    lin_mod_res_for[[i]] <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(</span>
+<span id="cb66-7"><a href="#cb66-7"></a>        <span class="at">data =</span> diamonds,</span>
+<span id="cb66-8"><a href="#cb66-8"></a>        <span class="at">mod_formula =</span> this_formula,</span>
+<span id="cb66-9"><a href="#cb66-9"></a>        <span class="at">remove_outliers =</span> this_remove_outliers</span>
+<span id="cb66-10"><a href="#cb66-10"></a>    )</span>
+<span id="cb66-11"><a href="#cb66-11"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="done" class="level2"><h2 class="anchored" data-anchor-id="done">Done!</h2>
+<ul>
+<li>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</li>
+</ul>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation column-body"><div class="nav-page nav-page-previous">
+      <a href="../ica/10-base-r-notes.html" class="pagination-link" aria-label="10 Base R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">10 Base R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../extra/extra-sample1.html" class="pagination-link" aria-label="Extra Sample 1">
+        <span class="nav-page-text"><span class="chapter-title">Extra Sample 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb67-1"><a href="#cb67-1"></a><span class="co">---</span></span>
+<span id="cb67-2"><a href="#cb67-2"></a><span class="an">title:</span><span class="co"> "11 Loops+Iter I"</span></span>
+<span id="cb67-3"><a href="#cb67-3"></a><span class="co">---</span></span>
+<span id="cb67-4"><a href="#cb67-4"></a></span>
+<span id="cb67-5"><a href="#cb67-5"></a></span>
+<span id="cb67-6"><a href="#cb67-6"></a><span class="fu">## 🧩 Learning Goals</span></span>
+<span id="cb67-7"><a href="#cb67-7"></a></span>
+<span id="cb67-8"><a href="#cb67-8"></a>By the end of this lesson, you should be able to:</span>
+<span id="cb67-9"><a href="#cb67-9"></a></span>
+<span id="cb67-10"><a href="#cb67-10"></a><span class="ss">- </span>Write a <span class="in">`for`</span> loop in R to handle repeated tasks</span>
+<span id="cb67-11"><a href="#cb67-11"></a><span class="ss">    - </span>Use <span class="in">`seq_along()`</span> and <span class="in">`seq_len()`</span> to iterate over vectors or rows of a data frame</span>
+<span id="cb67-12"><a href="#cb67-12"></a><span class="ss">    - </span>Store output from a <span class="in">`for`</span> loop in a list or other storage container</span>
+<span id="cb67-13"><a href="#cb67-13"></a><span class="ss">- </span>Recognize that vectorized functions help us avoid <span class="in">`for`</span> loops in many situations</span>
+<span id="cb67-14"><a href="#cb67-14"></a><span class="ss">- </span>Use the <span class="in">`across()`</span> function to wrangle multiple variables simultaneously</span>
+<span id="cb67-15"><a href="#cb67-15"></a></span>
+<span id="cb67-16"><a href="#cb67-16"></a></span>
+<span id="cb67-17"><a href="#cb67-17"></a><span class="fu">## Iteration </span></span>
+<span id="cb67-18"><a href="#cb67-18"></a></span>
+<span id="cb67-19"><a href="#cb67-19"></a>When we want to reuse code, we can use:</span>
+<span id="cb67-20"><a href="#cb67-20"></a></span>
+<span id="cb67-21"><a href="#cb67-21"></a><span class="ss">- </span>functions to save the steps of the task</span>
+<span id="cb67-22"><a href="#cb67-22"></a><span class="ss">- </span>iteration to apply that function to new inputs</span>
+<span id="cb67-23"><a href="#cb67-23"></a></span>
+<span id="cb67-24"><a href="#cb67-24"></a></span>
+<span id="cb67-25"><a href="#cb67-25"></a>Let's talk about iteration in R.</span>
+<span id="cb67-26"><a href="#cb67-26"></a></span>
+<span id="cb67-27"><a href="#cb67-27"></a><span class="ss">- </span>Iterating using a <span class="in">`for`</span> loop &amp; how to do it appropriately in R (today)</span>
+<span id="cb67-28"><a href="#cb67-28"></a><span class="ss">- </span>Iterating <span class="in">`across`</span> data frame columns (today)</span>
+<span id="cb67-29"><a href="#cb67-29"></a><span class="ss">- </span>Iterating using <span class="in">`map`</span> and <span class="in">`walk`</span> for iteration, instead of a <span class="in">`for`</span> loop (next lesson)</span>
+<span id="cb67-30"><a href="#cb67-30"></a></span>
+<span id="cb67-31"><a href="#cb67-31"></a></span>
+<span id="cb67-32"><a href="#cb67-32"></a><span class="fu">## Purposes of Iteration </span></span>
+<span id="cb67-33"><a href="#cb67-33"></a></span>
+<span id="cb67-34"><a href="#cb67-34"></a>**Creating or saving a new object**</span>
+<span id="cb67-35"><a href="#cb67-35"></a></span>
+<span id="cb67-36"><a href="#cb67-36"></a><span class="ss">- </span>Performing an action with a return output</span>
+<span id="cb67-37"><a href="#cb67-37"></a><span class="ss">- </span>Ex. creating new variables/datasets, fitting models, etc.</span>
+<span id="cb67-38"><a href="#cb67-38"></a><span class="ss">- </span>We'll need to consider storage (memory allocation).</span>
+<span id="cb67-39"><a href="#cb67-39"></a><span class="ss">- </span>Next class, we'll use <span class="in">`map()`</span> for this...</span>
+<span id="cb67-40"><a href="#cb67-40"></a></span>
+<span id="cb67-41"><a href="#cb67-41"></a></span>
+<span id="cb67-42"><a href="#cb67-42"></a>**Side effects**</span>
+<span id="cb67-43"><a href="#cb67-43"></a></span>
+<span id="cb67-44"><a href="#cb67-44"></a><span class="ss">- </span>Performing an action without a R return output</span>
+<span id="cb67-45"><a href="#cb67-45"></a><span class="ss">- </span>Ex: saving data using <span class="in">`write_csv()`</span> or saving a plot with <span class="in">`png()`</span></span>
+<span id="cb67-46"><a href="#cb67-46"></a><span class="ss">- </span>We don't need to worry about storage in R.</span>
+<span id="cb67-47"><a href="#cb67-47"></a><span class="ss">- </span>We could use <span class="in">`walk()`</span> for this...</span>
+<span id="cb67-48"><a href="#cb67-48"></a></span>
+<span id="cb67-49"><a href="#cb67-49"></a></span>
+<span id="cb67-52"><a href="#cb67-52"></a><span class="in">```{r}</span></span>
+<span id="cb67-53"><a href="#cb67-53"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb67-54"><a href="#cb67-54"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb67-55"><a href="#cb67-55"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb67-56"><a href="#cb67-56"></a><span class="in">```</span></span>
+<span id="cb67-57"><a href="#cb67-57"></a></span>
+<span id="cb67-58"><a href="#cb67-58"></a></span>
+<span id="cb67-59"><a href="#cb67-59"></a><span class="fu">## `for` loops </span></span>
+<span id="cb67-60"><a href="#cb67-60"></a></span>
+<span id="cb67-61"><a href="#cb67-61"></a>In R, <span class="in">`for`</span> loops have the following general structure:</span>
+<span id="cb67-62"><a href="#cb67-62"></a></span>
+<span id="cb67-63"><a href="#cb67-63"></a><span class="in">```{r for_syntax}</span></span>
+<span id="cb67-64"><a href="#cb67-64"></a><span class="co">#| eval: false</span></span>
+<span id="cb67-65"><a href="#cb67-65"></a></span>
+<span id="cb67-66"><a href="#cb67-66"></a><span class="cf">for</span> (i <span class="cf">in</span> some_vector) {</span>
+<span id="cb67-67"><a href="#cb67-67"></a>    <span class="co"># Code to do stuff based on i</span></span>
+<span id="cb67-68"><a href="#cb67-68"></a>}</span>
+<span id="cb67-69"><a href="#cb67-69"></a><span class="in">```</span></span>
+<span id="cb67-70"><a href="#cb67-70"></a></span>
+<span id="cb67-71"><a href="#cb67-71"></a></span>
+<span id="cb67-72"><a href="#cb67-72"></a><span class="in">`some_vector`</span> can be **any** vector, including:</span>
+<span id="cb67-73"><a href="#cb67-73"></a></span>
+<span id="cb67-74"><a href="#cb67-74"></a><span class="ss">- </span>An **indexing** integer vector: <span class="in">`1:3`</span> <span class="co">[</span><span class="ot">Most common!</span><span class="co">]</span></span>
+<span id="cb67-75"><a href="#cb67-75"></a><span class="ss">- </span>A character vector: <span class="in">`c("group1", "group2", "group3")`</span></span>
+<span id="cb67-76"><a href="#cb67-76"></a><span class="ss">- </span>A vector of any other class</span>
+<span id="cb67-77"><a href="#cb67-77"></a></span>
+<span id="cb67-78"><a href="#cb67-78"></a><span class="in">```{r for_examples}</span></span>
+<span id="cb67-79"><a href="#cb67-79"></a>groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"group1"</span>, <span class="st">"group2"</span>, <span class="st">"group3"</span>) <span class="co"># a vector to iterate over</span></span>
+<span id="cb67-80"><a href="#cb67-80"></a> </span>
+<span id="cb67-81"><a href="#cb67-81"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) { <span class="co"># i: index</span></span>
+<span id="cb67-82"><a href="#cb67-82"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb67-83"><a href="#cb67-83"></a>}</span>
+<span id="cb67-84"><a href="#cb67-84"></a></span>
+<span id="cb67-85"><a href="#cb67-85"></a><span class="cf">for</span> (g <span class="cf">in</span> groups) { <span class="co"># iterating over the vector</span></span>
+<span id="cb67-86"><a href="#cb67-86"></a>    <span class="fu">print</span>(g)</span>
+<span id="cb67-87"><a href="#cb67-87"></a>}</span>
+<span id="cb67-88"><a href="#cb67-88"></a><span class="in">```</span></span>
+<span id="cb67-89"><a href="#cb67-89"></a></span>
+<span id="cb67-90"><a href="#cb67-90"></a></span>
+<span id="cb67-91"><a href="#cb67-91"></a>To iterate over an **indexing** vector, it is useful to know about the following two functions:</span>
+<span id="cb67-92"><a href="#cb67-92"></a></span>
+<span id="cb67-93"><a href="#cb67-93"></a><span class="ss">- </span><span class="in">`seq_along(v)`</span>: generates an integer sequence from 1 to the length of the vector <span class="in">`v`</span> supplied</span>
+<span id="cb67-94"><a href="#cb67-94"></a><span class="ss">- </span><span class="in">`seq_len(n)`</span>:  generates an integer sequence from 1 to <span class="in">`n`</span></span>
+<span id="cb67-95"><a href="#cb67-95"></a></span>
+<span id="cb67-96"><a href="#cb67-96"></a></span>
+<span id="cb67-97"><a href="#cb67-97"></a><span class="in">```{r for_seq_along}</span></span>
+<span id="cb67-98"><a href="#cb67-98"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(groups)) {</span>
+<span id="cb67-99"><a href="#cb67-99"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb67-100"><a href="#cb67-100"></a>}</span>
+<span id="cb67-101"><a href="#cb67-101"></a></span>
+<span id="cb67-102"><a href="#cb67-102"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">length</span>(groups))) {</span>
+<span id="cb67-103"><a href="#cb67-103"></a>    <span class="fu">print</span>(groups[i])</span>
+<span id="cb67-104"><a href="#cb67-104"></a>}</span>
+<span id="cb67-105"><a href="#cb67-105"></a><span class="in">```</span></span>
+<span id="cb67-106"><a href="#cb67-106"></a></span>
+<span id="cb67-107"><a href="#cb67-107"></a></span>
+<span id="cb67-108"><a href="#cb67-108"></a>A nice feature of <span class="in">`seq_along()`</span> is that it generates an empty iteration vector if the vector you're iterating over itself has length 0.</span>
+<span id="cb67-109"><a href="#cb67-109"></a></span>
+<span id="cb67-112"><a href="#cb67-112"></a><span class="in">```{r}</span></span>
+<span id="cb67-113"><a href="#cb67-113"></a>no_groups <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb67-114"><a href="#cb67-114"></a><span class="fu">seq_along</span>(no_groups)</span>
+<span id="cb67-115"><a href="#cb67-115"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(no_groups)) {</span>
+<span id="cb67-116"><a href="#cb67-116"></a>    <span class="fu">print</span>(no_groups[i])</span>
+<span id="cb67-117"><a href="#cb67-117"></a>}</span>
+<span id="cb67-118"><a href="#cb67-118"></a><span class="in">```</span></span>
+<span id="cb67-119"><a href="#cb67-119"></a></span>
+<span id="cb67-120"><a href="#cb67-120"></a></span>
+<span id="cb67-121"><a href="#cb67-121"></a><span class="in">`seq_len()`</span> is useful for iterating over the rows of a data frame because <span class="in">`seq_along()`</span> would iterate over columns:</span>
+<span id="cb67-122"><a href="#cb67-122"></a></span>
+<span id="cb67-123"><a href="#cb67-123"></a><span class="in">```{r seq_len_df}</span></span>
+<span id="cb67-124"><a href="#cb67-124"></a>small_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">b =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">c =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb67-125"><a href="#cb67-125"></a></span>
+<span id="cb67-126"><a href="#cb67-126"></a><span class="cf">for</span> (col <span class="cf">in</span> small_data) { <span class="co"># each element is the column </span></span>
+<span id="cb67-127"><a href="#cb67-127"></a>    <span class="fu">print</span>(col)</span>
+<span id="cb67-128"><a href="#cb67-128"></a>}</span>
+<span id="cb67-129"><a href="#cb67-129"></a></span>
+<span id="cb67-130"><a href="#cb67-130"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(small_data))) {</span>
+<span id="cb67-131"><a href="#cb67-131"></a>    <span class="fu">print</span>(r)</span>
+<span id="cb67-132"><a href="#cb67-132"></a>}</span>
+<span id="cb67-133"><a href="#cb67-133"></a><span class="in">```</span></span>
+<span id="cb67-134"><a href="#cb67-134"></a></span>
+<span id="cb67-135"><a href="#cb67-135"></a></span>
+<span id="cb67-136"><a href="#cb67-136"></a>**Indexing** is particularly important when we want to create/save new objects as we need to store output created during a <span class="in">`for`</span> loop. </span>
+<span id="cb67-137"><a href="#cb67-137"></a></span>
+<span id="cb67-138"><a href="#cb67-138"></a>::: {.callout-tip appearance='simple' icon=false}</span>
+<span id="cb67-139"><a href="#cb67-139"></a>When using a for loop to create/save output, we should create storage containers ahead of time with the <span class="in">`vector()`</span> function. This allocates memory for the output and is a more efficient use of memory. </span>
+<span id="cb67-140"><a href="#cb67-140"></a>:::</span>
+<span id="cb67-141"><a href="#cb67-141"></a></span>
+<span id="cb67-142"><a href="#cb67-142"></a><span class="in">```{r store_results}</span></span>
+<span id="cb67-143"><a href="#cb67-143"></a>char_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb67-144"><a href="#cb67-144"></a>num_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb67-145"><a href="#cb67-145"></a>list_storage <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">3</span>)</span>
+<span id="cb67-146"><a href="#cb67-146"></a></span>
+<span id="cb67-147"><a href="#cb67-147"></a>char_storage</span>
+<span id="cb67-148"><a href="#cb67-148"></a>num_storage</span>
+<span id="cb67-149"><a href="#cb67-149"></a>list_storage</span>
+<span id="cb67-150"><a href="#cb67-150"></a></span>
+<span id="cb67-151"><a href="#cb67-151"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">3</span>)) {</span>
+<span id="cb67-152"><a href="#cb67-152"></a>    char_storage[i] <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"Number: "</span>, i)</span>
+<span id="cb67-153"><a href="#cb67-153"></a>    num_storage[i] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>i</span>
+<span id="cb67-154"><a href="#cb67-154"></a>    list_storage[[i]] <span class="ot">&lt;-</span> i <span class="co"># Note the [[ for subsetting here</span></span>
+<span id="cb67-155"><a href="#cb67-155"></a>}</span>
+<span id="cb67-156"><a href="#cb67-156"></a></span>
+<span id="cb67-157"><a href="#cb67-157"></a>char_storage</span>
+<span id="cb67-158"><a href="#cb67-158"></a>num_storage</span>
+<span id="cb67-159"><a href="#cb67-159"></a>list_storage</span>
+<span id="cb67-160"><a href="#cb67-160"></a><span class="in">```</span></span>
+<span id="cb67-161"><a href="#cb67-161"></a></span>
+<span id="cb67-162"><a href="#cb67-162"></a><span class="fu">### `for` loops and memory allocation   </span></span>
+<span id="cb67-163"><a href="#cb67-163"></a></span>
+<span id="cb67-164"><a href="#cb67-164"></a>If you don't create a storage container ahead of time, you will regret it. Let's bench mark our code to see the difference!</span>
+<span id="cb67-165"><a href="#cb67-165"></a></span>
+<span id="cb67-168"><a href="#cb67-168"></a><span class="in">```{r}</span></span>
+<span id="cb67-169"><a href="#cb67-169"></a><span class="co">#| eval: false</span></span>
+<span id="cb67-170"><a href="#cb67-170"></a></span>
+<span id="cb67-171"><a href="#cb67-171"></a><span class="co"># Example 1: No storage container; append new value to existing vector</span></span>
+<span id="cb67-172"><a href="#cb67-172"></a>x <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb67-173"><a href="#cb67-173"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb67-174"><a href="#cb67-174"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb67-175"><a href="#cb67-175"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, i)</span>
+<span id="cb67-176"><a href="#cb67-176"></a>  }</span>
+<span id="cb67-177"><a href="#cb67-177"></a>)</span>
+<span id="cb67-178"><a href="#cb67-178"></a></span>
+<span id="cb67-179"><a href="#cb67-179"></a><span class="co"># Example 2: Using a storage container!</span></span>
+<span id="cb67-180"><a href="#cb67-180"></a><span class="co">#Notice median (time to run), mem_alloc (how much memory you are using), and gc (garbage collection)</span></span>
+<span id="cb67-181"><a href="#cb67-181"></a>x <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">'integer'</span>, <span class="at">length =</span> <span class="fl">1e5</span>)</span>
+<span id="cb67-182"><a href="#cb67-182"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb67-183"><a href="#cb67-183"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb67-184"><a href="#cb67-184"></a>    x[i] <span class="ot">&lt;-</span> i</span>
+<span id="cb67-185"><a href="#cb67-185"></a>  }</span>
+<span id="cb67-186"><a href="#cb67-186"></a>)</span>
+<span id="cb67-187"><a href="#cb67-187"></a></span>
+<span id="cb67-188"><a href="#cb67-188"></a></span>
+<span id="cb67-189"><a href="#cb67-189"></a><span class="co"># Example 3: Vectorized function</span></span>
+<span id="cb67-190"><a href="#cb67-190"></a><span class="co">#Notice median (time to run), mem_alloc (how much memory you are using), and gc (garbage collection)</span></span>
+<span id="cb67-191"><a href="#cb67-191"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb67-192"><a href="#cb67-192"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fl">1e5</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb67-193"><a href="#cb67-193"></a>)</span>
+<span id="cb67-194"><a href="#cb67-194"></a></span>
+<span id="cb67-195"><a href="#cb67-195"></a><span class="in">```</span></span>
+<span id="cb67-196"><a href="#cb67-196"></a></span>
+<span id="cb67-197"><a href="#cb67-197"></a><span class="fu">## Exercises </span></span>
+<span id="cb67-198"><a href="#cb67-198"></a></span>
+<span id="cb67-199"><a href="#cb67-199"></a>**Pair programming exercises:** Whoever has most recently eaten dessert (broadly interpreted) should be the driver first. Switch after Exercise 2.</span>
+<span id="cb67-200"><a href="#cb67-200"></a></span>
+<span id="cb67-201"><a href="#cb67-201"></a>Write <span class="in">`for`</span>-loops that do each of the following:</span>
+<span id="cb67-202"><a href="#cb67-202"></a></span>
+<span id="cb67-203"><a href="#cb67-203"></a><span class="ss">1. </span>Prints the even numbers from 2:20</span>
+<span id="cb67-204"><a href="#cb67-204"></a><span class="ss">    - </span>Then, produce the same output with the <span class="in">`seq()`</span> function</span>
+<span id="cb67-205"><a href="#cb67-205"></a>    </span>
+<span id="cb67-208"><a href="#cb67-208"></a><span class="in">```{r}</span></span>
+<span id="cb67-209"><a href="#cb67-209"></a><span class="co"># for loop</span></span>
+<span id="cb67-210"><a href="#cb67-210"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">10</span>)) {</span>
+<span id="cb67-211"><a href="#cb67-211"></a>    <span class="fu">print</span>(<span class="dv">2</span><span class="sc">*</span>i)</span>
+<span id="cb67-212"><a href="#cb67-212"></a>}</span>
+<span id="cb67-213"><a href="#cb67-213"></a></span>
+<span id="cb67-214"><a href="#cb67-214"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb67-215"><a href="#cb67-215"></a><span class="in">```</span></span>
+<span id="cb67-216"><a href="#cb67-216"></a>    </span>
+<span id="cb67-217"><a href="#cb67-217"></a><span class="ss">2. </span>Iterates over the <span class="in">`month.name`</span> vector and stores a character vector of output containing strings like "Month 1: January", "Month 2: February".</span>
+<span id="cb67-218"><a href="#cb67-218"></a><span class="ss">    - </span>Then, produce the same output with <span class="in">`str_c()`</span> only.</span>
+<span id="cb67-219"><a href="#cb67-219"></a>    </span>
+<span id="cb67-222"><a href="#cb67-222"></a><span class="in">```{r}</span></span>
+<span id="cb67-223"><a href="#cb67-223"></a><span class="co"># for loop</span></span>
+<span id="cb67-224"><a href="#cb67-224"></a>month_strings <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="at">length =</span> <span class="fu">length</span>(month.name))</span>
+<span id="cb67-225"><a href="#cb67-225"></a></span>
+<span id="cb67-226"><a href="#cb67-226"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(month.name)) {</span>
+<span id="cb67-227"><a href="#cb67-227"></a>    month_strings[i] <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"Month "</span>, i, <span class="st">": "</span>, month.name[i])</span>
+<span id="cb67-228"><a href="#cb67-228"></a>}</span>
+<span id="cb67-229"><a href="#cb67-229"></a>month_strings</span>
+<span id="cb67-230"><a href="#cb67-230"></a></span>
+<span id="cb67-231"><a href="#cb67-231"></a><span class="fu">str_c</span>(<span class="st">"Month "</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="st">": "</span>, month.name)</span>
+<span id="cb67-232"><a href="#cb67-232"></a><span class="in">```</span></span>
+<span id="cb67-233"><a href="#cb67-233"></a></span>
+<span id="cb67-234"><a href="#cb67-234"></a><span class="ss">3. </span>On the <span class="in">`diamonds`</span> dataset, fit stratified models of price vs. carat, model separately estimated for each value of <span class="in">`cut`</span>, and store the fitted models in a list storage container.</span>
+<span id="cb67-235"><a href="#cb67-235"></a></span>
+<span id="cb67-238"><a href="#cb67-238"></a><span class="in">```{r}</span></span>
+<span id="cb67-239"><a href="#cb67-239"></a><span class="fu">data</span>(diamonds)</span>
+<span id="cb67-240"><a href="#cb67-240"></a></span>
+<span id="cb67-241"><a href="#cb67-241"></a><span class="co"># Fit models of price vs. carat separately for each value of cut</span></span>
+<span id="cb67-242"><a href="#cb67-242"></a>unique_cuts <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">pull</span>(cut) <span class="sc">|&gt;</span> <span class="fu">levels</span>()</span>
+<span id="cb67-243"><a href="#cb67-243"></a>lin_mod_results <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(unique_cuts))</span>
+<span id="cb67-244"><a href="#cb67-244"></a></span>
+<span id="cb67-245"><a href="#cb67-245"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(unique_cuts)) {</span>
+<span id="cb67-246"><a href="#cb67-246"></a>    this_cut <span class="ot">&lt;-</span> unique_cuts[i]</span>
+<span id="cb67-247"><a href="#cb67-247"></a>    diamonds_sub <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span></span>
+<span id="cb67-248"><a href="#cb67-248"></a>        <span class="fu">filter</span>(cut<span class="sc">==</span>this_cut)</span>
+<span id="cb67-249"><a href="#cb67-249"></a>    <span class="co"># The double square brackets [[i]] accesses the ith element of a list</span></span>
+<span id="cb67-250"><a href="#cb67-250"></a>    lin_mod_results[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> carat, <span class="at">data =</span> diamonds_sub)</span>
+<span id="cb67-251"><a href="#cb67-251"></a>}</span>
+<span id="cb67-252"><a href="#cb67-252"></a><span class="in">```</span></span>
+<span id="cb67-253"><a href="#cb67-253"></a></span>
+<span id="cb67-254"><a href="#cb67-254"></a></span>
+<span id="cb67-255"><a href="#cb67-255"></a></span>
+<span id="cb67-256"><a href="#cb67-256"></a></span>
+<span id="cb67-257"><a href="#cb67-257"></a><span class="fu">## Iteration `across` data frame columns </span></span>
+<span id="cb67-258"><a href="#cb67-258"></a></span>
+<span id="cb67-259"><a href="#cb67-259"></a>Often we will have to perform the same data wrangling on many variables (e.g., rounding numbers)</span>
+<span id="cb67-260"><a href="#cb67-260"></a></span>
+<span id="cb67-261"><a href="#cb67-261"></a><span class="in">```{r no_across}</span></span>
+<span id="cb67-262"><a href="#cb67-262"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb67-263"><a href="#cb67-263"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb67-264"><a href="#cb67-264"></a>        <span class="at">carat =</span> <span class="fu">round</span>(carat, <span class="dv">1</span>),</span>
+<span id="cb67-265"><a href="#cb67-265"></a>        <span class="at">x =</span> <span class="fu">round</span>(x, <span class="dv">1</span>),</span>
+<span id="cb67-266"><a href="#cb67-266"></a>        <span class="at">y =</span> <span class="fu">round</span>(y, <span class="dv">1</span>),</span>
+<span id="cb67-267"><a href="#cb67-267"></a>        <span class="at">z =</span> <span class="fu">round</span>(z, <span class="dv">1</span>)</span>
+<span id="cb67-268"><a href="#cb67-268"></a>    )</span>
+<span id="cb67-269"><a href="#cb67-269"></a><span class="in">```</span></span>
+<span id="cb67-270"><a href="#cb67-270"></a></span>
+<span id="cb67-271"><a href="#cb67-271"></a><span class="in">`dplyr`</span> provides the <span class="in">`across()`</span> function for performing these repeated function calls:</span>
+<span id="cb67-272"><a href="#cb67-272"></a></span>
+<span id="cb67-273"><a href="#cb67-273"></a><span class="in">```{r with_across}</span></span>
+<span id="cb67-274"><a href="#cb67-274"></a><span class="co"># Option 1: Create our own named function</span></span>
+<span id="cb67-275"><a href="#cb67-275"></a>round_to_one <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb67-276"><a href="#cb67-276"></a>    <span class="fu">round</span>(x, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb67-277"><a href="#cb67-277"></a>}</span>
+<span id="cb67-278"><a href="#cb67-278"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb67-279"><a href="#cb67-279"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(carat, x, y, z), <span class="at">.fns =</span> round_to_one))</span>
+<span id="cb67-280"><a href="#cb67-280"></a><span class="in">```</span></span>
+<span id="cb67-281"><a href="#cb67-281"></a></span>
+<span id="cb67-284"><a href="#cb67-284"></a><span class="in">```{r}</span></span>
+<span id="cb67-285"><a href="#cb67-285"></a><span class="co"># Option 2: Use an "anonymous" or "lambda" function that isn't named/saved</span></span>
+<span id="cb67-286"><a href="#cb67-286"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb67-287"><a href="#cb67-287"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(carat, x, y, z), <span class="at">.fns =</span> <span class="cf">function</span>(x) {<span class="fu">round</span>(x, <span class="at">digits =</span> <span class="dv">1</span>)} ))</span>
+<span id="cb67-288"><a href="#cb67-288"></a></span>
+<span id="cb67-289"><a href="#cb67-289"></a></span>
+<span id="cb67-290"><a href="#cb67-290"></a><span class="co"># Anonymous functions can be written in a more concise way</span></span>
+<span id="cb67-291"><a href="#cb67-291"></a><span class="co"># function(x){ length(unique(x)) } OR ~ length(unique(.x))</span></span>
+<span id="cb67-292"><a href="#cb67-292"></a><span class="co"># function(x,y){ length(unique(x + y)) } OR ~ length(unique(.x + .y))</span></span>
+<span id="cb67-293"><a href="#cb67-293"></a><span class="in">```</span></span>
+<span id="cb67-294"><a href="#cb67-294"></a></span>
+<span id="cb67-295"><a href="#cb67-295"></a></span>
+<span id="cb67-296"><a href="#cb67-296"></a></span>
+<span id="cb67-297"><a href="#cb67-297"></a>When we look at the <span class="co">[</span><span class="ot">documentation for `across()`</span><span class="co">](https://dplyr.tidyverse.org/reference/across.html)</span>, we see that the <span class="in">`.cols`</span> argument specifies which variables we want to transform, and it has a <span class="in">`&lt;tidy-select&gt;`</span> tag. This means that the syntax we use for <span class="in">`.cols`</span> follows certain rules. </span>
+<span id="cb67-298"><a href="#cb67-298"></a></span>
+<span id="cb67-299"><a href="#cb67-299"></a>Let's click <span class="co">[</span><span class="ot">this link</span><span class="co">](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html)</span> to explore the possibilities for selecting variables.</span>
+<span id="cb67-300"><a href="#cb67-300"></a></span>
+<span id="cb67-301"><a href="#cb67-301"></a><span class="ss">- </span>Read through the "Overview of selection features" section to get an overall sense of the many ways to select variables.</span>
+<span id="cb67-302"><a href="#cb67-302"></a><span class="ss">- </span>Navigate back to the <span class="in">`across()`</span> documentation and read through the Examples section at the bottom. Click the "Run examples" link to view the output for all of the examples.</span>
+<span id="cb67-303"><a href="#cb67-303"></a></span>
+<span id="cb67-304"><a href="#cb67-304"></a></span>
+<span id="cb67-305"><a href="#cb67-305"></a></span>
+<span id="cb67-306"><a href="#cb67-306"></a>What if we wanted to perform multiple transformations on each of many variables? </span>
+<span id="cb67-307"><a href="#cb67-307"></a></span>
+<span id="cb67-308"><a href="#cb67-308"></a></span>
+<span id="cb67-309"><a href="#cb67-309"></a>Within the different values of diamond <span class="in">`cut`</span>, let's summarize the mean, median, and standard deviation of the numeric variables. When we look at the <span class="in">`.fns`</span> argument in the <span class="in">`across()`</span> documentation, we see that we can provide a **list** of functions:</span>
+<span id="cb67-310"><a href="#cb67-310"></a></span>
+<span id="cb67-311"><a href="#cb67-311"></a><span class="in">```{r across_many_fns}</span></span>
+<span id="cb67-312"><a href="#cb67-312"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb67-313"><a href="#cb67-313"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span> </span>
+<span id="cb67-314"><a href="#cb67-314"></a>    <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">med =</span> median, <span class="at">sd =</span> sd)))</span>
+<span id="cb67-315"><a href="#cb67-315"></a><span class="in">```</span></span>
+<span id="cb67-316"><a href="#cb67-316"></a></span>
+<span id="cb67-317"><a href="#cb67-317"></a>What does the list of functions look like? What is the structure of this list object?</span>
+<span id="cb67-318"><a href="#cb67-318"></a></span>
+<span id="cb67-319"><a href="#cb67-319"></a><span class="in">```{r list_str}</span></span>
+<span id="cb67-320"><a href="#cb67-320"></a>list_of_fcts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">med =</span> median, <span class="at">sd =</span> sd)</span>
+<span id="cb67-321"><a href="#cb67-321"></a>list_of_fcts</span>
+<span id="cb67-322"><a href="#cb67-322"></a><span class="fu">str</span>(list_of_fcts)</span>
+<span id="cb67-323"><a href="#cb67-323"></a><span class="in">```</span></span>
+<span id="cb67-324"><a href="#cb67-324"></a></span>
+<span id="cb67-325"><a href="#cb67-325"></a></span>
+<span id="cb67-326"><a href="#cb67-326"></a></span>
+<span id="cb67-327"><a href="#cb67-327"></a><span class="fu">## Exercises </span></span>
+<span id="cb67-328"><a href="#cb67-328"></a></span>
+<span id="cb67-329"><a href="#cb67-329"></a>Using the <span class="in">`diamonds`</span> dataset:</span>
+<span id="cb67-330"><a href="#cb67-330"></a></span>
+<span id="cb67-331"><a href="#cb67-331"></a><span class="ss">1. </span>Transform the <span class="in">`x`</span>, <span class="in">`y`</span>, and <span class="in">`z`</span> columns so that the units of millimeters are displayed (e.g., "4.0 mm").</span>
+<span id="cb67-332"><a href="#cb67-332"></a></span>
+<span id="cb67-335"><a href="#cb67-335"></a><span class="in">```{r}</span></span>
+<span id="cb67-336"><a href="#cb67-336"></a>add_mm <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb67-337"><a href="#cb67-337"></a>    <span class="fu">str_c</span>(x, <span class="st">" mm"</span>)</span>
+<span id="cb67-338"><a href="#cb67-338"></a>}</span>
+<span id="cb67-339"><a href="#cb67-339"></a></span>
+<span id="cb67-340"><a href="#cb67-340"></a>diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb67-341"><a href="#cb67-341"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(x, y, z), <span class="at">.fns =</span> add_mm))</span>
+<span id="cb67-342"><a href="#cb67-342"></a><span class="in">```</span></span>
+<span id="cb67-343"><a href="#cb67-343"></a></span>
+<span id="cb67-344"><a href="#cb67-344"></a><span class="ss">2. </span>Convert all numeric columns into character columns.</span>
+<span id="cb67-345"><a href="#cb67-345"></a><span class="ss">    - </span>Hint: type <span class="in">`is.`</span> and hit Tab in the Console. Scroll through the function options. Do the same with <span class="in">`as.`</span></span>
+<span id="cb67-346"><a href="#cb67-346"></a></span>
+<span id="cb67-349"><a href="#cb67-349"></a><span class="in">```{r}</span></span>
+<span id="cb67-350"><a href="#cb67-350"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb67-351"><a href="#cb67-351"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.numeric), <span class="at">.fns =</span> as.character))</span>
+<span id="cb67-352"><a href="#cb67-352"></a><span class="in">```</span></span>
+<span id="cb67-353"><a href="#cb67-353"></a></span>
+<span id="cb67-354"><a href="#cb67-354"></a></span>
+<span id="cb67-355"><a href="#cb67-355"></a></span>
+<span id="cb67-356"><a href="#cb67-356"></a></span>
+<span id="cb67-357"><a href="#cb67-357"></a><span class="fu">## Case study: performing many different versions of an analysis </span></span>
+<span id="cb67-358"><a href="#cb67-358"></a></span>
+<span id="cb67-359"><a href="#cb67-359"></a>One of my most common use cases for writing functions and iteration/looping is to perform some exploration or modeling repeatedly for several different "settings". </span>
+<span id="cb67-360"><a href="#cb67-360"></a></span>
+<span id="cb67-361"><a href="#cb67-361"></a>For example, our broad goal might be to fit a linear regression model to our data. However, there are often multiple choices that we have to make in practice:</span>
+<span id="cb67-362"><a href="#cb67-362"></a></span>
+<span id="cb67-363"><a href="#cb67-363"></a><span class="ss">- </span>Keep missing values or fill them in (imputation)?</span>
+<span id="cb67-364"><a href="#cb67-364"></a><span class="ss">- </span>Fit the model only on a certain group of cases?</span>
+<span id="cb67-365"><a href="#cb67-365"></a><span class="ss">- </span>Filter out outliers in one or more variables?</span>
+<span id="cb67-366"><a href="#cb67-366"></a><span class="ss">- </span>Transform certain variables? (e.g., log transformation)</span>
+<span id="cb67-367"><a href="#cb67-367"></a></span>
+<span id="cb67-368"><a href="#cb67-368"></a></span>
+<span id="cb67-369"><a href="#cb67-369"></a>We can map any number of these choices to **arguments** in a custom model-fitting function:</span>
+<span id="cb67-370"><a href="#cb67-370"></a></span>
+<span id="cb67-371"><a href="#cb67-371"></a><span class="ss">- </span><span class="in">`impute`</span>: TRUE or FALSE</span>
+<span id="cb67-372"><a href="#cb67-372"></a><span class="ss">- </span><span class="in">`filter_to`</span>: This could be a string description like "All cases", "Group 1", or "Groups 1 and 2"</span>
+<span id="cb67-373"><a href="#cb67-373"></a></span>
+<span id="cb67-374"><a href="#cb67-374"></a><span class="in">```{r fit_model_example}</span></span>
+<span id="cb67-375"><a href="#cb67-375"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, impute, filter_to) {</span>
+<span id="cb67-376"><a href="#cb67-376"></a>    <span class="cf">if</span> (impute) {</span>
+<span id="cb67-377"><a href="#cb67-377"></a>        data <span class="ot">&lt;-</span> <span class="fu">some_imputation_function</span>(data)</span>
+<span id="cb67-378"><a href="#cb67-378"></a>    }</span>
+<span id="cb67-379"><a href="#cb67-379"></a>    </span>
+<span id="cb67-380"><a href="#cb67-380"></a>    <span class="cf">if</span> (filter_to<span class="sc">==</span><span class="st">"Group 1"</span>) {</span>
+<span id="cb67-381"><a href="#cb67-381"></a>        data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb67-382"><a href="#cb67-382"></a>            <span class="fu">filter</span>(group <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb67-383"><a href="#cb67-383"></a>    } <span class="cf">else</span> <span class="cf">if</span> (filter_to <span class="sc">==</span> <span class="st">"Groups 1 and 2"</span>) {</span>
+<span id="cb67-384"><a href="#cb67-384"></a>        data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb67-385"><a href="#cb67-385"></a>            <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb67-386"><a href="#cb67-386"></a>    }</span>
+<span id="cb67-387"><a href="#cb67-387"></a>    </span>
+<span id="cb67-388"><a href="#cb67-388"></a>    <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> data)</span>
+<span id="cb67-389"><a href="#cb67-389"></a>}</span>
+<span id="cb67-390"><a href="#cb67-390"></a><span class="in">```</span></span>
+<span id="cb67-391"><a href="#cb67-391"></a></span>
+<span id="cb67-392"><a href="#cb67-392"></a>The <span class="in">`tidyr`</span> package has a useful function called <span class="in">`crossing()`</span> that is useful for generating argument combinations. </span>
+<span id="cb67-393"><a href="#cb67-393"></a></span>
+<span id="cb67-394"><a href="#cb67-394"></a>For each argument, we specify all possible values for that argument. <span class="in">`crossing()`</span> generates all combinations:</span>
+<span id="cb67-395"><a href="#cb67-395"></a></span>
+<span id="cb67-398"><a href="#cb67-398"></a><span class="in">```{r}</span></span>
+<span id="cb67-399"><a href="#cb67-399"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb67-400"><a href="#cb67-400"></a>    <span class="at">impute =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb67-401"><a href="#cb67-401"></a>    <span class="at">filter_to =</span> <span class="fu">c</span>(<span class="st">"All cases"</span>, <span class="st">"Group 1"</span>, <span class="st">"Groups 1 and 2"</span>)</span>
+<span id="cb67-402"><a href="#cb67-402"></a>)</span>
+<span id="cb67-403"><a href="#cb67-403"></a>df_arg_combos</span>
+<span id="cb67-404"><a href="#cb67-404"></a></span>
+<span id="cb67-405"><a href="#cb67-405"></a><span class="co"># Another example</span></span>
+<span id="cb67-406"><a href="#cb67-406"></a><span class="fu">crossing</span>(</span>
+<span id="cb67-407"><a href="#cb67-407"></a>    <span class="at">option1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb67-408"><a href="#cb67-408"></a>    <span class="at">option2 =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb67-409"><a href="#cb67-409"></a>    <span class="at">option3 =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>)</span>
+<span id="cb67-410"><a href="#cb67-410"></a>)</span>
+<span id="cb67-411"><a href="#cb67-411"></a><span class="in">```</span></span>
+<span id="cb67-412"><a href="#cb67-412"></a></span>
+<span id="cb67-413"><a href="#cb67-413"></a>With iteration in our toobox, we can iterate the <span class="in">`fit_model()`</span> function over the combinations in <span class="in">`df_arg_combos`</span>.</span>
+<span id="cb67-414"><a href="#cb67-414"></a></span>
+<span id="cb67-415"><a href="#cb67-415"></a><span class="fu">## Exercises </span></span>
+<span id="cb67-416"><a href="#cb67-416"></a></span>
+<span id="cb67-417"><a href="#cb67-417"></a>**Goal:** In the <span class="in">`diamonds`</span> dataset, we want to understand the relationship between <span class="in">`price`</span> and size (<span class="in">`carat`</span>). We want to explore variation along two choices:</span>
+<span id="cb67-418"><a href="#cb67-418"></a></span>
+<span id="cb67-419"><a href="#cb67-419"></a><span class="ss">- </span>The variables included in the model. We'll explore 3 sets of variables:</span>
+<span id="cb67-420"><a href="#cb67-420"></a><span class="ss">    - </span>No further variables (just <span class="in">`price`</span> and <span class="in">`carat`</span>)</span>
+<span id="cb67-421"><a href="#cb67-421"></a><span class="ss">    - </span>Adjusting for <span class="in">`cut`</span></span>
+<span id="cb67-422"><a href="#cb67-422"></a><span class="ss">    - </span>Adjusting for <span class="in">`cut`</span> and <span class="in">`clarity`</span></span>
+<span id="cb67-423"><a href="#cb67-423"></a><span class="ss">    - </span>Adjusting for <span class="in">`cut`</span>, <span class="in">`clarity`</span>, and <span class="in">`color`</span></span>
+<span id="cb67-424"><a href="#cb67-424"></a><span class="ss">- </span>Whether or not to remove outliers in the <span class="in">`carat`</span> variable. We'll define outliers as cases whose <span class="in">`carat`</span> is over 3 SDs away from the mean.</span>
+<span id="cb67-425"><a href="#cb67-425"></a></span>
+<span id="cb67-426"><a href="#cb67-426"></a>Work with your partner on the following exercises. As you work, make note of what is challenging and any helpful thought processes/strategies that arise from the collaboration.</span>
+<span id="cb67-427"><a href="#cb67-427"></a></span>
+<span id="cb67-428"><a href="#cb67-428"></a><span class="ss">1. </span>Use <span class="in">`crossing()`</span> to create the data frame of argument combinations for our analyses. Call it <span class="in">`df_arg_combos`</span>. Note that you can create a list of **formula** objects in R with <span class="in">`c(y ~ x1, y ~ x1 + x2)`</span>. (Something like this will be the right hand side of an argument to <span class="in">`crossing()`</span>.)</span>
+<span id="cb67-429"><a href="#cb67-429"></a></span>
+<span id="cb67-432"><a href="#cb67-432"></a><span class="in">```{r}</span></span>
+<span id="cb67-433"><a href="#cb67-433"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb67-434"><a href="#cb67-434"></a>    <span class="at">mod_formula =</span> <span class="fu">c</span>(price <span class="sc">~</span> carat, price <span class="sc">~</span> carat <span class="sc">+</span> cut,  price <span class="sc">~</span> carat <span class="sc">+</span> cut <span class="sc">+</span> clarity,  price <span class="sc">~</span> carat <span class="sc">+</span> cut <span class="sc">+</span> clarity <span class="sc">+</span> color),</span>
+<span id="cb67-435"><a href="#cb67-435"></a>    <span class="at">remove_outliers =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb67-436"><a href="#cb67-436"></a>)</span>
+<span id="cb67-437"><a href="#cb67-437"></a>df_arg_combos</span>
+<span id="cb67-438"><a href="#cb67-438"></a><span class="in">```</span></span>
+<span id="cb67-439"><a href="#cb67-439"></a></span>
+<span id="cb67-440"><a href="#cb67-440"></a><span class="ss">2. </span>Write a function called <span class="in">`remove_outliers`</span> that removes outliers in a dataset. The user should be able to supply the dataset (<span class="in">`data`</span>), the variable to remove outliers in (<span class="in">`what_var`</span>), and a threshold on the number of SDs away from the mean used to define outliers (<span class="in">`sd_thresh`</span>). Write your function so that it runs as follows: <span class="in">`remove_outliers(diamonds, what_var = carat, sd_thresh = 3)`</span>.</span>
+<span id="cb67-441"><a href="#cb67-441"></a></span>
+<span id="cb67-444"><a href="#cb67-444"></a><span class="in">```{r}</span></span>
+<span id="cb67-445"><a href="#cb67-445"></a>remove_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(data, what_var, sd_thresh) {</span>
+<span id="cb67-446"><a href="#cb67-446"></a>    data <span class="sc">|&gt;</span> </span>
+<span id="cb67-447"><a href="#cb67-447"></a>        <span class="fu">mutate</span>(<span class="at">zscore =</span> ({{ what_var }} <span class="sc">-</span> <span class="fu">mean</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span><span class="fu">sd</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb67-448"><a href="#cb67-448"></a>        <span class="fu">filter</span>(zscore <span class="sc">&lt;=</span> sd_thresh)</span>
+<span id="cb67-449"><a href="#cb67-449"></a>}</span>
+<span id="cb67-450"><a href="#cb67-450"></a><span class="in">```</span></span>
+<span id="cb67-451"><a href="#cb67-451"></a></span>
+<span id="cb67-452"><a href="#cb67-452"></a><span class="ss">3. </span>Write a function called <span class="in">`fit_model`</span> that implements the different settings for our <span class="in">`diamonds`</span> analysis.</span>
+<span id="cb67-453"><a href="#cb67-453"></a></span>
+<span id="cb67-456"><a href="#cb67-456"></a><span class="in">```{r}</span></span>
+<span id="cb67-457"><a href="#cb67-457"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mod_formula, remove_outliers) {</span>
+<span id="cb67-458"><a href="#cb67-458"></a>    <span class="cf">if</span> (remove_outliers) {</span>
+<span id="cb67-459"><a href="#cb67-459"></a>        data_clean <span class="ot">&lt;-</span> <span class="fu">remove_outliers</span>(data, <span class="at">what_var =</span> carat, <span class="at">sd_thresh =</span> <span class="dv">3</span>)</span>
+<span id="cb67-460"><a href="#cb67-460"></a>    } <span class="cf">else</span> {</span>
+<span id="cb67-461"><a href="#cb67-461"></a>        data_clean <span class="ot">&lt;-</span> data</span>
+<span id="cb67-462"><a href="#cb67-462"></a>    }</span>
+<span id="cb67-463"><a href="#cb67-463"></a>    </span>
+<span id="cb67-464"><a href="#cb67-464"></a>    <span class="fu">lm</span>(mod_formula, <span class="at">data =</span> data_clean)</span>
+<span id="cb67-465"><a href="#cb67-465"></a>}</span>
+<span id="cb67-466"><a href="#cb67-466"></a><span class="in">```</span></span>
+<span id="cb67-467"><a href="#cb67-467"></a></span>
+<span id="cb67-468"><a href="#cb67-468"></a></span>
+<span id="cb67-469"><a href="#cb67-469"></a></span>
+<span id="cb67-470"><a href="#cb67-470"></a></span>
+<span id="cb67-471"><a href="#cb67-471"></a><span class="ss">4. </span>Write a <span class="in">`for`</span> loop that stores the fitted linear models from all versions of the analysis.</span>
+<span id="cb67-472"><a href="#cb67-472"></a></span>
+<span id="cb67-473"><a href="#cb67-473"></a>Recall that you can pull out the contents of a single data frame column in many ways. For a data frame <span class="in">`df`</span> with a variable named <span class="in">`x`</span>:</span>
+<span id="cb67-474"><a href="#cb67-474"></a></span>
+<span id="cb67-475"><a href="#cb67-475"></a><span class="ss">- </span><span class="in">`df$x`</span></span>
+<span id="cb67-476"><a href="#cb67-476"></a><span class="ss">- </span><span class="in">`df |&gt; pull(x)`</span></span>
+<span id="cb67-477"><a href="#cb67-477"></a><span class="ss">- </span><span class="in">`df[["x"]]`</span></span>
+<span id="cb67-478"><a href="#cb67-478"></a></span>
+<span id="cb67-479"><a href="#cb67-479"></a>Note that in <span class="in">`df_arg_combos`</span>:</span>
+<span id="cb67-480"><a href="#cb67-480"></a></span>
+<span id="cb67-481"><a href="#cb67-481"></a><span class="ss">- </span><span class="in">`mod_formula`</span>: this column is a **list** and you can extract the 1st element with <span class="in">`[[1]]`</span></span>
+<span id="cb67-482"><a href="#cb67-482"></a><span class="ss">- </span><span class="in">`remove_outliers`</span>: this column is a **vector** and you can extract the 1st element with <span class="in">`[1]`</span></span>
+<span id="cb67-483"><a href="#cb67-483"></a></span>
+<span id="cb67-486"><a href="#cb67-486"></a><span class="in">```{r}</span></span>
+<span id="cb67-487"><a href="#cb67-487"></a>lin_mod_res_for <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">nrow</span>(df_arg_combos))</span>
+<span id="cb67-488"><a href="#cb67-488"></a></span>
+<span id="cb67-489"><a href="#cb67-489"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(lin_mod_res_for)) {</span>
+<span id="cb67-490"><a href="#cb67-490"></a>    this_formula <span class="ot">&lt;-</span> df_arg_combos<span class="sc">$</span>mod_formula[[i]] <span class="co"># Double [[ for the **list** of formulas</span></span>
+<span id="cb67-491"><a href="#cb67-491"></a>    this_remove_outliers <span class="ot">&lt;-</span> df_arg_combos<span class="sc">$</span>remove_outliers[i] <span class="co"># Single [ for the **atomic vector** of logicals</span></span>
+<span id="cb67-492"><a href="#cb67-492"></a>    lin_mod_res_for[[i]] <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(</span>
+<span id="cb67-493"><a href="#cb67-493"></a>        <span class="at">data =</span> diamonds,</span>
+<span id="cb67-494"><a href="#cb67-494"></a>        <span class="at">mod_formula =</span> this_formula,</span>
+<span id="cb67-495"><a href="#cb67-495"></a>        <span class="at">remove_outliers =</span> this_remove_outliers</span>
+<span id="cb67-496"><a href="#cb67-496"></a>    )</span>
+<span id="cb67-497"><a href="#cb67-497"></a>}</span>
+<span id="cb67-498"><a href="#cb67-498"></a><span class="in">```</span></span>
+<span id="cb67-499"><a href="#cb67-499"></a><span class="fu">## Done!</span></span>
+<span id="cb67-500"><a href="#cb67-500"></a></span>
+<span id="cb67-501"><a href="#cb67-501"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
