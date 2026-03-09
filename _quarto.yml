@@ -94,6 +94,7 @@ book:
       - ica/08-missing-data-notes.qmd
       - ica/09-functions-notes.qmd
       - ica/10-base-r-notes.qmd
+      - ica/11-iteration-1-notes.qmd
 
     - part: "Extras"
       chapters:
