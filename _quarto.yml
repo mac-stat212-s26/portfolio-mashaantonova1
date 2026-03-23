@@ -82,6 +82,11 @@ book:
       chapters:
       - pcl/pcl.qmd
 
+    - part: "Exams"
+      chapters:
+        - exams/exam1.qmd
+        - exams/exam2.qmd
+
     - part: "In-Class Activities"
       chapters:
       - ica/ica-sample1.qmd
@@ -95,6 +100,7 @@ book:
       - ica/09-functions-notes.qmd
       - ica/10-base-r-notes.qmd
       - ica/11-iteration-1-notes.qmd
+      - ica/12-iteration-2-notes.qmd
 
     - part: "Extras"
       chapters:

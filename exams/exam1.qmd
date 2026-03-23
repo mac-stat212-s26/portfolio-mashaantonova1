@@ -1,0 +1,88 @@
+---
+title: "Exam 1"
+---
+
+## Geodetic vs Projected Coordinate Reference Systems
+
+A Coordinate Reference System (CRS) defines how spatial data are positioned on the Earth.
+
+A geodetic CRS represents locations using latitude and longitude on the Earth's curved surface. Coordinates are expressed in degrees, which are angular units.
+
+A projected CRS transforms the curved Earth into a flat coordinate system so that spatial calculations such as distance, area, and buffers can be computed using meters.
+
+For example, WGS84 (EPSG:4326) is a geodetic CRS commonly used by GPS systems, while UTM projections are projected CRS commonly used for spatial analysis.
+
+
+```{r}
+library(sf)
+library(tmap)
+```
+
+## Create a point in WGS84 (geodetic CRS)
+```{r}
+point <- st_sfc(
+  st_point(c(-93.163, 44.953)), # St. Paul, MN
+  crs = 4326
+)
+
+point
+
+st_crs(point)
+```
+
+## Attempting a buffer in a geodetic CRS
+```{r}
+buffer_geo <- st_buffer(point, dist = 0.01)
+```
+
+## Transform to a projected CRS (UTM Zone 15N)
+```{r}
+point_proj <- st_transform(point, 26915)
+
+st_crs(point_proj)
+```
+
+## Create a 1 km buffer
+```{r}
+buffer_proj <- st_buffer(point_proj, dist = 1000)
+```
+
+## Visualize the result
+```{r}
+tm_shape(buffer_proj) +
+  tm_polygons() +
+  tm_shape(point_proj) +
+  tm_symbols(size = 0.5)
+```
+
+## Key takeaway
+
+Geodetic CRS are useful for storing global location data, while projected CRS are necessary for accurate spatial measurements such as distance, area, and buffering.
+
+Transforming between CRS using st_transform() is a standard step in spatial analysis workflows.
+
+
+## Extra Exploration
+
+## Compare distances
+```{r}
+point2 <- st_sfc(
+  st_point(c(-93.10, 44.98)),
+  crs = 4326
+)
+
+st_distance(point, point2)
+```
+
+```{r}
+p1 <- st_transform(point, 26915)
+p2 <- st_transform(point2, 26915)
+
+st_distance(p1, p2)
+```
+
+
+
+
+
+
