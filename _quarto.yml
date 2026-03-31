@@ -101,6 +101,7 @@ book:
       - ica/10-base-r-notes.qmd
       - ica/11-iteration-1-notes.qmd
       - ica/12-iteration-2-notes.qmd
+      - ica/14-apis-2-notes.qmd
 
     - part: "Extras"
       chapters:
