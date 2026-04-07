@@ -130,8 +130,8 @@ Read in the key with the following code:
 
 ```{r read_census_api_key2}
 #| eval: false
-census_api_key <- readLines("census_api_key.txt")
-census_api_key <- ""
+#census_api_key <- readLines("census_api_key.txt")
+#census_api_key <- ""
 ```
 
 ### Navigating API documentation
@@ -162,12 +162,12 @@ We will use the `httr2` package to build up a full URL from its parts because of
     - We can see from [here](https://www.census.gov/data/developers/guidance/api-user-guide.Help_&_Contact_Us.html) that providing an API key is achieved with `key=YOUR_API_KEY`.
 
 ```{r httr2_census}
-req <- request("https://api.census.gov") |> 
-    req_url_path_append("data") |> 
-    req_url_path_append("2019") |> 
-    req_url_path_append("acs") |> 
-    req_url_path_append("acs1") |> 
-    req_url_query(get = c("NAME", "B02015_009E", "B02015_009M"), `for` = I("state:*"), key = census_api_key, .multi = "comma")
+#req <- request("https://api.census.gov") |> 
+    #req_url_path_append("data") |> 
+    #req_url_path_append("2019") |> 
+    #req_url_path_append("acs") |> 
+    #req_url_path_append("acs1") |> 
+    #req_url_query(get = c("NAME", "B02015_009E", "B02015_009M"), `for` = I("state:*"), key = #census_api_key, .multi = "comma")
 ```
 
 **Why would we ever use these steps instead of just using the full URL as a string?**
@@ -181,7 +181,7 @@ req <- request("https://api.census.gov") |>
 Once we've fully constructed our request, we can use `req_perform()` to send out the API request and get a **response**.
 
 ```{r census_request}
-resp <- req_perform(req)
+#resp <- req_perform(req)
 ```
 
 ### Getting a response with `httr2`
@@ -193,14 +193,14 @@ We see from `Content-Type` that the format of the response is something called J
     - Without `simplifyVector = TRUE`, the JSON is read in as a list. 
 
 ```{r census_json}
-resp_json_df <- resp |> resp_body_json(simplifyVector = TRUE)
+#resp_json_df <- resp |> resp_body_json(simplifyVector = TRUE)
 
 # Data Cleaning
-resp_json_df <- janitor::row_to_names(resp_json_df, 1) |> # Move 1st row to Names
-  as.data.frame() |> # Convert Matrix to Data Frame
-  mutate(across(starts_with('B'), as.numeric)) # Convert all variables that start with B to numeric
+#resp_json_df <- janitor::row_to_names(resp_json_df, 1) |> # Move 1st row to Names
+  #as.data.frame() |> # Convert Matrix to Data Frame
+  #mutate(across(starts_with('B'), as.numeric)) # Convert all variables that start with B to numeric
 
-head(resp_json_df)
+#head(resp_json_df)
 ```
 
 
@@ -236,9 +236,9 @@ When we use `req_perform()`, we see from `Content-Type` that the format of the r
 
 ```{r bgg_response}
 #resp <- req_perform(req)
-resp
+#resp
 #resp <- resp_body_xml(resp)
-resp
+#resp
 ```
 
 The XML output is not packaged in a nice way. (We'd love to have a data frame.) We can use the `xml2` package to explore and navigate the XML structure to extract the information we need.

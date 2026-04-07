@@ -77,6 +77,8 @@ book:
       - tt/hw02-tt.qmd
       - tt/hw03-tt.qmd
       - tt/hw04-tt.qmd
+      - tt/hw06-tt.qmd
+      - tt/hw07-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
@@ -102,6 +104,7 @@ book:
       - ica/11-iteration-1-notes.qmd
       - ica/12-iteration-2-notes.qmd
       - ica/14-apis-2-notes.qmd
+      - ica/15-scraping-notes.qmd
 
     - part: "Extras"
       chapters:
