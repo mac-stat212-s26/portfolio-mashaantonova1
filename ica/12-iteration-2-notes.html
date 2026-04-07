@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>12 Loops+Iter II – COMP/STAT212 Portfolio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../ica/14-apis-2-notes.html" rel="next">
+<link href="../ica/11-iteration-1-notes.html" rel="prev">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b1525fc7443f827935229f0f56e36607.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link rel="stylesheet" href="../style/custom.css">
+</head>
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/12-iteration-2-notes.html"><span class="chapter-title">12 Loops+Iter II</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Masha Antonova</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Prof Viz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pv/pv-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Professional Viz</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">TidyTuesday</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-08.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-15.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw01-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 01</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw02-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 02</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw03-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 03</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw04-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 04</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw07-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 07</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pre-Class Learnings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pcl/pcl.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Pre-Class Learning Summaries</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exams</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exams/exam1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exams/exam2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">In-Class Activities</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cleaning SFO Weather Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Adv Data Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/04_adv_maps/code/04-adv-maps-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4 Adv Spatial Viz P1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/06-wrangling-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6 Adv Data wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/07-wrangling-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7 Adv Data wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/08-missing-data-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8 Missing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/09-functions-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9 Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/10-base-r-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10 Base R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/11-iteration-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11 Loops+Iter I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/12-iteration-2-notes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">12 Loops+Iter II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/14-apis-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14 APIs II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/15-scraping-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15 Web scraping</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">🧩 Learning Goals</a></li>
+  <li><a href="#iteration-review" id="toc-iteration-review" class="nav-link" data-scroll-target="#iteration-review">Iteration review</a></li>
+  <li>
+<a href="#iteration-with-purrr" id="toc-iteration-with-purrr" class="nav-link" data-scroll-target="#iteration-with-purrr">Iteration with <code>purrr</code></a>
+  <ul class="collapse">
+<li><a href="#computational-time-and-memory-allocation" id="toc-computational-time-and-memory-allocation" class="nav-link" data-scroll-target="#computational-time-and-memory-allocation">Computational Time and Memory Allocation</a></li>
+  </ul>
+</li>
+  <li><a href="#iteration-with-map" id="toc-iteration-with-map" class="nav-link" data-scroll-target="#iteration-with-map">Iteration with <code>map</code></a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#iteration-with-map2-or-pmap" id="toc-iteration-with-map2-or-pmap" class="nav-link" data-scroll-target="#iteration-with-map2-or-pmap">Iteration with <code>map2</code> or <code>pmap</code></a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercises</a></li>
+  <li><a href="#iteration-with-walk" id="toc-iteration-with-walk" class="nav-link" data-scroll-target="#iteration-with-walk">Iteration with <code>walk</code></a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/12-iteration-2-notes.html"><span class="chapter-title">12 Loops+Iter II</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">12 Loops+Iter II</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="learning-goals" class="level2"><h2 class="anchored" data-anchor-id="learning-goals">🧩 Learning Goals</h2>
+<p>By the end of this lesson, you should be able to:</p>
+<ul>
+<li>Use the <code>map()</code> family of functions in the <code>purrr</code> package to handle repeated tasks that create output, instead of <code>for</code> loops</li>
+<li>Use the <code>walk()</code> family of functions in the <code>purrr</code> package to handle repeated tasks that need side-effects, instead of <code>for</code> loops</li>
+</ul></section><section id="iteration-review" class="level2"><h2 class="anchored" data-anchor-id="iteration-review">Iteration review</h2>
+<p>Let’s write a <code>for</code> loop that stores the <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> (type) of every column in the <code>mtcars</code> data frame.</p>
+<p>Yes, <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> does this plus more for you. Let’s consider replicating this task through low-level iteration.</p>
+<p>Recall that:</p>
+<ul>
+<li><p><code>vector("numeric/logical/character/list", length)</code> creates a storage container.</p></li>
+<li><p><code>mtcars[[1]]</code> accesses the first element/column of the data frame.</p></li>
+<li><p>First, write out the steps in words.</p></li>
+<li><p>Then translate each step to code.</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>col_classes <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="fu">ncol</span>(mtcars))</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Data frames are **lists** of columns, so this loop iterates over the columns</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(mtcars)) {</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    col_classes[i] <span class="ot">&lt;-</span> <span class="fu">class</span>(mtcars[[i]])</span>
+<span id="cb1-6"><a href="#cb1-6"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="iteration-with-purrr" class="level2"><h2 class="anchored" data-anchor-id="iteration-with-purrr">Iteration with <code>purrr</code>
+</h2>
+<p><code>purrr</code> is a <code>tidyverse</code> package that provides several useful functions for iteration.</p>
+<p>Open up the <a href="https://rstudio.github.io/cheatsheets/purrr.pdf"><code>purrr</code> cheatsheet</a>.</p>
+<p>The main advantages of <code>purrr</code> include:</p>
+<ul>
+<li>Improved readability of R code</li>
+<li>Reduction in the “overhead” in writing a <code>for</code> loop
+<ul>
+<li>These functions create storage containers</li>
+<li>These functions do the <code>for (i in ...)</code> efficiently</li>
+</ul>
+</li>
+</ul>
+<section id="computational-time-and-memory-allocation" class="level3"><h3 class="anchored" data-anchor-id="computational-time-and-memory-allocation">Computational Time and Memory Allocation</h3>
+<p>Compare the four ways to create a vector of integers from 1 to 100,000.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Example 1: For loop with no storage container; append new value to existing vector</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>x <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a>results1 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, i)</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co"># Example 2: For loop with a storage container!</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>x <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">'integer'</span>, <span class="at">length =</span> <span class="fl">1e5</span>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a>results2 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    x[i] <span class="ot">&lt;-</span> i</span>
+<span id="cb2-14"><a href="#cb2-14"></a>  }</span>
+<span id="cb2-15"><a href="#cb2-15"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co"># Example 3: purrr::map()</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>results3 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>, <span class="sc">~</span>.x))</span>
+<span id="cb2-19"><a href="#cb2-19"></a></span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co"># Example 4: Standard R Function/Operator</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a>results4 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="fl">1e5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># Compile Results</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">bind_rows</span>(results1, results2, results3, results4) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="fu">c</span>(<span class="st">"for_loop_no_storage"</span>, <span class="st">"for_loop_with_storage"</span>, <span class="st">"purrr_map"</span>, <span class="st">"standard_func"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">select</span>(type, mem_alloc, total_time)  <span class="sc">|&gt;</span> <span class="fu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  type                  mem_alloc total_time
+  &lt;chr&gt;                 &lt;bch:byt&gt;   &lt;bch:tm&gt;
+1 for_loop_no_storage     18.63GB      26.7s
+2 for_loop_with_storage  402.04KB    495.1ms
+3 purrr_map                1.08MB    549.9ms
+4 standard_func          150.65KB       31ms</code></pre>
+</div>
+</div>
+</section></section><section id="iteration-with-map" class="level2"><h2 class="anchored" data-anchor-id="iteration-with-map">Iteration with <code>map</code>
+</h2>
+<p>In <code>purrr</code>, we can use the family of <code>map()</code> functions to iteratively apply a function to each element of a list or vector and save its output.</p>
+<ul>
+<li>Reminder: Data frames/tibbles are named lists so the elements are the “columns” so <code>map()</code> can <strong>iterate over columns of a dataset</strong>.</li>
+</ul>
+<p>Let’s look at the <a href="https://rstudio.github.io/cheatsheets/purrr.pdf"><code>purrr</code> cheatsheet</a> to look at graphical representations of how these functions work.</p>
+<ul>
+<li>
+<code>map()</code> returns a list</li>
+<li>
+<code>map_chr()</code> returns a character vector</li>
+<li>
+<code>map_lgl()</code> returns a logical vector</li>
+<li>
+<code>map_int()</code> returns an integer vector</li>
+<li>
+<code>map_dbl()</code> returns a numeric vector</li>
+<li>
+<code>map_vec()</code> returns a vector of a different (non-atomic) type (like dates)</li>
+</ul>
+<p>Let’s return to our original task to replicate <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>.</p>
+<p>To get the <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> of each data frame column, <code>map_chr()</code> is sensible because classes are strings:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">map_chr</span>(mtcars, class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>      mpg       cyl      disp        hp      drat        wt      qsec        vs 
+"numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" 
+       am      gear      carb 
+"numeric" "numeric" "numeric" </code></pre>
+</div>
+</div>
+<p>Let’s get the class of each variable in <code>diamonds</code>:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">map_chr</span>(diamonds, class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-error">
+<pre><code>Error in `map_chr()`:
+ℹ In index: 2.
+ℹ With name: cut.
+Caused by error:
+! Result must be length 1, not 2.</code></pre>
+</div>
+</div>
+<p>What happened!?</p>
+<p><code>map_chr()</code> was expecting to create a character vector with one element per element (column) in <code>diamonds</code>. But something happened in column 2 with the <code>cut</code> variable.</p>
+<p>Let’s figure out what happened:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">class</span>(diamonds<span class="sc">$</span>cut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "ordered" "factor" </code></pre>
+</div>
+</div>
+<p>Ah! <code>cut</code> has 2 classes. In this case, <code>map()</code> (which returns a list) is the best option because some variables have multiple classes:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">map</span>(diamonds, class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>$carat
+[1] "numeric"
+
+$cut
+[1] "ordered" "factor" 
+
+$color
+[1] "ordered" "factor" 
+
+$clarity
+[1] "ordered" "factor" 
+
+$depth
+[1] "numeric"
+
+$table
+[1] "numeric"
+
+$price
+[1] "integer"
+
+$x
+[1] "numeric"
+
+$y
+[1] "numeric"
+
+$z
+[1] "numeric"</code></pre>
+</div>
+</div>
+<p>The error we encountered with <code>map_chr()</code> is a nice feature of <code>purrr</code> because it allows us to be very sure of the type of output we are getting.</p>
+<p><strong>Failing loudly is vastly preferable to getting unexpected outputs silently</strong></p>
+<p>Recall that we explored syntax and functions for selecting variables in a data frame via the tidy-select documentation for <code>across</code>. (<code>?dplyr_tidy_select</code> in the Console.)</p>
+<p>We can also combine <code>map_*()</code> functions with tidy selection for some powerful variable summaries that require much less code than <code>for</code> loops.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Mean of each numeric variable</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">map_dbl</span>(diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)), mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>       carat        depth        table        price            x            y 
+   0.7979397   61.7494049   57.4571839 3932.7997219    5.7311572    5.7345260 
+           z 
+   3.5387338 </code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Number of unique values in each non-numeric variable</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">map_int</span>(diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">!</span><span class="fu">where</span>(is.numeric)), n_distinct)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>    cut   color clarity 
+      5       7       8 </code></pre>
+</div>
+</div>
+</section><section id="exercises" class="level2"><h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<ol type="1">
+<li>We want to compute several summary statistics on each quantitative variable in a data frame and organize the results in a new data frame (rows = variables, columns = summary statistics).</li>
+</ol>
+<ul>
+<li>Write a function called <code>summ_stats()</code> that takes a numeric vector <code>x</code> as input and returns the mean, median, standard deviation, and IQR as a data frame. You can use <code>tibble()</code> to create the data frame.
+<ul>
+<li>Example: <code>tibble(a = 1:2, b = 2:3)</code> creates a data frame with variables <code>a</code> and <code>b</code>.</li>
+</ul>
+</li>
+<li>Use a <code>map*()</code> function from <code>purrr</code> to get the summary statistics for each quantitative variable in <code>diamonds</code>.</li>
+<li>Look up the <code>bind_rows()</code> documentation from <code>dplyr</code> to combine summary statistics for all quantitative variables into one data frame.
+<ul>
+<li>Note: You’ll notice that the variable names are not present in the output. Try to figure out a way to add variable names back in with <code>mutate()</code> and <code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code>.</li>
+</ul>
+</li>
+</ul>
+<p>Once you’ve done that with <code>map()</code>, write a <code>for</code> loop to achieve the same result. Which do you prefer in terms of ease of code writing and readability?</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Function to summarize</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>summ_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb17-4"><a href="#cb17-4"></a>        <span class="at">mean =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-5"><a href="#cb17-5"></a>        <span class="at">median =</span> <span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-6"><a href="#cb17-6"></a>        <span class="at">sd =</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-7"><a href="#cb17-7"></a>        <span class="at">iqr =</span> <span class="fu">IQR</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>    )</span>
+<span id="cb17-9"><a href="#cb17-9"></a>}</span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="co"># Data Subset: Only Quantitative Variables</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a>diamonds_num <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb17-12"><a href="#cb17-12"></a></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="fu">map</span>(diamonds_num, summ_stats) <span class="sc">|&gt;</span> </span>
+<span id="cb17-14"><a href="#cb17-14"></a>  <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb17-15"><a href="#cb17-15"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">colnames</span>(diamonds_num))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+      mean  median       sd     iqr variable
+     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   
+1    0.798    0.7     0.474    0.64 carat   
+2   61.7     61.8     1.43     1.5  depth   
+3   57.5     57       2.23     3    table   
+4 3933.    2401    3989.    4374.   price   
+5    5.73     5.7     1.12     1.83 x       
+6    5.73     5.71    1.14     1.82 y       
+7    3.54     3.53    0.706    1.13 z       </code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), </span>
+<span id="cb19-3"><a href="#cb19-3"></a>                   <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="co"># list of functions</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>                        <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-5"><a href="#cb19-5"></a>                        <span class="at">sd =</span> <span class="sc">~</span> <span class="fu">sd</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-6"><a href="#cb19-6"></a>                        <span class="at">iqr =</span> <span class="sc">~</span> <span class="fu">IQR</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-7"><a href="#cb19-7"></a>    ))) <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">'var'</span>,<span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>  <span class="fu">separate_wider_delim</span>(var,<span class="at">delim =</span> <span class="st">'_'</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'variable'</span>,<span class="st">'summary'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">'summary'</span>,<span class="at">values_from =</span> <span class="st">'value'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  variable     mean  median       sd     iqr
+  &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+1 carat       0.798    0.7     0.474    0.64
+2 depth      61.7     61.8     1.43     1.5 
+3 table      57.5     57       2.23     3   
+4 price    3933.    2401    3989.    4374.  
+5 x           5.73     5.7     1.12     1.83
+6 y           5.73     5.71    1.14     1.82
+7 z           3.54     3.53    0.706    1.13</code></pre>
+</div>
+</div>
+</section><section id="iteration-with-map2-or-pmap" class="level2"><h2 class="anchored" data-anchor-id="iteration-with-map2-or-pmap">Iteration with <code>map2</code> or <code>pmap</code>
+</h2>
+<p>If you need to iterate over the <strong>rows of a data frame</strong>, we’ll need other versions of <code>map</code>().</p>
+<p><code>purrr</code> also offers <code>map2()</code> and the <code>pmap()</code> family of functions that take multiple inputs and loops over them simultaneously.</p>
+<p>Let’s look at the <a href="https://rstudio.github.io/cheatsheets/purrr.pdf"><code>purrr</code> cheatsheet</a> to look at graphical representations of how these functions work.</p>
+<p>Let’s look at this code to randomly simulate data from Normal distributions.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>args <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>), <span class="co"># this is n</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="at">mean =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),            <span class="co"># this is mean</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>  <span class="at">sd =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>)            <span class="co"># this is sd</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>)</span>
+<span id="cb21-6"><a href="#cb21-6"></a></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="co"># save randomly generated data in tibble with simulation parameters</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>sim_data <span class="ot">&lt;-</span> args <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="fu">mutate</span>(<span class="at">rand_data =</span> <span class="fu">pmap</span>(args, rnorm))</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a>sim_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+      n  mean    sd rand_data  
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;     
+1   100     0     4 &lt;dbl [100]&gt;
+2   100     1     3 &lt;dbl [100]&gt;
+3   100     2     2 &lt;dbl [100]&gt;
+4   100     3     1 &lt;dbl [100]&gt;</code></pre>
+</div>
+</div>
+<p>Note how the column names in <code>args</code> exactly match the argument names in <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>.</p>
+<p>The iteration that is happening is across rows, and the multiple arguments in <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code> are being matched by name.</p>
+<p>To access the information in that <code>rand_data</code> list, we need to <code>unnest()</code> this list! It converts/unfolds the information into a numeric vector (repeating the information in <code>mean</code>, <code>sd</code>, <code>n</code>)</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>unnested_sim <span class="ot">&lt;-</span> sim_data <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">unnest</span>(rand_data) <span class="co"># convert the rand_data list to numeric vector</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>  </span>
+<span id="cb23-4"><a href="#cb23-4"></a>  </span>
+<span id="cb23-5"><a href="#cb23-5"></a>unnested_sim <span class="sc">|&gt;</span> </span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rand_data, <span class="at">group =</span> mean, <span class="at">fill =</span> <span class="fu">factor</span>(mean))) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="12-iteration-2-notes_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can also use <code>pmap()</code> to specify variations in some arguments but leave some arguments constant across the iterations:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb24-2"><a href="#cb24-2"></a>    <span class="at">pattern =</span> <span class="fu">c</span>(<span class="st">"p"</span>, <span class="st">"n"</span>, <span class="st">"h"</span>),</span>
+<span id="cb24-3"><a href="#cb24-3"></a>    <span class="at">replacement =</span> <span class="fu">c</span>(<span class="st">"P"</span>, <span class="st">"N"</span>, <span class="st">"H"</span>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5"></a></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="fu">pmap_chr</span>(string_data, str_replace_all, <span class="at">string =</span> <span class="st">"ppp nnn hhh"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "PPP nnn hhh" "ppp NNN hhh" "ppp nnn HHH"</code></pre>
+</div>
+</div>
+</section><section id="exercises-1" class="level2"><h2 class="anchored" data-anchor-id="exercises-1">Exercises</h2>
+<ol type="1">
+<li>Create 2 small examples that show how <code>pmap()</code> works with <code>str_sub()</code>. Your examples should:</li>
+</ol>
+<ul>
+<li>Use different arguments for <code>string</code>, <code>start</code>, and <code>end</code>
+</li>
+<li>Use different arguments for <code>start</code> and <code>end</code> but a fixed <code>string</code>
+</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb26-2"><a href="#cb26-2"></a>    <span class="at">string =</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>),</span>
+<span id="cb26-3"><a href="#cb26-3"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb26-4"><a href="#cb26-4"></a>    <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb26-5"><a href="#cb26-5"></a>)</span>
+<span id="cb26-6"><a href="#cb26-6"></a></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="fu">pmap_chr</span>(string_data, str_sub)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "ap" "an" "rr"</code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb28-2"><a href="#cb28-2"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb28-3"><a href="#cb28-3"></a>    <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb28-4"><a href="#cb28-4"></a>)</span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="fu">pmap_chr</span>(string_data, str_sub, <span class="at">string =</span> <span class="st">"abcde"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] "ab" "bc" "de"</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Last class we worked on an extended exercise where our goal was to write a series of functions and a <code>for</code> loop to repeat linear model fitting under different “settings” (removal of outliers, model formula choice).</li>
+</ol>
+<p>Repeat this exercise using <code>pmap()</code>.</p>
+<ul>
+<li>You’ll need to use the <code>df_arg_combos</code> object, your <code>remove_outliers()</code> function, and your <code>fit_model()</code> function.</li>
+<li>Review the solutions below for the necessary parts and make sure you understand each part.</li>
+<li>Then, try to put it all together using <code>pmap()</code>.</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>xs <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(carat, cut, clarity, color) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a></span>
+<span id="cb30-4"><a href="#cb30-4"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb30-5"><a href="#cb30-5"></a>    <span class="at">mod_formula =</span> <span class="fu">str_c</span>(<span class="st">"price ~ "</span>, <span class="fu">map_chr</span>(<span class="fu">seq_along</span>(xs), <span class="sc">~</span> <span class="fu">str_c</span>(xs[<span class="dv">1</span><span class="sc">:</span>.x], <span class="at">collapse =</span> <span class="st">" + "</span>)) ),</span>
+<span id="cb30-6"><a href="#cb30-6"></a>    <span class="at">remove_outliers =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a href="#cb30-7"></a>)</span>
+<span id="cb30-8"><a href="#cb30-8"></a>df_arg_combos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 2
+  mod_formula                           remove_outliers
+  &lt;chr&gt;                                 &lt;lgl&gt;          
+1 price ~ carat                         FALSE          
+2 price ~ carat                         TRUE           
+3 price ~ carat + cut                   FALSE          
+4 price ~ carat + cut                   TRUE           
+5 price ~ carat + cut + clarity         FALSE          
+6 price ~ carat + cut + clarity         TRUE           
+7 price ~ carat + cut + clarity + color FALSE          
+8 price ~ carat + cut + clarity + color TRUE           </code></pre>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>remove_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(data, what_var, sd_thresh) {</span>
+<span id="cb32-2"><a href="#cb32-2"></a>    data <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="#cb32-3"></a>        <span class="fu">mutate</span>(<span class="at">zscore =</span> ({{ what_var }} <span class="sc">-</span> <span class="fu">mean</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span><span class="fu">sd</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>        <span class="fu">filter</span>(zscore <span class="sc">&lt;=</span> sd_thresh)</span>
+<span id="cb32-5"><a href="#cb32-5"></a>}</span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mod_formula, remove_outliers) {</span>
+<span id="cb32-8"><a href="#cb32-8"></a>    <span class="cf">if</span> (remove_outliers) {</span>
+<span id="cb32-9"><a href="#cb32-9"></a>        data_clean <span class="ot">&lt;-</span> <span class="fu">remove_outliers</span>(data, <span class="at">what_var =</span> carat, <span class="at">sd_thresh =</span> <span class="dv">3</span>)</span>
+<span id="cb32-10"><a href="#cb32-10"></a>    } <span class="cf">else</span> {</span>
+<span id="cb32-11"><a href="#cb32-11"></a>        data_clean <span class="ot">&lt;-</span> data</span>
+<span id="cb32-12"><a href="#cb32-12"></a>    }</span>
+<span id="cb32-13"><a href="#cb32-13"></a>    </span>
+<span id="cb32-14"><a href="#cb32-14"></a>    <span class="fu">lm</span>(mod_formula, <span class="at">data =</span> data_clean)</span>
+<span id="cb32-15"><a href="#cb32-15"></a>}</span>
+<span id="cb32-16"><a href="#cb32-16"></a></span>
+<span id="cb32-17"><a href="#cb32-17"></a><span class="co"># use pmap()</span></span>
+<span id="cb32-18"><a href="#cb32-18"></a></span>
+<span id="cb32-19"><a href="#cb32-19"></a>df_arg_combos <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">fit_mod =</span> <span class="fu">pmap</span>(df_arg_combos, fit_model, <span class="at">data =</span> diamonds))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+  mod_formula                           remove_outliers fit_mod
+  &lt;chr&gt;                                 &lt;lgl&gt;           &lt;list&gt; 
+1 price ~ carat                         FALSE           &lt;lm&gt;   
+2 price ~ carat                         TRUE            &lt;lm&gt;   
+3 price ~ carat + cut                   FALSE           &lt;lm&gt;   
+4 price ~ carat + cut                   TRUE            &lt;lm&gt;   
+5 price ~ carat + cut + clarity         FALSE           &lt;lm&gt;   
+6 price ~ carat + cut + clarity         TRUE            &lt;lm&gt;   
+7 price ~ carat + cut + clarity + color FALSE           &lt;lm&gt;   
+8 price ~ carat + cut + clarity + color TRUE            &lt;lm&gt;   </code></pre>
+</div>
+</div>
+</section><section id="iteration-with-walk" class="level2"><h2 class="anchored" data-anchor-id="iteration-with-walk">Iteration with <code>walk</code>
+</h2>
+<p>If we don’t care about saving an output for each iteration, we can use the family of <code>walk()</code> functions (<code>walk</code>, <code>walk2</code>, and <code>pwalk</code>) to apply a function to each element of a list or vector with no output.</p>
+<p>Let’s say, we wanted to visualize the relationship between <code>carat</code> and <code>price</code> by clarity.</p>
+<p>If we wanted a fully stratified (fully separated) analysis, we could create one visualization per clarity category and save it separately.</p>
+<p>First, let’s create separate datasets that are still contained in one tibble.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># Let's create separate datasets within one tibble</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>by_clarity <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">group_nest</span>(clarity)</span>
+<span id="cb34-4"><a href="#cb34-4"></a></span>
+<span id="cb34-5"><a href="#cb34-5"></a>by_clarity</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 2
+  clarity               data
+  &lt;ord&gt;   &lt;list&lt;tibble[,9]&gt;&gt;
+1 I1               [741 × 9]
+2 SI2            [9,194 × 9]
+3 SI1           [13,065 × 9]
+4 VS2           [12,258 × 9]
+5 VS1            [8,171 × 9]
+6 VVS2           [5,066 × 9]
+7 VVS1           [3,655 × 9]
+8 IF             [1,790 × 9]</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Create a variable with a image path</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>by_clarity <span class="ot">&lt;-</span> by_clarity <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"diamonds-{clarity}.png"</span>))</span>
+<span id="cb36-4"><a href="#cb36-4"></a></span>
+<span id="cb36-5"><a href="#cb36-5"></a>by_clarity</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+  clarity               data path             
+  &lt;ord&gt;   &lt;list&lt;tibble[,9]&gt;&gt; &lt;glue&gt;           
+1 I1               [741 × 9] diamonds-I1.png  
+2 SI2            [9,194 × 9] diamonds-SI2.png 
+3 SI1           [13,065 × 9] diamonds-SI1.png 
+4 VS2           [12,258 × 9] diamonds-VS2.png 
+5 VS1            [8,171 × 9] diamonds-VS1.png 
+6 VVS2           [5,066 × 9] diamonds-VVS2.png
+7 VVS1           [3,655 × 9] diamonds-VVS1.png
+8 IF             [1,790 × 9] diamonds-IF.png  </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># plot for making a scatterplot</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a>carat_scatter <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span> <span class="fu">geom_point</span>()  </span>
+<span id="cb38-4"><a href="#cb38-4"></a>}</span>
+<span id="cb38-5"><a href="#cb38-5"></a></span>
+<span id="cb38-6"><a href="#cb38-6"></a><span class="co"># Create a "variable" with each plots</span></span>
+<span id="cb38-7"><a href="#cb38-7"></a>by_clarity <span class="ot">&lt;-</span> by_clarity <span class="sc">|&gt;</span> </span>
+<span id="cb38-8"><a href="#cb38-8"></a>  <span class="fu">mutate</span>(<span class="at">plot =</span> <span class="fu">map</span>(data, carat_scatter)) <span class="co"># iterate over data to create ggplot output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Iterate over paths and plots to save the export images</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="fu">walk2</span>( </span>
+<span id="cb39-3"><a href="#cb39-3"></a>  by_clarity<span class="sc">$</span>path,</span>
+<span id="cb39-4"><a href="#cb39-4"></a>  by_clarity<span class="sc">$</span>plot,</span>
+<span id="cb39-5"><a href="#cb39-5"></a>  <span class="cf">function</span>(path, plot){ <span class="fu">ggsave</span>(path, plot, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)}</span>
+<span id="cb39-6"><a href="#cb39-6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="additional-resources" class="level2"><h2 class="anchored" data-anchor-id="additional-resources">Additional Resources</h2>
+<p>If you are interested in having a deeper understanding of the <code>purrr</code> package, I recommend you check out:</p>
+<ul>
+<li><p><a href="https://adv-r.hadley.nz/functionals.html">Functionals Chapter in Advanced R</a> by Hadley Wickham ## Done!</p></li>
+<li><p>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</p></li>
+</ul>
+
+
+<!-- -->
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation column-body"><div class="nav-page nav-page-previous">
+      <a href="../ica/11-iteration-1-notes.html" class="pagination-link" aria-label="11 Loops+Iter I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">11 Loops+Iter I</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../ica/14-apis-2-notes.html" class="pagination-link" aria-label="14 APIs II">
+        <span class="nav-page-text"><span class="chapter-title">14 APIs II</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">---</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="an">title:</span><span class="co"> "12 Loops+Iter II"</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="co">---</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="fu">## 🧩 Learning Goals</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a>By the end of this lesson, you should be able to:</span>
+<span id="cb40-8"><a href="#cb40-8"></a></span>
+<span id="cb40-9"><a href="#cb40-9"></a><span class="ss">- </span>Use the <span class="in">`map()`</span> family of functions in the <span class="in">`purrr`</span> package to handle repeated tasks that create output, instead of <span class="in">`for`</span> loops </span>
+<span id="cb40-10"><a href="#cb40-10"></a><span class="ss">- </span>Use the <span class="in">`walk()`</span> family of functions in the <span class="in">`purrr`</span> package to handle repeated tasks that need side-effects, instead of <span class="in">`for`</span> loops </span>
+<span id="cb40-11"><a href="#cb40-11"></a></span>
+<span id="cb40-12"><a href="#cb40-12"></a></span>
+<span id="cb40-13"><a href="#cb40-13"></a></span>
+<span id="cb40-14"><a href="#cb40-14"></a><span class="fu">## Iteration review </span></span>
+<span id="cb40-15"><a href="#cb40-15"></a></span>
+<span id="cb40-16"><a href="#cb40-16"></a>Let's write a <span class="in">`for`</span> loop that stores the <span class="in">`class()`</span> (type) of every column in the <span class="in">`mtcars`</span> data frame. </span>
+<span id="cb40-17"><a href="#cb40-17"></a></span>
+<span id="cb40-18"><a href="#cb40-18"></a></span>
+<span id="cb40-19"><a href="#cb40-19"></a></span>
+<span id="cb40-20"><a href="#cb40-20"></a>Yes, <span class="in">`str()`</span> does this plus more for you. Let's consider replicating this task through low-level iteration.</span>
+<span id="cb40-21"><a href="#cb40-21"></a></span>
+<span id="cb40-22"><a href="#cb40-22"></a></span>
+<span id="cb40-23"><a href="#cb40-23"></a>Recall that:</span>
+<span id="cb40-24"><a href="#cb40-24"></a></span>
+<span id="cb40-25"><a href="#cb40-25"></a><span class="ss">- </span><span class="in">`vector("numeric/logical/character/list", length)`</span> creates a storage container.</span>
+<span id="cb40-26"><a href="#cb40-26"></a><span class="ss">- </span><span class="in">`mtcars[[1]]`</span> accesses the first element/column of the data frame.</span>
+<span id="cb40-27"><a href="#cb40-27"></a></span>
+<span id="cb40-28"><a href="#cb40-28"></a></span>
+<span id="cb40-29"><a href="#cb40-29"></a><span class="ss">- </span>First, write out the steps in words.</span>
+<span id="cb40-30"><a href="#cb40-30"></a><span class="ss">- </span>Then translate each step to code.</span>
+<span id="cb40-31"><a href="#cb40-31"></a></span>
+<span id="cb40-34"><a href="#cb40-34"></a><span class="in">```{r}</span></span>
+<span id="cb40-35"><a href="#cb40-35"></a>col_classes <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"character"</span>, <span class="fu">ncol</span>(mtcars))</span>
+<span id="cb40-36"><a href="#cb40-36"></a></span>
+<span id="cb40-37"><a href="#cb40-37"></a><span class="co"># Data frames are **lists** of columns, so this loop iterates over the columns</span></span>
+<span id="cb40-38"><a href="#cb40-38"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(mtcars)) {</span>
+<span id="cb40-39"><a href="#cb40-39"></a>    col_classes[i] <span class="ot">&lt;-</span> <span class="fu">class</span>(mtcars[[i]])</span>
+<span id="cb40-40"><a href="#cb40-40"></a>}</span>
+<span id="cb40-41"><a href="#cb40-41"></a><span class="in">```</span></span>
+<span id="cb40-42"><a href="#cb40-42"></a></span>
+<span id="cb40-43"><a href="#cb40-43"></a><span class="fu">## Iteration with `purrr` </span></span>
+<span id="cb40-44"><a href="#cb40-44"></a></span>
+<span id="cb40-45"><a href="#cb40-45"></a><span class="in">`purrr`</span> is a <span class="in">`tidyverse`</span> package that provides several useful functions for iteration. </span>
+<span id="cb40-46"><a href="#cb40-46"></a></span>
+<span id="cb40-47"><a href="#cb40-47"></a></span>
+<span id="cb40-48"><a href="#cb40-48"></a></span>
+<span id="cb40-49"><a href="#cb40-49"></a>Open up the <span class="co">[</span><span class="ot">`purrr` cheatsheet</span><span class="co">](https://rstudio.github.io/cheatsheets/purrr.pdf)</span>.</span>
+<span id="cb40-50"><a href="#cb40-50"></a></span>
+<span id="cb40-51"><a href="#cb40-51"></a></span>
+<span id="cb40-52"><a href="#cb40-52"></a>The main advantages of <span class="in">`purrr`</span> include:</span>
+<span id="cb40-53"><a href="#cb40-53"></a></span>
+<span id="cb40-54"><a href="#cb40-54"></a><span class="ss">- </span>Improved readability of R code</span>
+<span id="cb40-55"><a href="#cb40-55"></a><span class="ss">- </span>Reduction in the "overhead" in writing a <span class="in">`for`</span> loop </span>
+<span id="cb40-56"><a href="#cb40-56"></a><span class="ss">    - </span>These functions create storage containers </span>
+<span id="cb40-57"><a href="#cb40-57"></a><span class="ss">    - </span>These functions do the <span class="in">`for (i in ...)`</span> efficiently</span>
+<span id="cb40-58"><a href="#cb40-58"></a></span>
+<span id="cb40-59"><a href="#cb40-59"></a></span>
+<span id="cb40-60"><a href="#cb40-60"></a><span class="fu">### Computational Time and Memory Allocation</span></span>
+<span id="cb40-61"><a href="#cb40-61"></a></span>
+<span id="cb40-62"><a href="#cb40-62"></a>Compare the four ways to create a vector of integers from 1 to 100,000.</span>
+<span id="cb40-63"><a href="#cb40-63"></a></span>
+<span id="cb40-64"><a href="#cb40-64"></a></span>
+<span id="cb40-67"><a href="#cb40-67"></a><span class="in">```{r}</span></span>
+<span id="cb40-68"><a href="#cb40-68"></a><span class="co"># Example 1: For loop with no storage container; append new value to existing vector</span></span>
+<span id="cb40-69"><a href="#cb40-69"></a>x <span class="ot">&lt;-</span> <span class="fu">integer</span>()</span>
+<span id="cb40-70"><a href="#cb40-70"></a>results1 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb40-71"><a href="#cb40-71"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb40-72"><a href="#cb40-72"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, i)</span>
+<span id="cb40-73"><a href="#cb40-73"></a>  }</span>
+<span id="cb40-74"><a href="#cb40-74"></a>)</span>
+<span id="cb40-75"><a href="#cb40-75"></a></span>
+<span id="cb40-76"><a href="#cb40-76"></a><span class="co"># Example 2: For loop with a storage container!</span></span>
+<span id="cb40-77"><a href="#cb40-77"></a>x <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">'integer'</span>, <span class="at">length =</span> <span class="fl">1e5</span>)</span>
+<span id="cb40-78"><a href="#cb40-78"></a>results2 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb40-79"><a href="#cb40-79"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>) {</span>
+<span id="cb40-80"><a href="#cb40-80"></a>    x[i] <span class="ot">&lt;-</span> i</span>
+<span id="cb40-81"><a href="#cb40-81"></a>  }</span>
+<span id="cb40-82"><a href="#cb40-82"></a>)</span>
+<span id="cb40-83"><a href="#cb40-83"></a></span>
+<span id="cb40-84"><a href="#cb40-84"></a><span class="co"># Example 3: purrr::map()</span></span>
+<span id="cb40-85"><a href="#cb40-85"></a>results3 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(purrr<span class="sc">::</span><span class="fu">map_int</span>(<span class="dv">1</span><span class="sc">:</span><span class="fl">1e5</span>, <span class="sc">~</span>.x))</span>
+<span id="cb40-86"><a href="#cb40-86"></a></span>
+<span id="cb40-87"><a href="#cb40-87"></a></span>
+<span id="cb40-88"><a href="#cb40-88"></a><span class="co"># Example 4: Standard R Function/Operator</span></span>
+<span id="cb40-89"><a href="#cb40-89"></a>results4 <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="fl">1e5</span>))</span>
+<span id="cb40-90"><a href="#cb40-90"></a><span class="in">```</span></span>
+<span id="cb40-91"><a href="#cb40-91"></a></span>
+<span id="cb40-94"><a href="#cb40-94"></a><span class="in">```{r}</span></span>
+<span id="cb40-95"><a href="#cb40-95"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb40-96"><a href="#cb40-96"></a><span class="co"># Compile Results</span></span>
+<span id="cb40-97"><a href="#cb40-97"></a><span class="fu">bind_rows</span>(results1, results2, results3, results4) <span class="sc">|&gt;</span></span>
+<span id="cb40-98"><a href="#cb40-98"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="fu">c</span>(<span class="st">"for_loop_no_storage"</span>, <span class="st">"for_loop_with_storage"</span>, <span class="st">"purrr_map"</span>, <span class="st">"standard_func"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb40-99"><a href="#cb40-99"></a>  <span class="fu">select</span>(type, mem_alloc, total_time)  <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb40-100"><a href="#cb40-100"></a></span>
+<span id="cb40-101"><a href="#cb40-101"></a><span class="in">```</span></span>
+<span id="cb40-102"><a href="#cb40-102"></a></span>
+<span id="cb40-103"><a href="#cb40-103"></a><span class="fu">## Iteration with `map` </span></span>
+<span id="cb40-104"><a href="#cb40-104"></a></span>
+<span id="cb40-105"><a href="#cb40-105"></a>In <span class="in">`purrr`</span>, we can use the family of <span class="in">`map()`</span> functions to iteratively apply a function to each element of a list or vector and save its output. </span>
+<span id="cb40-106"><a href="#cb40-106"></a></span>
+<span id="cb40-107"><a href="#cb40-107"></a></span>
+<span id="cb40-108"><a href="#cb40-108"></a><span class="ss">- </span>Reminder: Data frames/tibbles are named lists so the elements are the "columns" so <span class="in">`map()`</span> can **iterate over columns of a dataset**.</span>
+<span id="cb40-109"><a href="#cb40-109"></a></span>
+<span id="cb40-110"><a href="#cb40-110"></a></span>
+<span id="cb40-111"><a href="#cb40-111"></a>Let's look at the <span class="co">[</span><span class="ot">`purrr` cheatsheet</span><span class="co">](https://rstudio.github.io/cheatsheets/purrr.pdf)</span> to look at graphical representations of how these functions work.</span>
+<span id="cb40-112"><a href="#cb40-112"></a></span>
+<span id="cb40-113"><a href="#cb40-113"></a><span class="ss">- </span><span class="in">`map()`</span> returns a list</span>
+<span id="cb40-114"><a href="#cb40-114"></a><span class="ss">- </span><span class="in">`map_chr()`</span> returns a character vector</span>
+<span id="cb40-115"><a href="#cb40-115"></a><span class="ss">- </span><span class="in">`map_lgl()`</span> returns a logical vector</span>
+<span id="cb40-116"><a href="#cb40-116"></a><span class="ss">- </span><span class="in">`map_int()`</span> returns an integer vector</span>
+<span id="cb40-117"><a href="#cb40-117"></a><span class="ss">- </span><span class="in">`map_dbl()`</span> returns a numeric vector</span>
+<span id="cb40-118"><a href="#cb40-118"></a><span class="ss">- </span><span class="in">`map_vec()`</span> returns a vector of a different (non-atomic) type (like dates)</span>
+<span id="cb40-119"><a href="#cb40-119"></a></span>
+<span id="cb40-120"><a href="#cb40-120"></a></span>
+<span id="cb40-121"><a href="#cb40-121"></a>Let's return to our original task to replicate <span class="in">`str()`</span>.</span>
+<span id="cb40-122"><a href="#cb40-122"></a></span>
+<span id="cb40-123"><a href="#cb40-123"></a>To get the <span class="in">`class()`</span> of each data frame column, <span class="in">`map_chr()`</span> is sensible because classes are strings:</span>
+<span id="cb40-124"><a href="#cb40-124"></a></span>
+<span id="cb40-125"><a href="#cb40-125"></a><span class="in">```{r purrr_col_classes}</span></span>
+<span id="cb40-126"><a href="#cb40-126"></a><span class="fu">map_chr</span>(mtcars, class)</span>
+<span id="cb40-127"><a href="#cb40-127"></a><span class="in">```</span></span>
+<span id="cb40-128"><a href="#cb40-128"></a></span>
+<span id="cb40-129"><a href="#cb40-129"></a></span>
+<span id="cb40-130"><a href="#cb40-130"></a>Let's get the class of each variable in <span class="in">`diamonds`</span>:</span>
+<span id="cb40-131"><a href="#cb40-131"></a></span>
+<span id="cb40-132"><a href="#cb40-132"></a><span class="in">```{r purrr_col_classes_error, error=TRUE}</span></span>
+<span id="cb40-133"><a href="#cb40-133"></a><span class="fu">map_chr</span>(diamonds, class)</span>
+<span id="cb40-134"><a href="#cb40-134"></a><span class="in">```</span></span>
+<span id="cb40-135"><a href="#cb40-135"></a></span>
+<span id="cb40-136"><a href="#cb40-136"></a>What happened!? </span>
+<span id="cb40-137"><a href="#cb40-137"></a></span>
+<span id="cb40-138"><a href="#cb40-138"></a><span class="in">`map_chr()`</span> was expecting to create a character vector with one element per element (column) in <span class="in">`diamonds`</span>. But something happened in column 2 with the <span class="in">`cut`</span> variable. </span>
+<span id="cb40-139"><a href="#cb40-139"></a></span>
+<span id="cb40-140"><a href="#cb40-140"></a></span>
+<span id="cb40-141"><a href="#cb40-141"></a>Let's figure out what happened:</span>
+<span id="cb40-142"><a href="#cb40-142"></a></span>
+<span id="cb40-143"><a href="#cb40-143"></a><span class="in">```{r class_diamonds_cut}</span></span>
+<span id="cb40-144"><a href="#cb40-144"></a><span class="fu">class</span>(diamonds<span class="sc">$</span>cut)</span>
+<span id="cb40-145"><a href="#cb40-145"></a><span class="in">```</span></span>
+<span id="cb40-146"><a href="#cb40-146"></a></span>
+<span id="cb40-147"><a href="#cb40-147"></a>Ah! <span class="in">`cut`</span> has 2 classes. In this case, <span class="in">`map()`</span> (which returns a list) is the best option because some variables have multiple classes:</span>
+<span id="cb40-148"><a href="#cb40-148"></a></span>
+<span id="cb40-149"><a href="#cb40-149"></a><span class="in">```{r purrr_col_classes_no_error}</span></span>
+<span id="cb40-150"><a href="#cb40-150"></a><span class="fu">map</span>(diamonds, class)</span>
+<span id="cb40-151"><a href="#cb40-151"></a><span class="in">```</span></span>
+<span id="cb40-152"><a href="#cb40-152"></a></span>
+<span id="cb40-153"><a href="#cb40-153"></a>The error we encountered with <span class="in">`map_chr()`</span> is a nice feature of <span class="in">`purrr`</span> because it allows us to be very sure of the type of output we are getting.</span>
+<span id="cb40-154"><a href="#cb40-154"></a></span>
+<span id="cb40-155"><a href="#cb40-155"></a></span>
+<span id="cb40-156"><a href="#cb40-156"></a>**Failing loudly is vastly preferable to getting unexpected outputs silently** </span>
+<span id="cb40-157"><a href="#cb40-157"></a></span>
+<span id="cb40-158"><a href="#cb40-158"></a></span>
+<span id="cb40-159"><a href="#cb40-159"></a>Recall that we explored syntax and functions for selecting variables in a data frame via the tidy-select documentation for <span class="in">`across`</span>. (<span class="in">`?dplyr_tidy_select`</span> in the Console.) </span>
+<span id="cb40-160"><a href="#cb40-160"></a></span>
+<span id="cb40-161"><a href="#cb40-161"></a>We can also combine <span class="in">`map_*()`</span> functions with tidy selection for some powerful variable summaries that require much less code than <span class="in">`for`</span> loops.</span>
+<span id="cb40-162"><a href="#cb40-162"></a></span>
+<span id="cb40-163"><a href="#cb40-163"></a><span class="in">```{r purrr_examples_by_col}</span></span>
+<span id="cb40-164"><a href="#cb40-164"></a><span class="co"># Mean of each numeric variable</span></span>
+<span id="cb40-165"><a href="#cb40-165"></a><span class="fu">map_dbl</span>(diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)), mean)</span>
+<span id="cb40-166"><a href="#cb40-166"></a></span>
+<span id="cb40-167"><a href="#cb40-167"></a><span class="co"># Number of unique values in each non-numeric variable</span></span>
+<span id="cb40-168"><a href="#cb40-168"></a><span class="fu">map_int</span>(diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">!</span><span class="fu">where</span>(is.numeric)), n_distinct)</span>
+<span id="cb40-169"><a href="#cb40-169"></a><span class="in">```</span></span>
+<span id="cb40-170"><a href="#cb40-170"></a></span>
+<span id="cb40-171"><a href="#cb40-171"></a></span>
+<span id="cb40-172"><a href="#cb40-172"></a><span class="fu">## Exercises   </span></span>
+<span id="cb40-173"><a href="#cb40-173"></a></span>
+<span id="cb40-174"><a href="#cb40-174"></a><span class="ss">1. </span>We want to compute several summary statistics on each quantitative variable in a data frame and organize the results in a new data frame (rows = variables, columns = summary statistics).</span>
+<span id="cb40-175"><a href="#cb40-175"></a></span>
+<span id="cb40-176"><a href="#cb40-176"></a><span class="ss">- </span>Write a function called <span class="in">`summ_stats()`</span> that takes a numeric vector <span class="in">`x`</span> as input and returns the mean, median, standard deviation, and IQR as a data frame. You can use <span class="in">`tibble()`</span> to create the data frame.</span>
+<span id="cb40-177"><a href="#cb40-177"></a><span class="ss">    - </span>Example: <span class="in">`tibble(a = 1:2, b = 2:3)`</span> creates a data frame with variables <span class="in">`a`</span> and <span class="in">`b`</span>.</span>
+<span id="cb40-178"><a href="#cb40-178"></a><span class="ss">- </span>Use a <span class="in">`map*()`</span> function from <span class="in">`purrr`</span> to get the summary statistics for each quantitative variable in <span class="in">`diamonds`</span>.</span>
+<span id="cb40-179"><a href="#cb40-179"></a><span class="ss">- </span>Look up the <span class="in">`bind_rows()`</span> documentation from <span class="in">`dplyr`</span> to combine summary statistics for all quantitative variables into one data frame.</span>
+<span id="cb40-180"><a href="#cb40-180"></a><span class="ss">    - </span>Note: You'll notice that the variable names are not present in the output. Try to figure out a way to add variable names back in with <span class="in">`mutate()`</span> and <span class="in">`colnames()`</span>.</span>
+<span id="cb40-181"><a href="#cb40-181"></a>    </span>
+<span id="cb40-182"><a href="#cb40-182"></a>    </span>
+<span id="cb40-183"><a href="#cb40-183"></a>Once you've done that with <span class="in">`map()`</span>, write a <span class="in">`for`</span> loop to achieve the same result. Which do you prefer in terms of ease of code writing and readability?</span>
+<span id="cb40-184"><a href="#cb40-184"></a></span>
+<span id="cb40-185"><a href="#cb40-185"></a></span>
+<span id="cb40-188"><a href="#cb40-188"></a><span class="in">```{r}</span></span>
+<span id="cb40-189"><a href="#cb40-189"></a><span class="co"># Function to summarize</span></span>
+<span id="cb40-190"><a href="#cb40-190"></a>summ_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb40-191"><a href="#cb40-191"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb40-192"><a href="#cb40-192"></a>        <span class="at">mean =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb40-193"><a href="#cb40-193"></a>        <span class="at">median =</span> <span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb40-194"><a href="#cb40-194"></a>        <span class="at">sd =</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb40-195"><a href="#cb40-195"></a>        <span class="at">iqr =</span> <span class="fu">IQR</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-196"><a href="#cb40-196"></a>    )</span>
+<span id="cb40-197"><a href="#cb40-197"></a>}</span>
+<span id="cb40-198"><a href="#cb40-198"></a><span class="co"># Data Subset: Only Quantitative Variables</span></span>
+<span id="cb40-199"><a href="#cb40-199"></a>diamonds_num <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb40-200"><a href="#cb40-200"></a></span>
+<span id="cb40-201"><a href="#cb40-201"></a><span class="fu">map</span>(diamonds_num, summ_stats) <span class="sc">|&gt;</span> </span>
+<span id="cb40-202"><a href="#cb40-202"></a>  <span class="fu">bind_rows</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb40-203"><a href="#cb40-203"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">colnames</span>(diamonds_num))</span>
+<span id="cb40-204"><a href="#cb40-204"></a></span>
+<span id="cb40-205"><a href="#cb40-205"></a></span>
+<span id="cb40-206"><a href="#cb40-206"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb40-207"><a href="#cb40-207"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), </span>
+<span id="cb40-208"><a href="#cb40-208"></a>                   <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="co"># list of functions</span></span>
+<span id="cb40-209"><a href="#cb40-209"></a>                        <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb40-210"><a href="#cb40-210"></a>                        <span class="at">sd =</span> <span class="sc">~</span> <span class="fu">sd</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb40-211"><a href="#cb40-211"></a>                        <span class="at">iqr =</span> <span class="sc">~</span> <span class="fu">IQR</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-212"><a href="#cb40-212"></a>    ))) <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">'var'</span>,<span class="at">values_to =</span> <span class="st">'value'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-213"><a href="#cb40-213"></a>  <span class="fu">separate_wider_delim</span>(var,<span class="at">delim =</span> <span class="st">'_'</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">'variable'</span>,<span class="st">'summary'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb40-214"><a href="#cb40-214"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">'summary'</span>,<span class="at">values_from =</span> <span class="st">'value'</span>)</span>
+<span id="cb40-215"><a href="#cb40-215"></a><span class="in">```</span></span>
+<span id="cb40-216"><a href="#cb40-216"></a></span>
+<span id="cb40-217"><a href="#cb40-217"></a></span>
+<span id="cb40-218"><a href="#cb40-218"></a><span class="fu">## Iteration with `map2` or `pmap` </span></span>
+<span id="cb40-219"><a href="#cb40-219"></a></span>
+<span id="cb40-220"><a href="#cb40-220"></a>If you need to iterate over the **rows of a data frame**, we'll need other versions of <span class="in">`map`</span>(). </span>
+<span id="cb40-221"><a href="#cb40-221"></a></span>
+<span id="cb40-222"><a href="#cb40-222"></a></span>
+<span id="cb40-223"><a href="#cb40-223"></a><span class="in">`purrr`</span> also offers <span class="in">`map2()`</span> and the <span class="in">`pmap()`</span> family of functions that take multiple inputs and loops over them simultaneously. </span>
+<span id="cb40-224"><a href="#cb40-224"></a></span>
+<span id="cb40-225"><a href="#cb40-225"></a>Let's look at the <span class="co">[</span><span class="ot">`purrr` cheatsheet</span><span class="co">](https://rstudio.github.io/cheatsheets/purrr.pdf)</span> to look at graphical representations of how these functions work.</span>
+<span id="cb40-226"><a href="#cb40-226"></a></span>
+<span id="cb40-227"><a href="#cb40-227"></a></span>
+<span id="cb40-228"><a href="#cb40-228"></a>Let's look at this code to randomly simulate data from Normal distributions.</span>
+<span id="cb40-229"><a href="#cb40-229"></a></span>
+<span id="cb40-230"><a href="#cb40-230"></a><span class="in">```{r pmap_ex1}</span></span>
+<span id="cb40-231"><a href="#cb40-231"></a>args <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb40-232"><a href="#cb40-232"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>), <span class="co"># this is n</span></span>
+<span id="cb40-233"><a href="#cb40-233"></a>  <span class="at">mean =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),            <span class="co"># this is mean</span></span>
+<span id="cb40-234"><a href="#cb40-234"></a>  <span class="at">sd =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>)            <span class="co"># this is sd</span></span>
+<span id="cb40-235"><a href="#cb40-235"></a>)</span>
+<span id="cb40-236"><a href="#cb40-236"></a></span>
+<span id="cb40-237"><a href="#cb40-237"></a><span class="co"># save randomly generated data in tibble with simulation parameters</span></span>
+<span id="cb40-238"><a href="#cb40-238"></a>sim_data <span class="ot">&lt;-</span> args <span class="sc">|&gt;</span></span>
+<span id="cb40-239"><a href="#cb40-239"></a>  <span class="fu">mutate</span>(<span class="at">rand_data =</span> <span class="fu">pmap</span>(args, rnorm))</span>
+<span id="cb40-240"><a href="#cb40-240"></a></span>
+<span id="cb40-241"><a href="#cb40-241"></a>sim_data</span>
+<span id="cb40-242"><a href="#cb40-242"></a><span class="in">```</span></span>
+<span id="cb40-243"><a href="#cb40-243"></a></span>
+<span id="cb40-244"><a href="#cb40-244"></a>Note how the column names in <span class="in">`args`</span> exactly match the argument names in <span class="in">`rnorm()`</span>. </span>
+<span id="cb40-245"><a href="#cb40-245"></a></span>
+<span id="cb40-246"><a href="#cb40-246"></a>The iteration that is happening is across rows, and the multiple arguments in <span class="in">`rnorm()`</span> are being matched by name.</span>
+<span id="cb40-247"><a href="#cb40-247"></a></span>
+<span id="cb40-248"><a href="#cb40-248"></a></span>
+<span id="cb40-249"><a href="#cb40-249"></a>To access the information in that <span class="in">`rand_data`</span> list, we need to <span class="in">`unnest()`</span> this list! It converts/unfolds the information into a numeric vector (repeating the information in <span class="in">`mean`</span>, <span class="in">`sd`</span>, <span class="in">`n`</span>)</span>
+<span id="cb40-250"><a href="#cb40-250"></a></span>
+<span id="cb40-253"><a href="#cb40-253"></a><span class="in">```{r}</span></span>
+<span id="cb40-254"><a href="#cb40-254"></a>unnested_sim <span class="ot">&lt;-</span> sim_data <span class="sc">|&gt;</span> </span>
+<span id="cb40-255"><a href="#cb40-255"></a>  <span class="fu">unnest</span>(rand_data) <span class="co"># convert the rand_data list to numeric vector</span></span>
+<span id="cb40-256"><a href="#cb40-256"></a>  </span>
+<span id="cb40-257"><a href="#cb40-257"></a>  </span>
+<span id="cb40-258"><a href="#cb40-258"></a>unnested_sim <span class="sc">|&gt;</span> </span>
+<span id="cb40-259"><a href="#cb40-259"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rand_data, <span class="at">group =</span> mean, <span class="at">fill =</span> <span class="fu">factor</span>(mean))) <span class="sc">+</span></span>
+<span id="cb40-260"><a href="#cb40-260"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">5</span>)</span>
+<span id="cb40-261"><a href="#cb40-261"></a><span class="in">```</span></span>
+<span id="cb40-262"><a href="#cb40-262"></a></span>
+<span id="cb40-263"><a href="#cb40-263"></a></span>
+<span id="cb40-264"><a href="#cb40-264"></a>We can also use <span class="in">`pmap()`</span> to specify variations in some arguments but leave some arguments constant across the iterations:</span>
+<span id="cb40-265"><a href="#cb40-265"></a></span>
+<span id="cb40-266"><a href="#cb40-266"></a><span class="in">```{r pmap_ex2}</span></span>
+<span id="cb40-267"><a href="#cb40-267"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb40-268"><a href="#cb40-268"></a>    <span class="at">pattern =</span> <span class="fu">c</span>(<span class="st">"p"</span>, <span class="st">"n"</span>, <span class="st">"h"</span>),</span>
+<span id="cb40-269"><a href="#cb40-269"></a>    <span class="at">replacement =</span> <span class="fu">c</span>(<span class="st">"P"</span>, <span class="st">"N"</span>, <span class="st">"H"</span>)</span>
+<span id="cb40-270"><a href="#cb40-270"></a>)</span>
+<span id="cb40-271"><a href="#cb40-271"></a></span>
+<span id="cb40-272"><a href="#cb40-272"></a><span class="fu">pmap_chr</span>(string_data, str_replace_all, <span class="at">string =</span> <span class="st">"ppp nnn hhh"</span>)</span>
+<span id="cb40-273"><a href="#cb40-273"></a><span class="in">```</span></span>
+<span id="cb40-274"><a href="#cb40-274"></a></span>
+<span id="cb40-275"><a href="#cb40-275"></a></span>
+<span id="cb40-276"><a href="#cb40-276"></a><span class="fu">## Exercises </span></span>
+<span id="cb40-277"><a href="#cb40-277"></a></span>
+<span id="cb40-278"><a href="#cb40-278"></a><span class="ss">1. </span>Create 2 small examples that show how <span class="in">`pmap()`</span> works with <span class="in">`str_sub()`</span>. Your examples should:</span>
+<span id="cb40-279"><a href="#cb40-279"></a></span>
+<span id="cb40-280"><a href="#cb40-280"></a><span class="ss">- </span>Use different arguments for <span class="in">`string`</span>, <span class="in">`start`</span>, and <span class="in">`end`</span></span>
+<span id="cb40-281"><a href="#cb40-281"></a><span class="ss">- </span>Use different arguments for <span class="in">`start`</span> and <span class="in">`end`</span> but a fixed <span class="in">`string`</span></span>
+<span id="cb40-282"><a href="#cb40-282"></a></span>
+<span id="cb40-285"><a href="#cb40-285"></a><span class="in">```{r}</span></span>
+<span id="cb40-286"><a href="#cb40-286"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb40-287"><a href="#cb40-287"></a>    <span class="at">string =</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>),</span>
+<span id="cb40-288"><a href="#cb40-288"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb40-289"><a href="#cb40-289"></a>    <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb40-290"><a href="#cb40-290"></a>)</span>
+<span id="cb40-291"><a href="#cb40-291"></a></span>
+<span id="cb40-292"><a href="#cb40-292"></a><span class="fu">pmap_chr</span>(string_data, str_sub)</span>
+<span id="cb40-293"><a href="#cb40-293"></a></span>
+<span id="cb40-294"><a href="#cb40-294"></a>string_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb40-295"><a href="#cb40-295"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb40-296"><a href="#cb40-296"></a>    <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb40-297"><a href="#cb40-297"></a>)</span>
+<span id="cb40-298"><a href="#cb40-298"></a><span class="fu">pmap_chr</span>(string_data, str_sub, <span class="at">string =</span> <span class="st">"abcde"</span>)</span>
+<span id="cb40-299"><a href="#cb40-299"></a><span class="in">```</span></span>
+<span id="cb40-300"><a href="#cb40-300"></a></span>
+<span id="cb40-301"><a href="#cb40-301"></a><span class="ss">2. </span>Last class we worked on an extended exercise where our goal was to write a series of functions and a <span class="in">`for`</span> loop to repeat linear model fitting under different "settings" (removal of outliers, model formula choice). </span>
+<span id="cb40-302"><a href="#cb40-302"></a></span>
+<span id="cb40-303"><a href="#cb40-303"></a>Repeat this exercise using <span class="in">`pmap()`</span>.</span>
+<span id="cb40-304"><a href="#cb40-304"></a></span>
+<span id="cb40-305"><a href="#cb40-305"></a><span class="ss">- </span>You'll need to use the <span class="in">`df_arg_combos`</span> object, your <span class="in">`remove_outliers()`</span> function, and your <span class="in">`fit_model()`</span> function.</span>
+<span id="cb40-306"><a href="#cb40-306"></a><span class="ss">- </span>Review the solutions below for the necessary parts and make sure you understand each part. </span>
+<span id="cb40-307"><a href="#cb40-307"></a><span class="ss">- </span>Then, try to put it all together using <span class="in">`pmap()`</span>.</span>
+<span id="cb40-308"><a href="#cb40-308"></a></span>
+<span id="cb40-311"><a href="#cb40-311"></a><span class="in">```{r}</span></span>
+<span id="cb40-312"><a href="#cb40-312"></a>xs <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(carat, cut, clarity, color) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span>
+<span id="cb40-313"><a href="#cb40-313"></a></span>
+<span id="cb40-314"><a href="#cb40-314"></a></span>
+<span id="cb40-315"><a href="#cb40-315"></a>df_arg_combos <span class="ot">&lt;-</span> <span class="fu">crossing</span>(</span>
+<span id="cb40-316"><a href="#cb40-316"></a>    <span class="at">mod_formula =</span> <span class="fu">str_c</span>(<span class="st">"price ~ "</span>, <span class="fu">map_chr</span>(<span class="fu">seq_along</span>(xs), <span class="sc">~</span> <span class="fu">str_c</span>(xs[<span class="dv">1</span><span class="sc">:</span>.x], <span class="at">collapse =</span> <span class="st">" + "</span>)) ),</span>
+<span id="cb40-317"><a href="#cb40-317"></a>    <span class="at">remove_outliers =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb40-318"><a href="#cb40-318"></a>)</span>
+<span id="cb40-319"><a href="#cb40-319"></a>df_arg_combos</span>
+<span id="cb40-320"><a href="#cb40-320"></a></span>
+<span id="cb40-321"><a href="#cb40-321"></a></span>
+<span id="cb40-322"><a href="#cb40-322"></a>remove_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(data, what_var, sd_thresh) {</span>
+<span id="cb40-323"><a href="#cb40-323"></a>    data <span class="sc">|&gt;</span> </span>
+<span id="cb40-324"><a href="#cb40-324"></a>        <span class="fu">mutate</span>(<span class="at">zscore =</span> ({{ what_var }} <span class="sc">-</span> <span class="fu">mean</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">/</span><span class="fu">sd</span>({{ what_var }}, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb40-325"><a href="#cb40-325"></a>        <span class="fu">filter</span>(zscore <span class="sc">&lt;=</span> sd_thresh)</span>
+<span id="cb40-326"><a href="#cb40-326"></a>}</span>
+<span id="cb40-327"><a href="#cb40-327"></a></span>
+<span id="cb40-328"><a href="#cb40-328"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data, mod_formula, remove_outliers) {</span>
+<span id="cb40-329"><a href="#cb40-329"></a>    <span class="cf">if</span> (remove_outliers) {</span>
+<span id="cb40-330"><a href="#cb40-330"></a>        data_clean <span class="ot">&lt;-</span> <span class="fu">remove_outliers</span>(data, <span class="at">what_var =</span> carat, <span class="at">sd_thresh =</span> <span class="dv">3</span>)</span>
+<span id="cb40-331"><a href="#cb40-331"></a>    } <span class="cf">else</span> {</span>
+<span id="cb40-332"><a href="#cb40-332"></a>        data_clean <span class="ot">&lt;-</span> data</span>
+<span id="cb40-333"><a href="#cb40-333"></a>    }</span>
+<span id="cb40-334"><a href="#cb40-334"></a>    </span>
+<span id="cb40-335"><a href="#cb40-335"></a>    <span class="fu">lm</span>(mod_formula, <span class="at">data =</span> data_clean)</span>
+<span id="cb40-336"><a href="#cb40-336"></a>}</span>
+<span id="cb40-337"><a href="#cb40-337"></a></span>
+<span id="cb40-338"><a href="#cb40-338"></a><span class="co"># use pmap()</span></span>
+<span id="cb40-339"><a href="#cb40-339"></a></span>
+<span id="cb40-340"><a href="#cb40-340"></a>df_arg_combos <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">fit_mod =</span> <span class="fu">pmap</span>(df_arg_combos, fit_model, <span class="at">data =</span> diamonds))</span>
+<span id="cb40-341"><a href="#cb40-341"></a></span>
+<span id="cb40-342"><a href="#cb40-342"></a></span>
+<span id="cb40-343"><a href="#cb40-343"></a><span class="in">```</span></span>
+<span id="cb40-344"><a href="#cb40-344"></a></span>
+<span id="cb40-345"><a href="#cb40-345"></a><span class="fu">## Iteration with `walk` </span></span>
+<span id="cb40-346"><a href="#cb40-346"></a></span>
+<span id="cb40-347"><a href="#cb40-347"></a></span>
+<span id="cb40-348"><a href="#cb40-348"></a>If we don't care about saving an output for each iteration, we can use the family of <span class="in">`walk()`</span> functions (<span class="in">`walk`</span>, <span class="in">`walk2`</span>, and <span class="in">`pwalk`</span>) to apply a function to each element of a list or vector with no output. </span>
+<span id="cb40-349"><a href="#cb40-349"></a></span>
+<span id="cb40-350"><a href="#cb40-350"></a>Let's say, we wanted to visualize the relationship between <span class="in">`carat`</span> and <span class="in">`price`</span> by clarity. </span>
+<span id="cb40-351"><a href="#cb40-351"></a></span>
+<span id="cb40-352"><a href="#cb40-352"></a>If we wanted a fully stratified (fully separated) analysis, we could create one visualization per clarity category and save it separately.</span>
+<span id="cb40-353"><a href="#cb40-353"></a></span>
+<span id="cb40-354"><a href="#cb40-354"></a></span>
+<span id="cb40-355"><a href="#cb40-355"></a>First, let's create separate datasets that are still contained in one tibble.</span>
+<span id="cb40-356"><a href="#cb40-356"></a></span>
+<span id="cb40-359"><a href="#cb40-359"></a><span class="in">```{r}</span></span>
+<span id="cb40-360"><a href="#cb40-360"></a><span class="co"># Let's create separate datasets within one tibble</span></span>
+<span id="cb40-361"><a href="#cb40-361"></a>by_clarity <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> </span>
+<span id="cb40-362"><a href="#cb40-362"></a>  <span class="fu">group_nest</span>(clarity)</span>
+<span id="cb40-363"><a href="#cb40-363"></a></span>
+<span id="cb40-364"><a href="#cb40-364"></a>by_clarity</span>
+<span id="cb40-365"><a href="#cb40-365"></a><span class="in">```</span></span>
+<span id="cb40-366"><a href="#cb40-366"></a></span>
+<span id="cb40-369"><a href="#cb40-369"></a><span class="in">```{r}</span></span>
+<span id="cb40-370"><a href="#cb40-370"></a><span class="co"># Create a variable with a image path</span></span>
+<span id="cb40-371"><a href="#cb40-371"></a>by_clarity <span class="ot">&lt;-</span> by_clarity <span class="sc">|&gt;</span> </span>
+<span id="cb40-372"><a href="#cb40-372"></a>  <span class="fu">mutate</span>(<span class="at">path =</span> <span class="fu">str_glue</span>(<span class="st">"diamonds-{clarity}.png"</span>))</span>
+<span id="cb40-373"><a href="#cb40-373"></a></span>
+<span id="cb40-374"><a href="#cb40-374"></a>by_clarity</span>
+<span id="cb40-375"><a href="#cb40-375"></a><span class="in">```</span></span>
+<span id="cb40-376"><a href="#cb40-376"></a></span>
+<span id="cb40-379"><a href="#cb40-379"></a><span class="in">```{r}</span></span>
+<span id="cb40-380"><a href="#cb40-380"></a><span class="co"># plot for making a scatterplot</span></span>
+<span id="cb40-381"><a href="#cb40-381"></a>carat_scatter <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb40-382"><a href="#cb40-382"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span> <span class="fu">geom_point</span>()  </span>
+<span id="cb40-383"><a href="#cb40-383"></a>}</span>
+<span id="cb40-384"><a href="#cb40-384"></a></span>
+<span id="cb40-385"><a href="#cb40-385"></a><span class="co"># Create a "variable" with each plots</span></span>
+<span id="cb40-386"><a href="#cb40-386"></a>by_clarity <span class="ot">&lt;-</span> by_clarity <span class="sc">|&gt;</span> </span>
+<span id="cb40-387"><a href="#cb40-387"></a>  <span class="fu">mutate</span>(<span class="at">plot =</span> <span class="fu">map</span>(data, carat_scatter)) <span class="co"># iterate over data to create ggplot output</span></span>
+<span id="cb40-388"><a href="#cb40-388"></a><span class="in">```</span></span>
+<span id="cb40-389"><a href="#cb40-389"></a></span>
+<span id="cb40-392"><a href="#cb40-392"></a><span class="in">```{r}</span></span>
+<span id="cb40-393"><a href="#cb40-393"></a><span class="co"># Iterate over paths and plots to save the export images</span></span>
+<span id="cb40-394"><a href="#cb40-394"></a><span class="fu">walk2</span>( </span>
+<span id="cb40-395"><a href="#cb40-395"></a>  by_clarity<span class="sc">$</span>path,</span>
+<span id="cb40-396"><a href="#cb40-396"></a>  by_clarity<span class="sc">$</span>plot,</span>
+<span id="cb40-397"><a href="#cb40-397"></a>  <span class="cf">function</span>(path, plot){ <span class="fu">ggsave</span>(path, plot, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">6</span>)}</span>
+<span id="cb40-398"><a href="#cb40-398"></a>)</span>
+<span id="cb40-399"><a href="#cb40-399"></a></span>
+<span id="cb40-400"><a href="#cb40-400"></a><span class="in">```</span></span>
+<span id="cb40-401"><a href="#cb40-401"></a></span>
+<span id="cb40-402"><a href="#cb40-402"></a></span>
+<span id="cb40-403"><a href="#cb40-403"></a><span class="fu">## Additional Resources </span></span>
+<span id="cb40-404"><a href="#cb40-404"></a></span>
+<span id="cb40-405"><a href="#cb40-405"></a>If you are interested in having a deeper understanding of the <span class="in">`purrr`</span> package, I recommend you check out:</span>
+<span id="cb40-406"><a href="#cb40-406"></a></span>
+<span id="cb40-407"><a href="#cb40-407"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Functionals Chapter in Advanced R</span><span class="co">](https://adv-r.hadley.nz/functionals.html)</span> by Hadley Wickham</span>
+<span id="cb40-408"><a href="#cb40-408"></a><span class="fu">## Done!</span></span>
+<span id="cb40-409"><a href="#cb40-409"></a></span>
+<span id="cb40-410"><a href="#cb40-410"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
