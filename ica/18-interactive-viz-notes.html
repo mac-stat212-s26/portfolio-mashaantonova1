@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>18 Interactive Viz – COMP/STAT212 Portfolio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../extra/extra-sample1.html" rel="next">
+<link href="../ica/16-databases-notes.html" rel="prev">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b1525fc7443f827935229f0f56e36607.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-447330ed7f5b14f08626394f08367e28.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="../site_libs/plotly-binding-4.11.0/plotly.js"></script><script src="../site_libs/typedarray-0.1/typedarray.min.js"></script><script src="../site_libs/jquery-3.5.1/jquery.min.js"></script><link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script><link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script><link rel="stylesheet" href="../style/custom.css">
+</head>
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/18-interactive-viz-notes.html"><span class="chapter-title">18 Interactive Viz</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../assets/sidebar-logo.png" alt="Random negative space illustration" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Masha Antonova</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Prof Viz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pv/pv-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Professional Viz</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">TidyTuesday</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-08.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/2025-07-15.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw01-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 01</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw02-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 02</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw03-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 03</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw04-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 04</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw06-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 06</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tt/hw07-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 07</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pre-Class Learnings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pcl/pcl.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Pre-Class Learning Summaries</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exams</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exams/exam1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exams/exam2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">In-Class Activities</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/ica-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cleaning SFO Weather Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Adv Data Viz</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/04_adv_maps/code/04-adv-maps-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4 Adv Spatial Viz P1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/06-wrangling-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6 Adv Data wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/07-wrangling-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7 Adv Data wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/08-missing-data-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8 Missing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/09-functions-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9 Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/10-base-r-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10 Base R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/11-iteration-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11 Loops+Iter I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/12-iteration-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12 Loops+Iter II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/14-apis-2-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">14 APIs II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/15-scraping-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">15 Web scraping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/16-databases-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">16 Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ica/18-interactive-viz-notes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">18 Interactive Viz</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../extra/extra-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Extra Sample 2</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">🧩 Learning Goals</a></li>
+  <li>
+<a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
+  <ul class="collapse">
+<li><a href="#pros" id="toc-pros" class="nav-link" data-scroll-target="#pros">Pros</a></li>
+  <li><a href="#cons" id="toc-cons" class="nav-link" data-scroll-target="#cons">Cons</a></li>
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features">Features</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#motivating-example" id="toc-motivating-example" class="nav-link" data-scroll-target="#motivating-example">Motivating Example</a>
+  <ul class="collapse">
+<li><a href="#app-exploration" id="toc-app-exploration" class="nav-link" data-scroll-target="#app-exploration">App Exploration</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#shiny" id="toc-shiny" class="nav-link" data-scroll-target="#shiny">Shiny</a>
+  <ul class="collapse">
+<li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#getting-acquainted" id="toc-getting-acquainted" class="nav-link" data-scroll-target="#getting-acquainted">Getting Acquainted</a></li>
+  <li><a href="#data-codebook" id="toc-data-codebook" class="nav-link" data-scroll-target="#data-codebook">Data Codebook</a></li>
+  <li><a href="#input-functions" id="toc-input-functions" class="nav-link" data-scroll-target="#input-functions"><code>*Input()</code> functions</a></li>
+  <li><a href="#output-functions" id="toc-output-functions" class="nav-link" data-scroll-target="#output-functions"><code>*Output()</code> functions</a></li>
+  <li><a href="#render-functions" id="toc-render-functions" class="nav-link" data-scroll-target="#render-functions"><code>render*()</code> functions</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#plotly-package" id="toc-plotly-package" class="nav-link" data-scroll-target="#plotly-package"><code>plotly</code> package</a>
+  <ul class="collapse">
+<li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#publishing-shiny-apps" id="toc-publishing-shiny-apps" class="nav-link" data-scroll-target="#publishing-shiny-apps">Publishing Shiny apps</a>
+  <ul class="collapse">
+<li><a href="#shinyapps.io" id="toc-shinyapps.io" class="nav-link" data-scroll-target="#shinyapps.io">Shinyapps.io</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#my-sniny-app" id="toc-my-sniny-app" class="nav-link" data-scroll-target="#my-sniny-app">My Sniny App</a>
+  <ul class="collapse">
+<li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  <li><a href="#done" id="toc-done" class="nav-link" data-scroll-target="#done">Done!</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../ica/18-interactive-viz-notes.html"><span class="chapter-title">18 Interactive Viz</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">18 Interactive Viz</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="learning-goals" class="level2"><h2 class="anchored" data-anchor-id="learning-goals">🧩 Learning Goals</h2>
+<p>By the end of this lesson, you should be able to: - Evaluate when it would be useful to use an interactive visualization or an animation and when it might not be necessary - Construct interactive visualizations and animations with <code>plotly</code> - Build a Shiny app that enables user to adjust visualization choices and explore linked visualizations</p>
+</section><section id="background" class="level2"><h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>The goal of interactivity should be to allow users to <strong>explore data more quickly and/or more deeply than is possible with static data representations</strong>.</p>
+<section id="pros" class="level3"><h3 class="anchored" data-anchor-id="pros">Pros</h3>
+<ul>
+<li>Users can click, hover, zoom, and pan to get more detailed information</li>
+<li>Users can get quickly and deeply explore the data via linked data representations</li>
+<li>Allows guided exploration of results without needing to share data</li>
+</ul></section><section id="cons" class="level3"><h3 class="anchored" data-anchor-id="cons">Cons</h3>
+<ul>
+<li>Takes longer to design</li>
+<li>Analyst might spend longer exploring an interactive visualization than a series of static visualizations</li>
+<li>Poor design could result in information overload</li>
+</ul></section><section id="features" class="level3"><h3 class="anchored" data-anchor-id="features">Features</h3>
+<p>Common features of interactive visualizations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> include:</p>
+<ul>
+<li>Changing data representation: providing options to change the type of plot displayed (e.g., allowing users to visualize temperature patterns over a month vs.&nbsp;over years)</li>
+<li>Focusing and getting details: mousing over part of a visualization to see an exact data value, zooming and panning</li>
+<li>Data transformation: e.g., changing color scale, switching to/from log scale</li>
+<li>Data selection and filtering: highlighting and brushing regions of a plot to focus the selected points; reordering and filtering data show in tables</li>
+<li>Finding corresponding information in multiple views: linked views that update dynamically based on interaction in another plot (often by zooming, panning, or selecting certain points)</li>
+</ul></section></section><section id="motivating-example" class="level2"><h2 class="anchored" data-anchor-id="motivating-example">Motivating Example</h2>
+<p>Kyle Walker’s <a href="https://walkerke.shinyapps.io/neighborhood_diversity/">neighborhood diversity interactive application</a> allows exploration of neighborhood diversity across time and space. It showcases major packages and features of interactive visualization. We will recreate the core parts of this app from scratch.</p>
+<section id="app-exploration" class="level3"><h3 class="anchored" data-anchor-id="app-exploration">App Exploration</h3>
+<p>To avoid overloading the author’s Shiny server, <strong>only one</strong> person from each table group should open the app and navigate around. Then, as a group</p>
+<ol type="1">
+<li>Catalog the app’s <strong>layout</strong> and <strong>interactivity features</strong> and make note of where user inputs are located and how different parts of the app respond to user input.</li>
+<li>Evaluate the design of this app.
+<ul>
+<li>Is the interactivity in this app needed, ie, does the interactivity actually help you gain more insight and perhaps more quickly than a series of static visualizations?</li>
+<li>What explorations/comparisons are you curious to explore that are not enabled well by the app?</li>
+</ul>
+</li>
+</ol>
+<p>In case the app doesn’t load, use the following screenshots:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="600"></p>
+</figure>
+</div>
+</section></section><section id="shiny" class="level2"><h2 class="anchored" data-anchor-id="shiny">Shiny</h2>
+<p>Shiny facilitates building interactive web applications using R code without needing extensive knowledge of web coding technologies such as HTML, CSS, and Javascript.</p>
+<section id="setup" class="level3"><h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<p>The neighborhood diversity app was made with the Shiny toolkit available in the <code>shiny</code> R package.</p>
+<p>Download and leave open the <a href="https://rstudio.github.io/cheatsheets/shiny.pdf">Shiny cheatsheet</a>.</p>
+<p>Let’s look at an example app together. RStudio will create a template app when you go to <strong>File</strong> –&gt; <strong>New File</strong> –&gt; <strong>Shiny Web App</strong> then enter/select the following values:</p>
+<ul>
+<li>for the <strong>Application name</strong>, type <code>neighborhood_diversity</code>.</li>
+<li>for <strong>Application type</strong>, leave the default option <strong>Single file (app.R)</strong>
+</li>
+</ul>
+<p>This creates a folder in your current directory called <code>neighborhood_diversity</code> with a single R code file called <code>app.R</code>.</p>
+<p>Click the Run App button in the top right of the source code editor to view the app in action.</p>
+<p>The <code>app.R</code> has three components:</p>
+<ul>
+<li>a user interface object (<code>ui</code>): to set up the layout of the app</li>
+<li>a server function (<code>server</code>): to define how the app will react to user input</li>
+<li>a call to the <code>shinyApp()</code> function: to launch the app using the UI object (<code>ui</code>) and server function (<code>server</code>) created above</li>
+</ul></section><section id="getting-acquainted" class="level3"><h3 class="anchored" data-anchor-id="getting-acquainted">Getting Acquainted</h3>
+<p><strong>Setup part 1:</strong> Load required packages at the top of <code>app.R</code>: <code>shiny</code>, <code>tidyverse</code>, <code>sf</code>, and <code>plotly</code>.</p>
+<p><strong>Setup part 2:</strong> Data download and folder setup</p>
+<p>Save the two files, <a href="https://mac-stat.github.io/data/diverse_data_by_dist.rds">diverse_data_by_dist.rds</a> and <a href="https://mac-stat.github.io/data/diverse_data_by_year.csv">diverse_data_by_year.csv</a>, with the folder setup below inside your portfolio repository.</p>
+<ul>
+<li>📂 <code>neighborhood_diversity</code>
+<ul>
+<li><code>app.R</code></li>
+<li>📂 <code>data</code>
+<ul>
+<li><code>diverse_data_by_dist.rds</code></li>
+<li><code>diverse_data_by_year.csv</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Setup part 3:</strong> Below your <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> calls, add the following commands to read in the data:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>data_by_dist <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"relative path to diverse_data_by_dist.rds"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>data_by_year <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"relative path to diverse_data_by_year.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Getting acquainted with the app and underlying code:</strong> Take a few minutes to explore the code:</p>
+<ul>
+<li>
+<code>ui</code> section. How are functions nested inside each other, and how does this seem to relate to the visual appearance of the app?</li>
+<li>What names/labels in the User Interface (<code>ui</code>) part of the app seem to be shared with the <code>server</code> part of the app?</li>
+</ul></section><section id="data-codebook" class="level3"><h3 class="anchored" data-anchor-id="data-codebook">Data Codebook</h3>
+<p>The <code>data_by_dist</code> dataset is an <code>sf</code> object (cases = census tracts) with the following variables:</p>
+<ul>
+<li>
+<code>metro_id</code>: numeric ID for the city</li>
+<li>
+<code>metro_name</code>: city name</li>
+<li>
+<code>geometry</code>: information about the spatial geometry for the tract</li>
+<li>
+<code>tract_id</code>: numeric census tract ID</li>
+<li>
+<code>distmiles</code>: distance in miles from this tract to city hall</li>
+<li>
+<code>entropy</code>: a measure of the diversity of a census tract (a diversity “score”)</li>
+<li>Race variables (each of these is the number of people)
+<ul>
+<li>
+<code>aian</code>: American Indian</li>
+<li><code>asian</code></li>
+<li><code>black</code></li>
+<li><code>hispanic</code></li>
+<li><code>two_or_more</code></li>
+<li><code>white</code></li>
+</ul>
+</li>
+</ul>
+<p>The <code>data_by_year</code> dataset has a subset of the above variables as well as a <code>year</code> variable.</p>
+</section><section id="input-functions" class="level3"><h3 class="anchored" data-anchor-id="input-functions">
+<code>*Input()</code> functions</h3>
+<p><strong>What do these do?</strong> The <code>*Input()</code> functions collect inputs from the user.</p>
+<p><strong>Where are these functions on the cheatsheet?</strong> Right-hand side of the first page</p>
+<p><strong>Where do these go in the app?</strong></p>
+<ul>
+<li>All <code>*Input()</code> functions go in the <code>ui</code> part of the app.</li>
+<li>Pay careful attention to the nesting of the functions in the <code>ui</code> section. For example, in a <code>sidebarLayout()</code>, these <code>*Input()</code> functions should go in the <code>sidebarPanel()</code> (as opposed to the <code>mainPanel()</code>).</li>
+<li>Separate multiple <code>*Input()</code> functions with commas.</li>
+</ul>
+<p><strong>How do the function arguments work?</strong> In all the <code>*Input()</code> functions, the first two arguments are the same:</p>
+<ul>
+<li>
+<code>inputId</code> is how you will refer to this input in the <code>server</code> portion later. <em>You can call this anything you want</em>, but make this ID describe the information that the user is providing.</li>
+<li>
+<code>label</code> is how this will actually be labeled in your UI (what text shows up in the app).</li>
+</ul>
+<p>Each function has some additional arguments depending what you want to do.</p>
+<p><strong>Your Turn</strong></p>
+<p>Add the following two user inputs to your app:</p>
+<ul>
+<li>Dropdown to select the city name</li>
+<li>Slider to choose the span parameter for the scatterplot smooth
+<ul>
+<li>This parameter varies from 0 to 1. Lower values result in a wiggly smoothing line, and higher values result in a smoother line.</li>
+</ul>
+</li>
+</ul>
+<p>Use the Shiny cheatsheet to find the <code>*Input()</code> functions that correspond to the two inputs above. Add them to the appropriate place within the <code>ui</code> object. Use commas to separate the inputs.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Parentheses Pandemonium">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Parentheses Pandemonium
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Carefully formatting your code will be crucial here! With <code>shiny</code> UIs, it is very easy to lose or mismatch parentheses, which leads to frustrating errors. My suggestion is to place parentheses as follow:</p>
+<pre><code>sliderInput(
+    argument1 = value1,
+    argument2 = value2,
+    argument3 = value3
+)</code></pre>
+<p>Note how the left parenthesis is on the same line as the function, and the right parenthesis is on its own line and left-aligned with the start of the function name.</p>
+<p>Tip: In RStudio, you can place your cursor next to any parenthesis to highlight the matching parenthesis (if there is one).</p>
+</div>
+</div>
+<p>You will have to look at the <strong>documentation</strong> for the <code>*Input()</code> functions to know how to use arguments beyond <code>inputId</code> and <code>label</code>. To view this documentation, type <code>?function_name</code> in the Console.</p>
+<p>To get the collection of city names from the <code>data_by_dist</code> dataset, you can use the following:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>metro_names <span class="ot">&lt;-</span> data_by_dist <span class="sc">|&gt;</span> <span class="fu">pull</span>(metro_name) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Put this <code>metro_names</code> code just beneath where you read in the data.</p>
+<p>Once you finish, run your app. Make sure you can select and move things around as expected. You won’t see any plots yet—we’ll work on those in the next exercises.</p>
+</section><section id="output-functions" class="level3"><h3 class="anchored" data-anchor-id="output-functions">
+<code>*Output()</code> functions</h3>
+<p><strong>What do these do?</strong> <code>*Output()</code> functions in the <code>ui</code> portion work with the <code>render*()</code> functions in the server portion to to add R output (like plots and tables) to the UI.</p>
+<p><strong>Where are these functions on the cheatsheet?</strong> Bottom-center of the first page</p>
+<p><strong>Where do these go in the app?</strong></p>
+<ul>
+<li>All <code>*Output()</code> functions go in the <code>ui</code> part of the app.</li>
+<li>Pay careful attention to the nesting of the functions in the <code>ui</code> section. For example, in a <code>sidebarLayout()</code>, these <code>*Output()</code> functions should go in the <code>mainPanel()</code> (as opposed to the <code>sidebarPanel()</code>).</li>
+<li>Separate multiple <code>*Output()</code> functions with commas.</li>
+</ul>
+<p><strong>How do the function arguments work?</strong> In all the <code>*Output()</code> functions, the first argument is the same:</p>
+<ul>
+<li>
+<code>outputId</code> works just like <code>inputId</code> for <code>*Input()</code> functions. This is how you will refer to this output in the <code>server</code> portion later. <em>You can call this anything you want</em>, but make this ID describe the output being created.</li>
+</ul>
+<p><strong>Your Turn</strong></p>
+<p>Add 3 outputs to the <code>ui</code> that will eventually be:</p>
+<ul>
+<li>A scatterplot of diversity score (<code>entropy</code>) versus distance to city hall (<code>distmiles</code>) with a smoothing line (smoothness controlled by the span parameter on your slider input)</li>
+<li>A map of diversity scores across the counties in the selected city</li>
+<li>A bar chart of the overall race distribution in the selected city (i.e., the total number of people in each race category in the city)</li>
+</ul>
+<p>For now, don’t worry that the layout of the plots exactly matches the original neighborhood diversity app. (You will update this in your homework.)</p>
+<p>Run the app with the output. Notice that nothing really changes. Think of the outputs you just placed as placeholders—the app knows there will be a plot in the UI, but the details of what the plots will look like and the R code to create them will be in the <code>server</code> portion. Let’s talk about that now!</p>
+</section><section id="render-functions" class="level3"><h3 class="anchored" data-anchor-id="render-functions">
+<code>render*()</code> functions</h3>
+<p><strong>What do these do?</strong> The <code>render*()</code> functions use R code (i.e., standard <code>ggplot</code> code) to communicate with (“listen to”) the user inputs to create the desired output.</p>
+<p><strong>Where are these functions on the cheatsheet?</strong> Bottom-center of the first page. The <code>render*()</code> function you use will depend on the desired output. The bottom center of the cheatsheet shows how <code>*Output()</code> and <code>render*()</code> functions connect.</p>
+<p><strong>Where do these go in the app?</strong> The <code>render*()</code> functions go in the <code>server</code> function of the app.</p>
+<p>In general, the server section of code will look something like this:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Suppose the following are somewhere in the UI part</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">numericInput</span>(<span class="at">inputId =</span> <span class="st">"min_year"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">numericInput</span>(<span class="at">inputId =</span> <span class="st">"max_year"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">plotOutput</span>(<span class="at">outputId =</span> <span class="st">"plot_over_years"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    output<span class="sc">$</span>plot_over_years <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({ <span class="co"># Note the curly braces that enclose the R code below</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>        <span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>            <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(input<span class="sc">$</span>min_year, input<span class="sc">$</span>max_year))</span>
+<span id="cb4-10"><a href="#cb4-10"></a>    })</span>
+<span id="cb4-11"><a href="#cb4-11"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Your Turn</strong></p>
+<p>While our main goals is to make 3 plots, you will just make one of them in this exercise.</p>
+<p>Add a <code>renderPlot()</code> functions inside the <code>server</code> portion of the code to make the scatterplot of diversity score (<code>entropy</code>) versus distance to city hall (<code>distmiles</code>) with a smoothing line. Use the <code>data_by_dist</code> dataset. Reference the inputs you’ve already created in previous exercises by using <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code> and <code>ggplot()</code> to render the desired interactive plot.</p>
+<p><em>Note:</em> the <code>geom_???</code> used to create the smoothing line has a <code>span</code> parameter. (Check out the documentation for that geom by entering <code>?geom_???</code> in the Console.)</p>
+<p>Run the app and check that the scatterplot displays and reacts to the chosen city and span parameter.</p>
+<p>As part of <a href="https://hash-mac.github.io/stat212site-sp26/homeworks/homework9.html">Homework 9</a>, you will finish this Shiny app.</p>
+</section></section><section id="plotly-package" class="level2"><h2 class="anchored" data-anchor-id="plotly-package">
+<code>plotly</code> package</h2>
+<p>The <code>plotly</code> package provides tools for creating interactive web graphics and is a nice complement to Shiny.</p>
+<section id="getting-started" class="level3 unnumbered smaller"><h3 class="unnumbered smaller anchored" data-anchor-id="getting-started">Getting Started</h3>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>A wonderful feature of <code>plotly</code> is that an interactive graphic can be constructed by taking a regular <code>ggplot</code> graph and putting it inside the <code>ggplotly()</code> function:</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">data</span>(babynames, <span class="at">package =</span> <span class="st">"babynames"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>bnames <span class="ot">&lt;-</span> babynames <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brianna"</span>, <span class="st">"Briana"</span>, <span class="st">"Breanna"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(bnames, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> prop, <span class="at">color =</span> sex, <span class="at">linetype =</span> name)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Proportion of names"</span>, <span class="at">color =</span> <span class="st">"Gender"</span>, <span class="at">linetype =</span> <span class="st">"Name"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-709c2e4e06ca6dc26880" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-709c2e4e06ca6dc26880">{"x":{"data":[{"x":[1965,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[2.74e-06,3.2799999999999999e-06,3.9899999999999999e-06,4.34e-06,7.08e-06,8.3000000000000002e-06,2.05e-05,2.2269999999999999e-05,4.9240000000000003e-05,5.9620000000000002e-05,0.00011375,0.00016344999999999999,0.00018788999999999999,0.00021002999999999999,0.00026937,0.00034832999999999999,0.00036458999999999998,0.00038156000000000003,0.00048296999999999999,0.00064652999999999998,0.00087706000000000004,0.0014367399999999999,0.0015901699999999999,0.0017217999999999999,0.00204294,0.0021036200000000001,0.0023568399999999998,0.0024518999999999999,0.0023281500000000002,0.0021929699999999998,0.0022304999999999998,0.00191691,0.0017009799999999999,0.00161959,0.0016305899999999999,0.0014350999999999999,0.00130068,0.0013226100000000001,0.00117789,0.00094813000000000004,0.00078052999999999998,0.00065413999999999999,0.00052970000000000003,0.00040077999999999999,0.00030615999999999998,0.00023415999999999999,0.00022002,0.00018615999999999999,0.00015093999999999999],"text":["year: 1965<br />prop: 0.00000274<br />sex: F<br />name: Breanna","year: 1970<br />prop: 0.00000328<br />sex: F<br />name: Breanna","year: 1971<br />prop: 0.00000399<br />sex: F<br />name: Breanna","year: 1972<br />prop: 0.00000434<br />sex: F<br />name: Breanna","year: 1973<br />prop: 0.00000708<br />sex: F<br />name: Breanna","year: 1974<br />prop: 0.00000830<br />sex: F<br />name: Breanna","year: 1975<br />prop: 0.00002050<br />sex: F<br />name: Breanna","year: 1976<br />prop: 0.00002227<br />sex: F<br />name: Breanna","year: 1977<br />prop: 0.00004924<br />sex: F<br />name: Breanna","year: 1978<br />prop: 0.00005962<br />sex: F<br />name: Breanna","year: 1979<br />prop: 0.00011375<br />sex: F<br />name: Breanna","year: 1980<br />prop: 0.00016345<br />sex: F<br />name: Breanna","year: 1981<br />prop: 0.00018789<br />sex: F<br />name: Breanna","year: 1982<br />prop: 0.00021003<br />sex: F<br />name: Breanna","year: 1983<br />prop: 0.00026937<br />sex: F<br />name: Breanna","year: 1984<br />prop: 0.00034833<br />sex: F<br />name: Breanna","year: 1985<br />prop: 0.00036459<br />sex: F<br />name: Breanna","year: 1986<br />prop: 0.00038156<br />sex: F<br />name: Breanna","year: 1987<br />prop: 0.00048297<br />sex: F<br />name: Breanna","year: 1988<br />prop: 0.00064653<br />sex: F<br />name: Breanna","year: 1989<br />prop: 0.00087706<br />sex: F<br />name: Breanna","year: 1990<br />prop: 0.00143674<br />sex: F<br />name: Breanna","year: 1991<br />prop: 0.00159017<br />sex: F<br />name: Breanna","year: 1992<br />prop: 0.00172180<br />sex: F<br />name: Breanna","year: 1993<br />prop: 0.00204294<br />sex: F<br />name: Breanna","year: 1994<br />prop: 0.00210362<br />sex: F<br />name: Breanna","year: 1995<br />prop: 0.00235684<br />sex: F<br />name: Breanna","year: 1996<br />prop: 0.00245190<br />sex: F<br />name: Breanna","year: 1997<br />prop: 0.00232815<br />sex: F<br />name: Breanna","year: 1998<br />prop: 0.00219297<br />sex: F<br />name: Breanna","year: 1999<br />prop: 0.00223050<br />sex: F<br />name: Breanna","year: 2000<br />prop: 0.00191691<br />sex: F<br />name: Breanna","year: 2001<br />prop: 0.00170098<br />sex: F<br />name: Breanna","year: 2002<br />prop: 0.00161959<br />sex: F<br />name: Breanna","year: 2003<br />prop: 0.00163059<br />sex: F<br />name: Breanna","year: 2004<br />prop: 0.00143510<br />sex: F<br />name: Breanna","year: 2005<br />prop: 0.00130068<br />sex: F<br />name: Breanna","year: 2006<br />prop: 0.00132261<br />sex: F<br />name: Breanna","year: 2007<br />prop: 0.00117789<br />sex: F<br />name: Breanna","year: 2008<br />prop: 0.00094813<br />sex: F<br />name: Breanna","year: 2009<br />prop: 0.00078053<br />sex: F<br />name: Breanna","year: 2010<br />prop: 0.00065414<br />sex: F<br />name: Breanna","year: 2011<br />prop: 0.00052970<br />sex: F<br />name: Breanna","year: 2012<br />prop: 0.00040078<br />sex: F<br />name: Breanna","year: 2013<br />prop: 0.00030616<br />sex: F<br />name: Breanna","year: 2014<br />prop: 0.00023416<br />sex: F<br />name: Breanna","year: 2015<br />prop: 0.00022002<br />sex: F<br />name: Breanna","year: 2016<br />prop: 0.00018616<br />sex: F<br />name: Breanna","year: 2017<br />prop: 0.00015094<br />sex: F<br />name: Breanna"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"(F,Breanna)","legendgroup":"(F,Breanna)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1950,1951,1953,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[4.5499999999999996e-06,2.7099999999999999e-06,4.1500000000000001e-06,3.49e-06,3.4000000000000001e-06,7.6299999999999998e-06,4.8400000000000002e-06,5.2900000000000002e-06,6.7299999999999999e-06,1.06e-05,1.431e-05,1.1569999999999999e-05,8.1699999999999997e-06,1.6419999999999999e-05,7.9699999999999999e-06,1.8640000000000001e-05,2.8079999999999999e-05,3.9709999999999998e-05,3.7119999999999997e-05,5.6499999999999998e-05,5.7059999999999999e-05,7.7860000000000003e-05,7.5339999999999994e-05,0.00011469,0.00012659999999999999,0.00022007,0.00022996,0.00029017000000000002,0.00033813000000000002,0.00031931,0.00038864999999999999,0.00038450000000000002,0.00045260999999999999,0.00042688999999999997,0.00059944000000000002,0.00077382000000000004,0.00093676000000000002,0.00118129,0.00149321,0.00181347,0.00217133,0.00247467,0.0025653899999999999,0.0024005599999999999,0.0024701599999999999,0.0023444,0.00214241,0.00197204,0.00188182,0.0016338100000000001,0.00165252,0.0015243800000000001,0.0014003900000000001,0.0012533399999999999,0.0013326600000000001,0.0013353499999999999,0.0011307400000000001,0.00102374,0.00086198000000000004,0.00069145999999999997,0.00054900000000000001,0.00047457,0.00039198,0.00039221999999999998,0.00037491,0.00036055000000000001],"text":["year: 1950<br />prop: 0.00000455<br />sex: F<br />name: Briana","year: 1951<br />prop: 0.00000271<br />sex: F<br />name: Briana","year: 1953<br />prop: 0.00000415<br />sex: F<br />name: Briana","year: 1955<br />prop: 0.00000349<br />sex: F<br />name: Briana","year: 1956<br />prop: 0.00000340<br />sex: F<br />name: Briana","year: 1957<br />prop: 0.00000763<br />sex: F<br />name: Briana","year: 1958<br />prop: 0.00000484<br />sex: F<br />name: Briana","year: 1959<br />prop: 0.00000529<br />sex: F<br />name: Briana","year: 1960<br />prop: 0.00000673<br />sex: F<br />name: Briana","year: 1961<br />prop: 0.00001060<br />sex: F<br />name: Briana","year: 1962<br />prop: 0.00001431<br />sex: F<br />name: Briana","year: 1963<br />prop: 0.00001157<br />sex: F<br />name: Briana","year: 1964<br />prop: 0.00000817<br />sex: F<br />name: Briana","year: 1965<br />prop: 0.00001642<br />sex: F<br />name: Briana","year: 1966<br />prop: 0.00000797<br />sex: F<br />name: Briana","year: 1967<br />prop: 0.00001864<br />sex: F<br />name: Briana","year: 1968<br />prop: 0.00002808<br />sex: F<br />name: Briana","year: 1969<br />prop: 0.00003971<br />sex: F<br />name: Briana","year: 1970<br />prop: 0.00003712<br />sex: F<br />name: Briana","year: 1971<br />prop: 0.00005650<br />sex: F<br />name: Briana","year: 1972<br />prop: 0.00005706<br />sex: F<br />name: Briana","year: 1973<br />prop: 0.00007786<br />sex: F<br />name: Briana","year: 1974<br />prop: 0.00007534<br />sex: F<br />name: Briana","year: 1975<br />prop: 0.00011469<br />sex: F<br />name: Briana","year: 1976<br />prop: 0.00012660<br />sex: F<br />name: Briana","year: 1977<br />prop: 0.00022007<br />sex: F<br />name: Briana","year: 1978<br />prop: 0.00022996<br />sex: F<br />name: Briana","year: 1979<br />prop: 0.00029017<br />sex: F<br />name: Briana","year: 1980<br />prop: 0.00033813<br />sex: F<br />name: Briana","year: 1981<br />prop: 0.00031931<br />sex: F<br />name: Briana","year: 1982<br />prop: 0.00038865<br />sex: F<br />name: Briana","year: 1983<br />prop: 0.00038450<br />sex: F<br />name: Briana","year: 1984<br />prop: 0.00045261<br />sex: F<br />name: Briana","year: 1985<br />prop: 0.00042689<br />sex: F<br />name: Briana","year: 1986<br />prop: 0.00059944<br />sex: F<br />name: Briana","year: 1987<br />prop: 0.00077382<br />sex: F<br />name: Briana","year: 1988<br />prop: 0.00093676<br />sex: F<br />name: Briana","year: 1989<br />prop: 0.00118129<br />sex: F<br />name: Briana","year: 1990<br />prop: 0.00149321<br />sex: F<br />name: Briana","year: 1991<br />prop: 0.00181347<br />sex: F<br />name: Briana","year: 1992<br />prop: 0.00217133<br />sex: F<br />name: Briana","year: 1993<br />prop: 0.00247467<br />sex: F<br />name: Briana","year: 1994<br />prop: 0.00256539<br />sex: F<br />name: Briana","year: 1995<br />prop: 0.00240056<br />sex: F<br />name: Briana","year: 1996<br />prop: 0.00247016<br />sex: F<br />name: Briana","year: 1997<br />prop: 0.00234440<br />sex: F<br />name: Briana","year: 1998<br />prop: 0.00214241<br />sex: F<br />name: Briana","year: 1999<br />prop: 0.00197204<br />sex: F<br />name: Briana","year: 2000<br />prop: 0.00188182<br />sex: F<br />name: Briana","year: 2001<br />prop: 0.00163381<br />sex: F<br />name: Briana","year: 2002<br />prop: 0.00165252<br />sex: F<br />name: Briana","year: 2003<br />prop: 0.00152438<br />sex: F<br />name: Briana","year: 2004<br />prop: 0.00140039<br />sex: F<br />name: Briana","year: 2005<br />prop: 0.00125334<br />sex: F<br />name: Briana","year: 2006<br />prop: 0.00133266<br />sex: F<br />name: Briana","year: 2007<br />prop: 0.00133535<br />sex: F<br />name: Briana","year: 2008<br />prop: 0.00113074<br />sex: F<br />name: Briana","year: 2009<br />prop: 0.00102374<br />sex: F<br />name: Briana","year: 2010<br />prop: 0.00086198<br />sex: F<br />name: Briana","year: 2011<br />prop: 0.00069146<br />sex: F<br />name: Briana","year: 2012<br />prop: 0.00054900<br />sex: F<br />name: Briana","year: 2013<br />prop: 0.00047457<br />sex: F<br />name: Briana","year: 2014<br />prop: 0.00039198<br />sex: F<br />name: Briana","year: 2015<br />prop: 0.00039222<br />sex: F<br />name: Briana","year: 2016<br />prop: 0.00037491<br />sex: F<br />name: Briana","year: 2017<br />prop: 0.00036055<br />sex: F<br />name: Briana"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"dash"},"hoveron":"points","name":"(F,Briana)","legendgroup":"(F,Briana)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017],"y":[4.0199999999999996e-06,4.6e-06,4.9300000000000002e-06,6.2700000000000001e-06,6.99e-06,8.7700000000000007e-06,1.0210000000000001e-05,1.6920000000000001e-05,2.5680000000000001e-05,1.9850000000000001e-05,2.317e-05,2.7460000000000001e-05,4.9979999999999999e-05,8.7789999999999998e-05,0.00013557,0.00018128999999999999,0.00041436000000000001,0.00039879999999999999,0.00040821999999999999,0.00049063000000000004,0.00054264999999999999,0.00075157000000000002,0.00076926999999999996,0.00098371999999999999,0.0012204900000000001,0.00154064,0.00200563,0.0027644100000000001,0.0032265699999999998,0.0036406799999999999,0.0044506399999999996,0.0053960299999999996,0.0061835800000000002,0.0062210399999999997,0.0062903100000000003,0.00621618,0.0063785700000000001,0.0064555200000000002,0.0059463399999999996,0.0058354899999999996,0.0052772399999999999,0.0048596999999999998,0.0046159699999999996,0.0044819400000000002,0.0041847999999999998,0.0039684200000000003,0.0036337499999999998,0.00320383,0.00267694,0.0023927800000000002,0.0020276999999999999,0.0018466400000000001,0.0017822300000000001,0.0015997400000000001,0.0013355400000000001],"text":["year: 1963<br />prop: 0.00000402<br />sex: F<br />name: Brianna","year: 1964<br />prop: 0.00000460<br />sex: F<br />name: Brianna","year: 1965<br />prop: 0.00000493<br />sex: F<br />name: Brianna","year: 1966<br />prop: 0.00000627<br />sex: F<br />name: Brianna","year: 1967<br />prop: 0.00000699<br />sex: F<br />name: Brianna","year: 1968<br />prop: 0.00000877<br />sex: F<br />name: Brianna","year: 1969<br />prop: 0.00001021<br />sex: F<br />name: Brianna","year: 1970<br />prop: 0.00001692<br />sex: F<br />name: Brianna","year: 1971<br />prop: 0.00002568<br />sex: F<br />name: Brianna","year: 1972<br />prop: 0.00001985<br />sex: F<br />name: Brianna","year: 1973<br />prop: 0.00002317<br />sex: F<br />name: Brianna","year: 1974<br />prop: 0.00002746<br />sex: F<br />name: Brianna","year: 1975<br />prop: 0.00004998<br />sex: F<br />name: Brianna","year: 1976<br />prop: 0.00008779<br />sex: F<br />name: Brianna","year: 1977<br />prop: 0.00013557<br />sex: F<br />name: Brianna","year: 1978<br />prop: 0.00018129<br />sex: F<br />name: Brianna","year: 1979<br />prop: 0.00041436<br />sex: F<br />name: Brianna","year: 1980<br />prop: 0.00039880<br />sex: F<br />name: Brianna","year: 1981<br />prop: 0.00040822<br />sex: F<br />name: Brianna","year: 1982<br />prop: 0.00049063<br />sex: F<br />name: Brianna","year: 1983<br />prop: 0.00054265<br />sex: F<br />name: Brianna","year: 1984<br />prop: 0.00075157<br />sex: F<br />name: Brianna","year: 1985<br />prop: 0.00076927<br />sex: F<br />name: Brianna","year: 1986<br />prop: 0.00098372<br />sex: F<br />name: Brianna","year: 1987<br />prop: 0.00122049<br />sex: F<br />name: Brianna","year: 1988<br />prop: 0.00154064<br />sex: F<br />name: Brianna","year: 1989<br />prop: 0.00200563<br />sex: F<br />name: Brianna","year: 1990<br />prop: 0.00276441<br />sex: F<br />name: Brianna","year: 1991<br />prop: 0.00322657<br />sex: F<br />name: Brianna","year: 1992<br />prop: 0.00364068<br />sex: F<br />name: Brianna","year: 1993<br />prop: 0.00445064<br />sex: F<br />name: Brianna","year: 1994<br />prop: 0.00539603<br />sex: F<br />name: Brianna","year: 1995<br />prop: 0.00618358<br />sex: F<br />name: Brianna","year: 1996<br />prop: 0.00622104<br />sex: F<br />name: Brianna","year: 1997<br />prop: 0.00629031<br />sex: F<br />name: Brianna","year: 1998<br />prop: 0.00621618<br />sex: F<br />name: Brianna","year: 1999<br />prop: 0.00637857<br />sex: F<br />name: Brianna","year: 2000<br />prop: 0.00645552<br />sex: F<br />name: Brianna","year: 2001<br />prop: 0.00594634<br />sex: F<br />name: Brianna","year: 2002<br />prop: 0.00583549<br />sex: F<br />name: Brianna","year: 2003<br />prop: 0.00527724<br />sex: F<br />name: Brianna","year: 2004<br />prop: 0.00485970<br />sex: F<br />name: Brianna","year: 2005<br />prop: 0.00461597<br />sex: F<br />name: Brianna","year: 2006<br />prop: 0.00448194<br />sex: F<br />name: Brianna","year: 2007<br />prop: 0.00418480<br />sex: F<br />name: Brianna","year: 2008<br />prop: 0.00396842<br />sex: F<br />name: Brianna","year: 2009<br />prop: 0.00363375<br />sex: F<br />name: Brianna","year: 2010<br />prop: 0.00320383<br />sex: F<br />name: Brianna","year: 2011<br />prop: 0.00267694<br />sex: F<br />name: Brianna","year: 2012<br />prop: 0.00239278<br />sex: F<br />name: Brianna","year: 2013<br />prop: 0.00202770<br />sex: F<br />name: Brianna","year: 2014<br />prop: 0.00184664<br />sex: F<br />name: Brianna","year: 2015<br />prop: 0.00178223<br />sex: F<br />name: Brianna","year: 2016<br />prop: 0.00159974<br />sex: F<br />name: Brianna","year: 2017<br />prop: 0.00133554<br />sex: F<br />name: Brianna"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"dot"},"hoveron":"points","name":"(F,Brianna)","legendgroup":"(F,Brianna)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1988,1989,1992,1993,1994,1995,1998,2000,2004],"y":[3.0000000000000001e-06,2.39e-06,2.3800000000000001e-06,2.9100000000000001e-06,3.4300000000000002e-06,3.4800000000000001e-06,2.4700000000000001e-06,2.3999999999999999e-06,9.0000000000000002e-06],"text":["year: 1988<br />prop: 0.00000300<br />sex: M<br />name: Breanna","year: 1989<br />prop: 0.00000239<br />sex: M<br />name: Breanna","year: 1992<br />prop: 0.00000238<br />sex: M<br />name: Breanna","year: 1993<br />prop: 0.00000291<br />sex: M<br />name: Breanna","year: 1994<br />prop: 0.00000343<br />sex: M<br />name: Breanna","year: 1995<br />prop: 0.00000348<br />sex: M<br />name: Breanna","year: 1998<br />prop: 0.00000247<br />sex: M<br />name: Breanna","year: 2000<br />prop: 0.00000240<br />sex: M<br />name: Breanna","year: 2004<br />prop: 0.00000900<br />sex: M<br />name: Breanna"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"(M,Breanna)","legendgroup":"(M,Breanna)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1984,1985,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,2000,2002,2004,2006,2007,2009,2010],"y":[3.1999999999999999e-06,3.6399999999999999e-06,3.9999999999999998e-06,8.5900000000000008e-06,5.1100000000000002e-06,5.66e-06,4.7700000000000001e-06,6.7800000000000003e-06,9.8099999999999992e-06,5.9699999999999996e-06,4.9899999999999997e-06,3.4999999999999999e-06,3.45e-06,2.8700000000000001e-06,5.3299999999999998e-06,6.1500000000000004e-06,3.1999999999999999e-06,2.7099999999999999e-06,3.3000000000000002e-06,4.3900000000000003e-06],"text":["year: 1984<br />prop: 0.00000320<br />sex: M<br />name: Briana","year: 1985<br />prop: 0.00000364<br />sex: M<br />name: Briana","year: 1988<br />prop: 0.00000400<br />sex: M<br />name: Briana","year: 1989<br />prop: 0.00000859<br />sex: M<br />name: Briana","year: 1990<br />prop: 0.00000511<br />sex: M<br />name: Briana","year: 1991<br />prop: 0.00000566<br />sex: M<br />name: Briana","year: 1992<br />prop: 0.00000477<br />sex: M<br />name: Briana","year: 1993<br />prop: 0.00000678<br />sex: M<br />name: Briana","year: 1994<br />prop: 0.00000981<br />sex: M<br />name: Briana","year: 1995<br />prop: 0.00000597<br />sex: M<br />name: Briana","year: 1996<br />prop: 0.00000499<br />sex: M<br />name: Briana","year: 1997<br />prop: 0.00000350<br />sex: M<br />name: Briana","year: 1998<br />prop: 0.00000345<br />sex: M<br />name: Briana","year: 2000<br />prop: 0.00000287<br />sex: M<br />name: Briana","year: 2002<br />prop: 0.00000533<br />sex: M<br />name: Briana","year: 2004<br />prop: 0.00000615<br />sex: M<br />name: Briana","year: 2006<br />prop: 0.00000320<br />sex: M<br />name: Briana","year: 2007<br />prop: 0.00000271<br />sex: M<br />name: Briana","year: 2009<br />prop: 0.00000330<br />sex: M<br />name: Briana","year: 2010<br />prop: 0.00000439<br />sex: M<br />name: Briana"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)","dash":"dash"},"hoveron":"points","name":"(M,Briana)","legendgroup":"(M,Briana)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1984,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2015,2017],"y":[3.7299999999999999e-06,3.5899999999999999e-06,6.4999999999999996e-06,5.7300000000000002e-06,4.1799999999999998e-06,8.49e-06,6.19e-06,8.7199999999999995e-06,1.03e-05,9.9499999999999996e-06,8.9800000000000004e-06,6.5100000000000004e-06,5.9200000000000001e-06,9.3200000000000006e-06,8.6200000000000005e-06,9.6700000000000006e-06,5.3299999999999998e-06,1.048e-05,2.5089999999999999e-05,5.6400000000000002e-06,5.93e-06,4.07e-06,6.4300000000000003e-06,3.7799999999999998e-06,3.41e-06,3.45e-06,4.4399999999999998e-06,4.4599999999999996e-06,2.9399999999999998e-06,2.5500000000000001e-06],"text":["year: 1984<br />prop: 0.00000373<br />sex: M<br />name: Brianna","year: 1987<br />prop: 0.00000359<br />sex: M<br />name: Brianna","year: 1988<br />prop: 0.00000650<br />sex: M<br />name: Brianna","year: 1989<br />prop: 0.00000573<br />sex: M<br />name: Brianna","year: 1990<br />prop: 0.00000418<br />sex: M<br />name: Brianna","year: 1991<br />prop: 0.00000849<br />sex: M<br />name: Brianna","year: 1992<br />prop: 0.00000619<br />sex: M<br />name: Brianna","year: 1993<br />prop: 0.00000872<br />sex: M<br />name: Brianna","year: 1994<br />prop: 0.00001030<br />sex: M<br />name: Brianna","year: 1995<br />prop: 0.00000995<br />sex: M<br />name: Brianna","year: 1996<br />prop: 0.00000898<br />sex: M<br />name: Brianna","year: 1997<br />prop: 0.00000651<br />sex: M<br />name: Brianna","year: 1998<br />prop: 0.00000592<br />sex: M<br />name: Brianna","year: 1999<br />prop: 0.00000932<br />sex: M<br />name: Brianna","year: 2000<br />prop: 0.00000862<br />sex: M<br />name: Brianna","year: 2001<br />prop: 0.00000967<br />sex: M<br />name: Brianna","year: 2002<br />prop: 0.00000533<br />sex: M<br />name: Brianna","year: 2003<br />prop: 0.00001048<br />sex: M<br />name: Brianna","year: 2004<br />prop: 0.00002509<br />sex: M<br />name: Brianna","year: 2005<br />prop: 0.00000564<br />sex: M<br />name: Brianna","year: 2006<br />prop: 0.00000593<br />sex: M<br />name: Brianna","year: 2007<br />prop: 0.00000407<br />sex: M<br />name: Brianna","year: 2008<br />prop: 0.00000643<br />sex: M<br />name: Brianna","year: 2009<br />prop: 0.00000378<br />sex: M<br />name: Brianna","year: 2010<br />prop: 0.00000341<br />sex: M<br />name: Brianna","year: 2011<br />prop: 0.00000345<br />sex: M<br />name: Brianna","year: 2012<br />prop: 0.00000444<br />sex: M<br />name: Brianna","year: 2013<br />prop: 0.00000446<br />sex: M<br />name: Brianna","year: 2015<br />prop: 0.00000294<br />sex: M<br />name: Brianna","year: 2017<br />prop: 0.00000255<br />sex: M<br />name: Brianna"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)","dash":"dot"},"hoveron":"points","name":"(M,Brianna)","legendgroup":"(M,Brianna)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283108,"r":7.3059360730593621,"b":40.182648401826498,"l":54.794520547945211},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.6500000000001,2020.3499999999999],"tickmode":"array","ticktext":["1960","1980","2000","2020"],"tickvals":[1960,1980,2000,2020],"categoryorder":"array","categoryarray":["1960","1980","2000","2020"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Year","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.00032027700000000005,0.0067781769999999998],"tickmode":"array","ticktext":["0.000","0.002","0.004","0.006"],"tickvals":[0,0.002,0.0040000000000000001,0.0060000000000000001],"categoryorder":"array","categoryarray":["0.000","0.002","0.004","0.006"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion of names","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Name<br />Gender","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"15cc55640cc":{"x":{},"y":{},"colour":{},"linetype":{},"type":"scatter"}},"cur_data":"15cc55640cc","visdat":{"15cc55640cc":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The <code>plotly</code> package can also create animations by incorporating <code>frame</code> and <code>ids</code> aesthetics.</p>
+<ul>
+<li>
+<code>frame = year</code>: This makes the frame of the animation correspond to year–so the animation shows changes across time (years).</li>
+<li>
+<code>ids = country</code>: This ensures smooth transitions between objects with the same <code>id</code> (which helps facilitate object constancy throughout the animation). Here, each point is a country, so this makes the animation transition smoothly from year to year for a given country. (For more information, see <a href="https://plotly-r.com/animating-views">here</a>.)</li>
+</ul>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">data</span>(gapminder, <span class="at">package =</span> <span class="st">"gapminder"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gapminder, <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent, <span class="at">size =</span> pop)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">frame =</span> year, <span class="at">ids =</span> country)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP per capita"</span>, <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">color =</span> <span class="st">"Continent"</span>, <span class="at">size =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="fu">theme_classic</span>()</span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Your Turn</strong></p>
+<p>In a web application, having plots be <code>plotly</code> objects is just nice by default because of the great mouseover, zoom, and pan features.</p>
+<p>Inside <code>app.R</code>, change <code>plotOutput</code> to <code>plotlyOutput</code> and <code>renderPlot</code> to <code>renderPlotly</code> for the scatterplot and the barplot. Make sure to add calls to <code>ggplotly()</code> too.</p>
+<p>As part of Homework 9, you will incorporate advanced <code>plotly</code> into the Shiny App.</p>
+</section></section><section id="publishing-shiny-apps" class="level2"><h2 class="anchored" data-anchor-id="publishing-shiny-apps">Publishing Shiny apps</h2>
+<p>To share your work publicly, you’ll need to publish your Shiny app.</p>
+<section id="shinyapps.io" class="level3"><h3 class="anchored" data-anchor-id="shinyapps.io">Shinyapps.io</h3>
+<p>The steps below take you through publishing via <a href="https://www.shinyapps.io/">shinyapps.io</a>.</p>
+<p>The first step is to install and load the <code>rsconnect</code> library.</p>
+<p>You will be able to share your app with any individual with internet access unless you make it password-protected.</p>
+<ol type="1">
+<li>Register for an account at <a href="https://www.shinyapps.io/admin/#/signup" class="uri">https://www.shinyapps.io/admin/#/signup</a>.</li>
+<li>Once you are logged in to shinyapps.io, go to Account –&gt; Tokens and click the Show button.</li>
+<li>Copy and paste the code into the Console in R. This will connect your account to RStudio.</li>
+<li>When you create an app, save it as <code>app.R</code> in a folder. It <strong>MUST</strong> be named <code>app.R</code>. In the <code>app.R</code> file, load all packages you use in your code. Try not to load extra packages—this can make publishing take longer and slow down the app for users. Any data that your app uses needs to be read in within the app. If the data are local to your computer, you need to have the data in the same folder as the app.</li>
+<li>Run the app. In the upper right-hand corner, there is an option to publish the app. Click on that. It will take a bit of time to do it the first time. Once published, you can go to the app via the webpage provided.</li>
+</ol>
+<p>The instructions are set out in more detail <a href="https://shiny.rstudio.com/articles/shinyapps.html">here</a>.</p>
+</section></section><section id="my-sniny-app" class="level1"><h1>My Sniny App</h1>
+<iframe src="https://mashaantonova.shinyapps.io/neighborhood_diversity/" width="100%" height="800px" frameborder="0">
+</iframe>
+<section id="resources" class="level2"><h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ul>
+<li>Creating dashboard layouts
+<ul>
+<li>The <code>shinydashboard</code> <a href="https://rstudio.github.io/shinydashboard/">package</a> provides a nice way to style your app like a dashboard.</li>
+<li>The <code>flexdashboard</code> <a href="https://pkgs.rstudio.com/flexdashboard/index.html">package</a> provides alternate syntax within an RMarkdown context to creating dashboards.</li>
+</ul>
+</li>
+<li>Theory of dashboard design: principles for building useful dashboards
+<ul>
+<li><a href="https://arxiv.org/pdf/2205.00757.pdf">Paper on dashboard design patterns</a></li>
+<li><a href="https://dashboarddesignpatterns.github.io/">Dashboard Design Patterns</a></li>
+<li><a href="https://www.datapine.com/blog/dashboard-design-principles-and-best-practices/#dashboard-design-best-practices">Dashboard design principles and best practice</a></li>
+</ul>
+</li>
+<li>Dig deeper with <code>shiny</code> and <code>plotly</code>
+<ul>
+<li><a href="https://github.com/grabear/awesome-rshiny">Curated set of Shiny resources</a></li>
+<li>
+<a href="https://shiny.posit.co/r/getstarted/">Getting started with Shiny</a>: A set of tutorials for learning more about interactivity</li>
+<li>
+<a href="https://plotly-r.com/">Online book about <code>plotly</code></a> &lt;– retired 😢</li>
+</ul>
+</li>
+<li>Examples of Shiny apps to inspire your own
+<ul>
+<li><a href="https://github.com/rstudio/shiny-examples">Repository of Shiny app examples</a></li>
+<li><a href="https://metrotransitmn.shinyapps.io/metc-wastewater-covid-monitor/">Metropolitan Council’s COVID wastewater monitor Shiny app</a></li>
+</ul>
+</li>
+</ul></section><section id="done" class="level2"><h2 class="anchored" data-anchor-id="done">Done!</h2>
+<ul>
+<li>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</li>
+</ul>
+
+
+<!-- -->
+
+</section></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>Andrienko, N., Andrienko, G., Fuchs, G., Slingsby, A., Turkay, C., Wrobel, S. (2020). Principles of Interactive Visualisation. In: Visual Analytics for Data Scientists. Springer, Cham. <a href="https://doi.org/10.1007/978-3-030-56146-8_3" class="uri">https://doi.org/10.1007/978-3-030-56146-8_3</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation column-body"><div class="nav-page nav-page-previous">
+      <a href="../ica/16-databases-notes.html" class="pagination-link" aria-label="16 Databases and SQL">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">16 Databases and SQL</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../extra/extra-sample1.html" class="pagination-link" aria-label="Extra Sample 1">
+        <span class="nav-page-text"><span class="chapter-title">Extra Sample 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="an">title:</span><span class="co"> "18 Interactive Viz"</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">---</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="fu">## 🧩 Learning Goals</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a>By the end of this lesson, you should be able to:</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="ss">- </span>Evaluate when it would be useful to use an interactive visualization or an animation and when it might not be necessary</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="ss">- </span>Construct interactive visualizations and animations with <span class="in">`plotly`</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="ss">- </span>Build a Shiny app that enables user to adjust visualization choices and explore linked visualizations</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="in">```{r setup_18, echo=FALSE, message=FALSE}</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="in">```</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a></span>
+<span id="cb8-17"><a href="#cb8-17"></a></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="fu">## Background</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a></span>
+<span id="cb8-20"><a href="#cb8-20"></a>The goal of interactivity should be to allow users to **explore data more quickly and/or more deeply than is possible with static data representations**.</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="fu">### Pros</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="ss">- </span>Users can click, hover, zoom, and pan to get more detailed information</span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="ss">- </span>Users can get quickly and deeply explore the data via linked data representations</span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="ss">- </span>Allows guided exploration of results without needing to share data</span>
+<span id="cb8-27"><a href="#cb8-27"></a></span>
+<span id="cb8-28"><a href="#cb8-28"></a></span>
+<span id="cb8-29"><a href="#cb8-29"></a><span class="fu">### Cons</span></span>
+<span id="cb8-30"><a href="#cb8-30"></a></span>
+<span id="cb8-31"><a href="#cb8-31"></a><span class="ss">- </span>Takes longer to design</span>
+<span id="cb8-32"><a href="#cb8-32"></a><span class="ss">- </span>Analyst might spend longer exploring an interactive visualization than a series of static visualizations</span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="ss">- </span>Poor design could result in information overload</span>
+<span id="cb8-34"><a href="#cb8-34"></a></span>
+<span id="cb8-35"><a href="#cb8-35"></a></span>
+<span id="cb8-36"><a href="#cb8-36"></a><span class="fu">### Features</span></span>
+<span id="cb8-37"><a href="#cb8-37"></a></span>
+<span id="cb8-38"><a href="#cb8-38"></a>Common features of interactive visualizations^<span class="co">[</span><span class="ot">Andrienko, N., Andrienko, G., Fuchs, G., Slingsby, A., Turkay, C., Wrobel, S. (2020). Principles of Interactive Visualisation. In: Visual Analytics for Data Scientists. Springer, Cham. &lt;https://doi.org/10.1007/978-3-030-56146-8_3&gt;</span><span class="co">]</span> include:</span>
+<span id="cb8-39"><a href="#cb8-39"></a></span>
+<span id="cb8-40"><a href="#cb8-40"></a></span>
+<span id="cb8-41"><a href="#cb8-41"></a><span class="ss">- </span>Changing data representation: providing options to change the type of plot displayed (e.g., allowing users to visualize temperature patterns over a month vs. over years)</span>
+<span id="cb8-42"><a href="#cb8-42"></a><span class="ss">- </span>Focusing and getting details: mousing over part of a visualization to see an exact data value, zooming and panning</span>
+<span id="cb8-43"><a href="#cb8-43"></a><span class="ss">- </span>Data transformation: e.g., changing color scale, switching to/from log scale</span>
+<span id="cb8-44"><a href="#cb8-44"></a><span class="ss">- </span>Data selection and filtering: highlighting and brushing regions of a plot to focus the selected points; reordering and filtering data show in tables</span>
+<span id="cb8-45"><a href="#cb8-45"></a><span class="ss">- </span>Finding corresponding information in multiple views: linked views that update dynamically based on interaction in another plot (often by zooming, panning, or selecting certain points)</span>
+<span id="cb8-46"><a href="#cb8-46"></a></span>
+<span id="cb8-47"><a href="#cb8-47"></a></span>
+<span id="cb8-48"><a href="#cb8-48"></a></span>
+<span id="cb8-49"><a href="#cb8-49"></a><span class="fu">## Motivating Example</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a></span>
+<span id="cb8-51"><a href="#cb8-51"></a>Kyle Walker's <span class="co">[</span><span class="ot">neighborhood diversity interactive application</span><span class="co">](https://walkerke.shinyapps.io/neighborhood_diversity/)</span> allows exploration of neighborhood diversity across time and space. It showcases major packages and features of interactive visualization. We will recreate the core parts of this app from scratch.</span>
+<span id="cb8-52"><a href="#cb8-52"></a></span>
+<span id="cb8-53"><a href="#cb8-53"></a></span>
+<span id="cb8-54"><a href="#cb8-54"></a></span>
+<span id="cb8-55"><a href="#cb8-55"></a><span class="fu">### App Exploration</span></span>
+<span id="cb8-56"><a href="#cb8-56"></a></span>
+<span id="cb8-57"><a href="#cb8-57"></a>To avoid overloading the author's Shiny server, **only one** person from each table group should open the app and navigate around. Then, as a group</span>
+<span id="cb8-58"><a href="#cb8-58"></a></span>
+<span id="cb8-59"><a href="#cb8-59"></a><span class="ss">1. </span>Catalog the app's **layout** and **interactivity features** and make note of where user inputs are located and how different parts of the app respond to user input.</span>
+<span id="cb8-60"><a href="#cb8-60"></a><span class="ss">2. </span>Evaluate the design of this app.</span>
+<span id="cb8-61"><a href="#cb8-61"></a><span class="ss">    - </span>Is the interactivity in this app needed, ie, does the interactivity actually help you gain more insight and perhaps more quickly than a series of static visualizations?</span>
+<span id="cb8-62"><a href="#cb8-62"></a><span class="ss">    - </span>What explorations/comparisons are you curious to explore that are not enabled well by the app?</span>
+<span id="cb8-63"><a href="#cb8-63"></a></span>
+<span id="cb8-64"><a href="#cb8-64"></a></span>
+<span id="cb8-65"><a href="#cb8-65"></a>In case the app doesn't load, use the following screenshots:</span>
+<span id="cb8-66"><a href="#cb8-66"></a></span>
+<span id="cb8-67"><a href="#cb8-67"></a><span class="al">![](https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab1.png)</span>{fig-align="center" width=600}</span>
+<span id="cb8-68"><a href="#cb8-68"></a></span>
+<span id="cb8-69"><a href="#cb8-69"></a><span class="al">![](https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab2.png)</span>{fig-align="center" width=600}</span>
+<span id="cb8-70"><a href="#cb8-70"></a></span>
+<span id="cb8-71"><a href="#cb8-71"></a><span class="al">![](https://hash-mac.github.io/stat212site-sp26/images/nd_shiny_app_tab3.png)</span>{fig-align="center" width=600}</span>
+<span id="cb8-72"><a href="#cb8-72"></a></span>
+<span id="cb8-73"><a href="#cb8-73"></a></span>
+<span id="cb8-74"><a href="#cb8-74"></a></span>
+<span id="cb8-75"><a href="#cb8-75"></a><span class="fu">## Shiny</span></span>
+<span id="cb8-76"><a href="#cb8-76"></a></span>
+<span id="cb8-77"><a href="#cb8-77"></a>Shiny facilitates building interactive web applications using R code without needing extensive knowledge of web coding technologies such as HTML, CSS, and Javascript.</span>
+<span id="cb8-78"><a href="#cb8-78"></a></span>
+<span id="cb8-79"><a href="#cb8-79"></a><span class="fu">### Setup </span></span>
+<span id="cb8-80"><a href="#cb8-80"></a></span>
+<span id="cb8-81"><a href="#cb8-81"></a>The neighborhood diversity app was made with the Shiny toolkit available in the <span class="in">`shiny`</span> R package. </span>
+<span id="cb8-82"><a href="#cb8-82"></a></span>
+<span id="cb8-83"><a href="#cb8-83"></a></span>
+<span id="cb8-84"><a href="#cb8-84"></a>Download and leave open the <span class="co">[</span><span class="ot">Shiny cheatsheet</span><span class="co">](https://rstudio.github.io/cheatsheets/shiny.pdf)</span>.</span>
+<span id="cb8-85"><a href="#cb8-85"></a></span>
+<span id="cb8-86"><a href="#cb8-86"></a></span>
+<span id="cb8-87"><a href="#cb8-87"></a>Let's look at an example app together. RStudio will create a template app when you go to **File** --&gt; **New File** --&gt; **Shiny Web App** then enter/select the following values: </span>
+<span id="cb8-88"><a href="#cb8-88"></a></span>
+<span id="cb8-89"><a href="#cb8-89"></a><span class="ss">- </span>for the **Application name**, type <span class="in">`neighborhood_diversity`</span>.</span>
+<span id="cb8-90"><a href="#cb8-90"></a><span class="ss">- </span>for **Application type**, leave the default option **Single file (app.R)**</span>
+<span id="cb8-91"><a href="#cb8-91"></a></span>
+<span id="cb8-92"><a href="#cb8-92"></a>This creates a folder in your current directory called <span class="in">`neighborhood_diversity`</span> with a single R code file called <span class="in">`app.R`</span>.</span>
+<span id="cb8-93"><a href="#cb8-93"></a></span>
+<span id="cb8-94"><a href="#cb8-94"></a></span>
+<span id="cb8-95"><a href="#cb8-95"></a>Click the Run App button in the top right of the source code editor to view the app in action.</span>
+<span id="cb8-96"><a href="#cb8-96"></a></span>
+<span id="cb8-97"><a href="#cb8-97"></a>The <span class="in">`app.R`</span> has three components:</span>
+<span id="cb8-98"><a href="#cb8-98"></a></span>
+<span id="cb8-99"><a href="#cb8-99"></a><span class="ss">- </span>a user interface object (<span class="in">`ui`</span>): to set up the layout of the app</span>
+<span id="cb8-100"><a href="#cb8-100"></a><span class="ss">- </span>a server function (<span class="in">`server`</span>): to define how the app will react to user input</span>
+<span id="cb8-101"><a href="#cb8-101"></a><span class="ss">- </span>a call to the <span class="in">`shinyApp()`</span> function: to launch the app using the UI object (<span class="in">`ui`</span>) and server function (<span class="in">`server`</span>) created above</span>
+<span id="cb8-102"><a href="#cb8-102"></a></span>
+<span id="cb8-103"><a href="#cb8-103"></a><span class="fu">### Getting Acquainted</span></span>
+<span id="cb8-104"><a href="#cb8-104"></a></span>
+<span id="cb8-105"><a href="#cb8-105"></a>**Setup part 1:** Load required packages at the top of <span class="in">`app.R`</span>: <span class="in">`shiny`</span>, <span class="in">`tidyverse`</span>, <span class="in">`sf`</span>, and <span class="in">`plotly`</span>.</span>
+<span id="cb8-106"><a href="#cb8-106"></a></span>
+<span id="cb8-107"><a href="#cb8-107"></a>**Setup part 2:** Data download and folder setup</span>
+<span id="cb8-108"><a href="#cb8-108"></a></span>
+<span id="cb8-109"><a href="#cb8-109"></a>Save the two files, <span class="co">[</span><span class="ot">diverse_data_by_dist.rds</span><span class="co">](https://mac-stat.github.io/data/diverse_data_by_dist.rds)</span> and <span class="co">[</span><span class="ot">diverse_data_by_year.csv</span><span class="co">](https://mac-stat.github.io/data/diverse_data_by_year.csv)</span>, with the folder setup below inside your portfolio repository.</span>
+<span id="cb8-110"><a href="#cb8-110"></a></span>
+<span id="cb8-111"><a href="#cb8-111"></a><span class="ss">- </span>📂 <span class="in">`neighborhood_diversity`</span></span>
+<span id="cb8-112"><a href="#cb8-112"></a><span class="ss">    - </span><span class="in">`app.R`</span></span>
+<span id="cb8-113"><a href="#cb8-113"></a><span class="ss">    - </span>📂 <span class="in">`data`</span></span>
+<span id="cb8-114"><a href="#cb8-114"></a><span class="ss">        - </span><span class="in">`diverse_data_by_dist.rds`</span></span>
+<span id="cb8-115"><a href="#cb8-115"></a><span class="ss">        - </span><span class="in">`diverse_data_by_year.csv`</span></span>
+<span id="cb8-116"><a href="#cb8-116"></a></span>
+<span id="cb8-117"><a href="#cb8-117"></a></span>
+<span id="cb8-118"><a href="#cb8-118"></a></span>
+<span id="cb8-119"><a href="#cb8-119"></a>**Setup part 3:** Below your <span class="in">`library()`</span> calls, add the following commands to read in the data:</span>
+<span id="cb8-120"><a href="#cb8-120"></a></span>
+<span id="cb8-121"><a href="#cb8-121"></a><span class="in">```{r reading}</span></span>
+<span id="cb8-122"><a href="#cb8-122"></a><span class="co">#| eval: false</span></span>
+<span id="cb8-123"><a href="#cb8-123"></a>data_by_dist <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"relative path to diverse_data_by_dist.rds"</span>)</span>
+<span id="cb8-124"><a href="#cb8-124"></a>data_by_year <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"relative path to diverse_data_by_year.csv"</span>)</span>
+<span id="cb8-125"><a href="#cb8-125"></a><span class="in">```</span></span>
+<span id="cb8-126"><a href="#cb8-126"></a></span>
+<span id="cb8-127"><a href="#cb8-127"></a>**Getting acquainted with the app and underlying code:** Take a few minutes to explore the code:</span>
+<span id="cb8-128"><a href="#cb8-128"></a></span>
+<span id="cb8-129"><a href="#cb8-129"></a><span class="ss">- </span><span class="in">`ui`</span> section. How are functions nested inside each other, and how does this seem to relate to the visual appearance of the app?</span>
+<span id="cb8-130"><a href="#cb8-130"></a><span class="ss">- </span>What names/labels in the User Interface (<span class="in">`ui`</span>) part of the app seem to be shared with the <span class="in">`server`</span> part of the app?</span>
+<span id="cb8-131"><a href="#cb8-131"></a></span>
+<span id="cb8-132"><a href="#cb8-132"></a></span>
+<span id="cb8-133"><a href="#cb8-133"></a><span class="fu">### Data Codebook</span></span>
+<span id="cb8-134"><a href="#cb8-134"></a></span>
+<span id="cb8-135"><a href="#cb8-135"></a>The <span class="in">`data_by_dist`</span> dataset is an <span class="in">`sf`</span> object (cases = census tracts) with the following variables:</span>
+<span id="cb8-136"><a href="#cb8-136"></a></span>
+<span id="cb8-137"><a href="#cb8-137"></a><span class="ss">- </span><span class="in">`metro_id`</span>: numeric ID for the city</span>
+<span id="cb8-138"><a href="#cb8-138"></a><span class="ss">- </span><span class="in">`metro_name`</span>: city name</span>
+<span id="cb8-139"><a href="#cb8-139"></a><span class="ss">- </span><span class="in">`geometry`</span>: information about the spatial geometry for the tract</span>
+<span id="cb8-140"><a href="#cb8-140"></a><span class="ss">- </span><span class="in">`tract_id`</span>: numeric census tract ID</span>
+<span id="cb8-141"><a href="#cb8-141"></a><span class="ss">- </span><span class="in">`distmiles`</span>: distance in miles from this tract to city hall</span>
+<span id="cb8-142"><a href="#cb8-142"></a><span class="ss">- </span><span class="in">`entropy`</span>: a measure of the diversity of a census tract (a diversity "score")</span>
+<span id="cb8-143"><a href="#cb8-143"></a><span class="ss">- </span>Race variables (each of these is the number of people)</span>
+<span id="cb8-144"><a href="#cb8-144"></a><span class="ss">    - </span><span class="in">`aian`</span>: American Indian</span>
+<span id="cb8-145"><a href="#cb8-145"></a><span class="ss">    - </span><span class="in">`asian`</span></span>
+<span id="cb8-146"><a href="#cb8-146"></a><span class="ss">    - </span><span class="in">`black`</span></span>
+<span id="cb8-147"><a href="#cb8-147"></a><span class="ss">    - </span><span class="in">`hispanic`</span></span>
+<span id="cb8-148"><a href="#cb8-148"></a><span class="ss">    - </span><span class="in">`two_or_more`</span></span>
+<span id="cb8-149"><a href="#cb8-149"></a><span class="ss">    - </span><span class="in">`white`</span></span>
+<span id="cb8-150"><a href="#cb8-150"></a></span>
+<span id="cb8-151"><a href="#cb8-151"></a>The <span class="in">`data_by_year`</span> dataset has a subset of the above variables as well as a <span class="in">`year`</span> variable.</span>
+<span id="cb8-152"><a href="#cb8-152"></a></span>
+<span id="cb8-153"><a href="#cb8-153"></a></span>
+<span id="cb8-154"><a href="#cb8-154"></a><span class="fu">### `*Input()` functions </span></span>
+<span id="cb8-155"><a href="#cb8-155"></a></span>
+<span id="cb8-156"><a href="#cb8-156"></a>**What do these do?** The <span class="in">`*Input()`</span> functions collect inputs from the user.</span>
+<span id="cb8-157"><a href="#cb8-157"></a></span>
+<span id="cb8-158"><a href="#cb8-158"></a></span>
+<span id="cb8-159"><a href="#cb8-159"></a>**Where are these functions on the cheatsheet?** Right-hand side of the first page</span>
+<span id="cb8-160"><a href="#cb8-160"></a></span>
+<span id="cb8-161"><a href="#cb8-161"></a></span>
+<span id="cb8-162"><a href="#cb8-162"></a>**Where do these go in the app?**</span>
+<span id="cb8-163"><a href="#cb8-163"></a></span>
+<span id="cb8-164"><a href="#cb8-164"></a><span class="ss">- </span>All <span class="in">`*Input()`</span> functions go in the <span class="in">`ui`</span> part of the app.</span>
+<span id="cb8-165"><a href="#cb8-165"></a><span class="ss">- </span>Pay careful attention to the nesting of the functions in the <span class="in">`ui`</span> section. For example, in a <span class="in">`sidebarLayout()`</span>, these <span class="in">`*Input()`</span> functions should go in the <span class="in">`sidebarPanel()`</span> (as opposed to the <span class="in">`mainPanel()`</span>).</span>
+<span id="cb8-166"><a href="#cb8-166"></a><span class="ss">- </span>Separate multiple <span class="in">`*Input()`</span> functions with commas.</span>
+<span id="cb8-167"><a href="#cb8-167"></a></span>
+<span id="cb8-168"><a href="#cb8-168"></a></span>
+<span id="cb8-169"><a href="#cb8-169"></a>**How do the function arguments work?** In all the <span class="in">`*Input()`</span> functions, the first two arguments are the same:</span>
+<span id="cb8-170"><a href="#cb8-170"></a></span>
+<span id="cb8-171"><a href="#cb8-171"></a><span class="ss">- </span><span class="in">`inputId`</span> is how you will refer to this input in the <span class="in">`server`</span> portion later. *You can call this anything you want*, but make this ID describe the information that the user is providing.</span>
+<span id="cb8-172"><a href="#cb8-172"></a><span class="ss">- </span><span class="in">`label`</span> is how this will actually be labeled in your UI (what text shows up in the app).</span>
+<span id="cb8-173"><a href="#cb8-173"></a></span>
+<span id="cb8-174"><a href="#cb8-174"></a>Each function has some additional arguments depending what you want to do.</span>
+<span id="cb8-175"><a href="#cb8-175"></a></span>
+<span id="cb8-176"><a href="#cb8-176"></a></span>
+<span id="cb8-177"><a href="#cb8-177"></a></span>
+<span id="cb8-178"><a href="#cb8-178"></a>**Your Turn**</span>
+<span id="cb8-179"><a href="#cb8-179"></a></span>
+<span id="cb8-180"><a href="#cb8-180"></a>Add the following two user inputs to your app:</span>
+<span id="cb8-181"><a href="#cb8-181"></a></span>
+<span id="cb8-182"><a href="#cb8-182"></a><span class="ss">- </span>Dropdown to select the city name</span>
+<span id="cb8-183"><a href="#cb8-183"></a><span class="ss">- </span>Slider to choose the span parameter for the scatterplot smooth</span>
+<span id="cb8-184"><a href="#cb8-184"></a><span class="ss">    - </span>This parameter varies from 0 to 1. Lower values result in a wiggly smoothing line, and higher values result in a smoother line.</span>
+<span id="cb8-185"><a href="#cb8-185"></a></span>
+<span id="cb8-186"><a href="#cb8-186"></a>Use the Shiny cheatsheet to find the <span class="in">`*Input()`</span> functions that correspond to the two inputs above. Add them to the appropriate place within the <span class="in">`ui`</span> object. Use commas to separate the inputs.</span>
+<span id="cb8-187"><a href="#cb8-187"></a></span>
+<span id="cb8-188"><a href="#cb8-188"></a>::: {.callout-tip title="Parentheses Pandemonium"}</span>
+<span id="cb8-189"><a href="#cb8-189"></a>Carefully formatting your code will be crucial here! With <span class="in">`shiny`</span> UIs, it is very easy to lose or mismatch parentheses, which leads to frustrating errors. My suggestion is to place parentheses as follow:</span>
+<span id="cb8-190"><a href="#cb8-190"></a></span>
+<span id="cb8-191"><a href="#cb8-191"></a><span class="in">```</span></span>
+<span id="cb8-192"><a href="#cb8-192"></a><span class="in">sliderInput(</span></span>
+<span id="cb8-193"><a href="#cb8-193"></a><span class="in">    argument1 = value1,</span></span>
+<span id="cb8-194"><a href="#cb8-194"></a><span class="in">    argument2 = value2,</span></span>
+<span id="cb8-195"><a href="#cb8-195"></a><span class="in">    argument3 = value3</span></span>
+<span id="cb8-196"><a href="#cb8-196"></a><span class="in">)</span></span>
+<span id="cb8-197"><a href="#cb8-197"></a><span class="in">```</span></span>
+<span id="cb8-198"><a href="#cb8-198"></a></span>
+<span id="cb8-199"><a href="#cb8-199"></a>Note how the left parenthesis is on the same line as the function, and the right parenthesis is on its own line and left-aligned with the start of the function name.</span>
+<span id="cb8-200"><a href="#cb8-200"></a></span>
+<span id="cb8-201"><a href="#cb8-201"></a>Tip: In RStudio, you can place your cursor next to any parenthesis to highlight the matching parenthesis (if there is one).</span>
+<span id="cb8-202"><a href="#cb8-202"></a>:::</span>
+<span id="cb8-203"><a href="#cb8-203"></a></span>
+<span id="cb8-204"><a href="#cb8-204"></a>You will have to look at the **documentation** for the <span class="in">`*Input()`</span> functions to know how to use arguments beyond <span class="in">`inputId`</span> and <span class="in">`label`</span>. To view this documentation, type <span class="in">`?function_name`</span> in the Console.</span>
+<span id="cb8-205"><a href="#cb8-205"></a></span>
+<span id="cb8-206"><a href="#cb8-206"></a>To get the collection of city names from the <span class="in">`data_by_dist`</span> dataset, you can use the following:</span>
+<span id="cb8-207"><a href="#cb8-207"></a></span>
+<span id="cb8-208"><a href="#cb8-208"></a><span class="in">```r</span></span>
+<span id="cb8-209"><a href="#cb8-209"></a>metro_names <span class="ot">&lt;-</span> data_by_dist <span class="sc">|&gt;</span> <span class="fu">pull</span>(metro_name) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<span id="cb8-210"><a href="#cb8-210"></a><span class="in">```</span></span>
+<span id="cb8-211"><a href="#cb8-211"></a></span>
+<span id="cb8-212"><a href="#cb8-212"></a>Put this <span class="in">`metro_names`</span> code just beneath where you read in the data.</span>
+<span id="cb8-213"><a href="#cb8-213"></a></span>
+<span id="cb8-214"><a href="#cb8-214"></a>Once you finish, run your app. Make sure you can select and move things around as expected. You won't see any plots yet---we'll work on those in the next exercises.</span>
+<span id="cb8-215"><a href="#cb8-215"></a></span>
+<span id="cb8-216"><a href="#cb8-216"></a></span>
+<span id="cb8-217"><a href="#cb8-217"></a><span class="fu">### `*Output()` functions </span></span>
+<span id="cb8-218"><a href="#cb8-218"></a></span>
+<span id="cb8-219"><a href="#cb8-219"></a></span>
+<span id="cb8-220"><a href="#cb8-220"></a>**What do these do?** <span class="in">`*Output()`</span> functions in the <span class="in">`ui`</span> portion work with the <span class="in">`render*()`</span> functions in the server portion to to add R output (like plots and tables) to the UI.</span>
+<span id="cb8-221"><a href="#cb8-221"></a></span>
+<span id="cb8-222"><a href="#cb8-222"></a></span>
+<span id="cb8-223"><a href="#cb8-223"></a>**Where are these functions on the cheatsheet?** Bottom-center of the first page</span>
+<span id="cb8-224"><a href="#cb8-224"></a></span>
+<span id="cb8-225"><a href="#cb8-225"></a></span>
+<span id="cb8-226"><a href="#cb8-226"></a>**Where do these go in the app?**</span>
+<span id="cb8-227"><a href="#cb8-227"></a></span>
+<span id="cb8-228"><a href="#cb8-228"></a><span class="ss">- </span>All <span class="in">`*Output()`</span> functions go in the <span class="in">`ui`</span> part of the app.</span>
+<span id="cb8-229"><a href="#cb8-229"></a><span class="ss">- </span>Pay careful attention to the nesting of the functions in the <span class="in">`ui`</span> section. For example, in a <span class="in">`sidebarLayout()`</span>, these <span class="in">`*Output()`</span> functions should go in the <span class="in">`mainPanel()`</span> (as opposed to the <span class="in">`sidebarPanel()`</span>).</span>
+<span id="cb8-230"><a href="#cb8-230"></a><span class="ss">- </span>Separate multiple <span class="in">`*Output()`</span> functions with commas.</span>
+<span id="cb8-231"><a href="#cb8-231"></a></span>
+<span id="cb8-232"><a href="#cb8-232"></a></span>
+<span id="cb8-233"><a href="#cb8-233"></a>**How do the function arguments work?** In all the <span class="in">`*Output()`</span> functions, the first argument is the same:</span>
+<span id="cb8-234"><a href="#cb8-234"></a></span>
+<span id="cb8-235"><a href="#cb8-235"></a><span class="ss">- </span><span class="in">`outputId`</span> works just like <span class="in">`inputId`</span> for <span class="in">`*Input()`</span> functions. This is how you will refer to this output in the <span class="in">`server`</span> portion later. *You can call this anything you want*, but make this ID describe the output being created.</span>
+<span id="cb8-236"><a href="#cb8-236"></a></span>
+<span id="cb8-237"><a href="#cb8-237"></a></span>
+<span id="cb8-238"><a href="#cb8-238"></a></span>
+<span id="cb8-239"><a href="#cb8-239"></a>**Your Turn**</span>
+<span id="cb8-240"><a href="#cb8-240"></a></span>
+<span id="cb8-241"><a href="#cb8-241"></a>Add 3 outputs to the <span class="in">`ui`</span> that will eventually be:</span>
+<span id="cb8-242"><a href="#cb8-242"></a></span>
+<span id="cb8-243"><a href="#cb8-243"></a><span class="ss">- </span>A scatterplot of diversity score (<span class="in">`entropy`</span>) versus distance to city hall (<span class="in">`distmiles`</span>) with a smoothing line (smoothness controlled by the span parameter on your slider input)</span>
+<span id="cb8-244"><a href="#cb8-244"></a><span class="ss">- </span>A map of diversity scores across the counties in the selected city</span>
+<span id="cb8-245"><a href="#cb8-245"></a><span class="ss">- </span>A bar chart of the overall race distribution in the selected city (i.e., the total number of people in each race category in the city)</span>
+<span id="cb8-246"><a href="#cb8-246"></a></span>
+<span id="cb8-247"><a href="#cb8-247"></a>For now, don't worry that the layout of the plots exactly matches the original neighborhood diversity app. (You will update this in your homework.)</span>
+<span id="cb8-248"><a href="#cb8-248"></a></span>
+<span id="cb8-249"><a href="#cb8-249"></a>Run the app with the output. Notice that nothing really changes. Think of the outputs you just placed as placeholders---the app knows there will be a plot in the UI, but the details of what the plots will look like and the R code to create them will be in the <span class="in">`server`</span> portion. Let’s talk about that now!</span>
+<span id="cb8-250"><a href="#cb8-250"></a></span>
+<span id="cb8-251"><a href="#cb8-251"></a></span>
+<span id="cb8-252"><a href="#cb8-252"></a><span class="fu">### `render*()` functions</span></span>
+<span id="cb8-253"><a href="#cb8-253"></a></span>
+<span id="cb8-254"><a href="#cb8-254"></a></span>
+<span id="cb8-255"><a href="#cb8-255"></a>**What do these do?** The <span class="in">`render*()`</span> functions use R code (i.e., standard <span class="in">`ggplot`</span> code) to communicate with ("listen to") the user inputs to create the desired output.</span>
+<span id="cb8-256"><a href="#cb8-256"></a></span>
+<span id="cb8-257"><a href="#cb8-257"></a></span>
+<span id="cb8-258"><a href="#cb8-258"></a></span>
+<span id="cb8-259"><a href="#cb8-259"></a>**Where are these functions on the cheatsheet?** Bottom-center of the first page. The <span class="in">`render*()`</span> function you use will depend on the desired output. The bottom center of the cheatsheet shows how <span class="in">`*Output()`</span> and <span class="in">`render*()`</span> functions connect.</span>
+<span id="cb8-260"><a href="#cb8-260"></a></span>
+<span id="cb8-261"><a href="#cb8-261"></a></span>
+<span id="cb8-262"><a href="#cb8-262"></a>**Where do these go in the app?** The <span class="in">`render*()`</span> functions go in the <span class="in">`server`</span> function of the app. </span>
+<span id="cb8-263"><a href="#cb8-263"></a></span>
+<span id="cb8-264"><a href="#cb8-264"></a></span>
+<span id="cb8-265"><a href="#cb8-265"></a>In general, the server section of code will look something like this:</span>
+<span id="cb8-266"><a href="#cb8-266"></a></span>
+<span id="cb8-267"><a href="#cb8-267"></a><span class="in">```{r shiny_server_example, eval=FALSE}</span></span>
+<span id="cb8-268"><a href="#cb8-268"></a><span class="co"># Suppose the following are somewhere in the UI part</span></span>
+<span id="cb8-269"><a href="#cb8-269"></a><span class="fu">numericInput</span>(<span class="at">inputId =</span> <span class="st">"min_year"</span>)</span>
+<span id="cb8-270"><a href="#cb8-270"></a><span class="fu">numericInput</span>(<span class="at">inputId =</span> <span class="st">"max_year"</span>)</span>
+<span id="cb8-271"><a href="#cb8-271"></a><span class="fu">plotOutput</span>(<span class="at">outputId =</span> <span class="st">"plot_over_years"</span>)</span>
+<span id="cb8-272"><a href="#cb8-272"></a></span>
+<span id="cb8-273"><a href="#cb8-273"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb8-274"><a href="#cb8-274"></a>    output<span class="sc">$</span>plot_over_years <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({ <span class="co"># Note the curly braces that enclose the R code below</span></span>
+<span id="cb8-275"><a href="#cb8-275"></a>        <span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
+<span id="cb8-276"><a href="#cb8-276"></a>            <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(input<span class="sc">$</span>min_year, input<span class="sc">$</span>max_year))</span>
+<span id="cb8-277"><a href="#cb8-277"></a>    })</span>
+<span id="cb8-278"><a href="#cb8-278"></a>}</span>
+<span id="cb8-279"><a href="#cb8-279"></a><span class="in">```</span></span>
+<span id="cb8-280"><a href="#cb8-280"></a></span>
+<span id="cb8-281"><a href="#cb8-281"></a></span>
+<span id="cb8-282"><a href="#cb8-282"></a>**Your Turn**</span>
+<span id="cb8-283"><a href="#cb8-283"></a></span>
+<span id="cb8-284"><a href="#cb8-284"></a>While our main goals is to make 3 plots, you will just make one of them in this exercise.</span>
+<span id="cb8-285"><a href="#cb8-285"></a></span>
+<span id="cb8-286"><a href="#cb8-286"></a>Add a <span class="in">`renderPlot()`</span> functions inside the <span class="in">`server`</span> portion of the code to make the scatterplot of diversity score (<span class="in">`entropy`</span>) versus distance to city hall (<span class="in">`distmiles`</span>) with a smoothing line. Use the <span class="in">`data_by_dist`</span> dataset. Reference the inputs you’ve already created in previous exercises by using <span class="in">`filter()`</span> and <span class="in">`ggplot()`</span> to render the desired interactive plot.</span>
+<span id="cb8-287"><a href="#cb8-287"></a></span>
+<span id="cb8-288"><a href="#cb8-288"></a>*Note:* the <span class="in">`geom_???`</span> used to create the smoothing line has a <span class="in">`span`</span> parameter. (Check out the documentation for that geom by entering <span class="in">`?geom_???`</span> in the Console.)</span>
+<span id="cb8-289"><a href="#cb8-289"></a></span>
+<span id="cb8-290"><a href="#cb8-290"></a>Run the app and check that the scatterplot displays and reacts to the chosen city and span parameter.</span>
+<span id="cb8-291"><a href="#cb8-291"></a></span>
+<span id="cb8-292"><a href="#cb8-292"></a></span>
+<span id="cb8-293"><a href="#cb8-293"></a>As part of <span class="co">[</span><span class="ot">Homework 9</span><span class="co">](https://hash-mac.github.io/stat212site-sp26/homeworks/homework9.html)</span>, you will finish this Shiny app.</span>
+<span id="cb8-294"><a href="#cb8-294"></a></span>
+<span id="cb8-295"><a href="#cb8-295"></a></span>
+<span id="cb8-296"><a href="#cb8-296"></a></span>
+<span id="cb8-297"><a href="#cb8-297"></a><span class="fu">## `plotly` package</span></span>
+<span id="cb8-298"><a href="#cb8-298"></a></span>
+<span id="cb8-299"><a href="#cb8-299"></a>The <span class="in">`plotly`</span> package provides tools for creating interactive web graphics and is a nice complement to Shiny. </span>
+<span id="cb8-300"><a href="#cb8-300"></a></span>
+<span id="cb8-301"><a href="#cb8-301"></a><span class="fu">### Getting Started {.unnumbered .smaller }</span></span>
+<span id="cb8-302"><a href="#cb8-302"></a></span>
+<span id="cb8-303"><a href="#cb8-303"></a><span class="in">```{r load_plotly}</span></span>
+<span id="cb8-304"><a href="#cb8-304"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb8-305"><a href="#cb8-305"></a><span class="in">```</span></span>
+<span id="cb8-306"><a href="#cb8-306"></a></span>
+<span id="cb8-307"><a href="#cb8-307"></a>A wonderful feature of <span class="in">`plotly`</span> is that an interactive graphic can be constructed by taking a regular <span class="in">`ggplot`</span> graph and putting it inside the <span class="in">`ggplotly()`</span> function:</span>
+<span id="cb8-308"><a href="#cb8-308"></a></span>
+<span id="cb8-309"><a href="#cb8-309"></a><span class="in">```{r plotly_static_example}</span></span>
+<span id="cb8-310"><a href="#cb8-310"></a><span class="fu">data</span>(babynames, <span class="at">package =</span> <span class="st">"babynames"</span>)</span>
+<span id="cb8-311"><a href="#cb8-311"></a>bnames <span class="ot">&lt;-</span> babynames <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Brianna"</span>, <span class="st">"Briana"</span>, <span class="st">"Breanna"</span>))</span>
+<span id="cb8-312"><a href="#cb8-312"></a></span>
+<span id="cb8-313"><a href="#cb8-313"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(bnames, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> prop, <span class="at">color =</span> sex, <span class="at">linetype =</span> name)) <span class="sc">+</span></span>
+<span id="cb8-314"><a href="#cb8-314"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-315"><a href="#cb8-315"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb8-316"><a href="#cb8-316"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Proportion of names"</span>, <span class="at">color =</span> <span class="st">"Gender"</span>, <span class="at">linetype =</span> <span class="st">"Name"</span>)</span>
+<span id="cb8-317"><a href="#cb8-317"></a></span>
+<span id="cb8-318"><a href="#cb8-318"></a><span class="fu">ggplotly</span>(p)</span>
+<span id="cb8-319"><a href="#cb8-319"></a><span class="in">```</span></span>
+<span id="cb8-320"><a href="#cb8-320"></a></span>
+<span id="cb8-321"><a href="#cb8-321"></a>The <span class="in">`plotly`</span> package can also create animations by incorporating <span class="in">`frame`</span> and <span class="in">`ids`</span> aesthetics.</span>
+<span id="cb8-322"><a href="#cb8-322"></a></span>
+<span id="cb8-323"><a href="#cb8-323"></a><span class="ss">- </span><span class="in">`frame = year`</span>: This makes the frame of the animation correspond to year--so the animation shows changes across time (years).</span>
+<span id="cb8-324"><a href="#cb8-324"></a><span class="ss">- </span><span class="in">`ids = country`</span>: This ensures smooth transitions between objects with the same <span class="in">`id`</span> (which helps facilitate object constancy throughout the animation). Here, each point is a country, so this makes the animation transition smoothly from year to year for a given country. (For more information, see <span class="co">[</span><span class="ot">here</span><span class="co">](https://plotly-r.com/animating-views)</span>.)</span>
+<span id="cb8-325"><a href="#cb8-325"></a></span>
+<span id="cb8-326"><a href="#cb8-326"></a><span class="in">```{r plotly_animation_example, eval=FALSE}</span></span>
+<span id="cb8-327"><a href="#cb8-327"></a><span class="fu">data</span>(gapminder, <span class="at">package =</span> <span class="st">"gapminder"</span>)</span>
+<span id="cb8-328"><a href="#cb8-328"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gapminder, <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent, <span class="at">size =</span> pop)) <span class="sc">+</span></span>
+<span id="cb8-329"><a href="#cb8-329"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">frame =</span> year, <span class="at">ids =</span> country)) <span class="sc">+</span></span>
+<span id="cb8-330"><a href="#cb8-330"></a>    <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb8-331"><a href="#cb8-331"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP per capita"</span>, <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">color =</span> <span class="st">"Continent"</span>, <span class="at">size =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb8-332"><a href="#cb8-332"></a>    <span class="fu">theme_classic</span>()</span>
+<span id="cb8-333"><a href="#cb8-333"></a><span class="fu">ggplotly</span>(p)</span>
+<span id="cb8-334"><a href="#cb8-334"></a><span class="in">```</span></span>
+<span id="cb8-335"><a href="#cb8-335"></a></span>
+<span id="cb8-336"><a href="#cb8-336"></a></span>
+<span id="cb8-337"><a href="#cb8-337"></a>**Your Turn**</span>
+<span id="cb8-338"><a href="#cb8-338"></a></span>
+<span id="cb8-339"><a href="#cb8-339"></a>In a web application, having plots be <span class="in">`plotly`</span> objects is just nice by default because of the great mouseover, zoom, and pan features. </span>
+<span id="cb8-340"><a href="#cb8-340"></a></span>
+<span id="cb8-341"><a href="#cb8-341"></a>Inside <span class="in">`app.R`</span>, change <span class="in">`plotOutput`</span> to <span class="in">`plotlyOutput`</span> and <span class="in">`renderPlot`</span> to <span class="in">`renderPlotly`</span> for the scatterplot and the barplot. Make sure to add calls to <span class="in">`ggplotly()`</span> too.</span>
+<span id="cb8-342"><a href="#cb8-342"></a></span>
+<span id="cb8-343"><a href="#cb8-343"></a></span>
+<span id="cb8-344"><a href="#cb8-344"></a>As part of Homework 9, you will incorporate advanced <span class="in">`plotly`</span> into the Shiny App.</span>
+<span id="cb8-345"><a href="#cb8-345"></a></span>
+<span id="cb8-346"><a href="#cb8-346"></a></span>
+<span id="cb8-347"><a href="#cb8-347"></a><span class="fu">## Publishing Shiny apps</span></span>
+<span id="cb8-348"><a href="#cb8-348"></a></span>
+<span id="cb8-349"><a href="#cb8-349"></a>To share your work publicly, you'll need to publish your Shiny app.</span>
+<span id="cb8-350"><a href="#cb8-350"></a></span>
+<span id="cb8-351"><a href="#cb8-351"></a><span class="fu">### Shinyapps.io</span></span>
+<span id="cb8-352"><a href="#cb8-352"></a></span>
+<span id="cb8-353"><a href="#cb8-353"></a>The steps below take you through publishing via <span class="co">[</span><span class="ot">shinyapps.io</span><span class="co">](https://www.shinyapps.io/)</span>.</span>
+<span id="cb8-354"><a href="#cb8-354"></a></span>
+<span id="cb8-355"><a href="#cb8-355"></a>The first step is to install and load the <span class="in">`rsconnect`</span> library.</span>
+<span id="cb8-356"><a href="#cb8-356"></a></span>
+<span id="cb8-357"><a href="#cb8-357"></a>You will be able to share your app with any individual with internet access unless you make it password-protected.</span>
+<span id="cb8-358"><a href="#cb8-358"></a></span>
+<span id="cb8-359"><a href="#cb8-359"></a><span class="ss">1. </span>Register for an account at <span class="ot">&lt;https://www.shinyapps.io/admin/#/signup&gt;</span>.</span>
+<span id="cb8-360"><a href="#cb8-360"></a><span class="ss">2. </span>Once you are logged in to shinyapps.io, go to Account –&gt; Tokens and click the Show button.</span>
+<span id="cb8-361"><a href="#cb8-361"></a><span class="ss">3. </span>Copy and paste the code into the Console in R. This will connect your account to RStudio.</span>
+<span id="cb8-362"><a href="#cb8-362"></a><span class="ss">4. </span>When you create an app, save it as <span class="in">`app.R`</span> in a folder. It **MUST** be named <span class="in">`app.R`</span>. In the <span class="in">`app.R`</span> file, load all packages you use in your code. Try not to load extra packages---this can make publishing take longer and slow down the app for users. Any data that your app uses needs to be read in within the app. If the data are local to your computer, you need to have the data in the same folder as the app.</span>
+<span id="cb8-363"><a href="#cb8-363"></a><span class="ss">5. </span>Run the app. In the upper right-hand corner, there is an option to publish the app. Click on that. It will take a bit of time to do it the first time. Once published, you can go to the app via the webpage provided.</span>
+<span id="cb8-364"><a href="#cb8-364"></a></span>
+<span id="cb8-365"><a href="#cb8-365"></a>The instructions are set out in more detail <span class="co">[</span><span class="ot">here</span><span class="co">](https://shiny.rstudio.com/articles/shinyapps.html)</span>.</span>
+<span id="cb8-366"><a href="#cb8-366"></a></span>
+<span id="cb8-367"><a href="#cb8-367"></a><span class="fu"># My Sniny App</span></span>
+<span id="cb8-368"><a href="#cb8-368"></a></span>
+<span id="cb8-369"><a href="#cb8-369"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://mashaantonova.shinyapps.io/neighborhood_diversity/"</span></span>
+<span id="cb8-370"><a href="#cb8-370"></a><span class="ot">        width</span><span class="op">=</span><span class="st">"100%"</span></span>
+<span id="cb8-371"><a href="#cb8-371"></a><span class="ot">        height</span><span class="op">=</span><span class="st">"800px"</span></span>
+<span id="cb8-372"><a href="#cb8-372"></a><span class="ot">        frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="dt">&gt;</span></span>
+<span id="cb8-373"><a href="#cb8-373"></a>        </span>
+<span id="cb8-374"><a href="#cb8-374"></a><span class="dt">&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb8-375"><a href="#cb8-375"></a></span>
+<span id="cb8-376"><a href="#cb8-376"></a><span class="fu">## Resources</span></span>
+<span id="cb8-377"><a href="#cb8-377"></a></span>
+<span id="cb8-378"><a href="#cb8-378"></a><span class="ss">- </span>Creating dashboard layouts</span>
+<span id="cb8-379"><a href="#cb8-379"></a><span class="ss">    - </span>The <span class="in">`shinydashboard`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://rstudio.github.io/shinydashboard/)</span> provides a nice way to style your app like a dashboard.</span>
+<span id="cb8-380"><a href="#cb8-380"></a><span class="ss">    - </span>The <span class="in">`flexdashboard`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://pkgs.rstudio.com/flexdashboard/index.html)</span> provides alternate syntax within an RMarkdown context to creating dashboards.</span>
+<span id="cb8-381"><a href="#cb8-381"></a><span class="ss">- </span>Theory of dashboard design: principles for building useful dashboards</span>
+<span id="cb8-382"><a href="#cb8-382"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Paper on dashboard design patterns</span><span class="co">](https://arxiv.org/pdf/2205.00757.pdf)</span></span>
+<span id="cb8-383"><a href="#cb8-383"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Dashboard Design Patterns</span><span class="co">](https://dashboarddesignpatterns.github.io/)</span></span>
+<span id="cb8-384"><a href="#cb8-384"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Dashboard design principles and best practice</span><span class="co">](https://www.datapine.com/blog/dashboard-design-principles-and-best-practices/#dashboard-design-best-practices)</span></span>
+<span id="cb8-385"><a href="#cb8-385"></a><span class="ss">- </span>Dig deeper with <span class="in">`shiny`</span> and <span class="in">`plotly`</span></span>
+<span id="cb8-386"><a href="#cb8-386"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Curated set of Shiny resources</span><span class="co">](https://github.com/grabear/awesome-rshiny)</span></span>
+<span id="cb8-387"><a href="#cb8-387"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Getting started with Shiny</span><span class="co">](https://shiny.posit.co/r/getstarted/)</span>: A set of tutorials for learning more about interactivity</span>
+<span id="cb8-388"><a href="#cb8-388"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Online book about `plotly`</span><span class="co">](https://plotly-r.com/)</span> &lt;-- retired 😢</span>
+<span id="cb8-389"><a href="#cb8-389"></a><span class="ss">- </span>Examples of Shiny apps to inspire your own</span>
+<span id="cb8-390"><a href="#cb8-390"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Repository of Shiny app examples</span><span class="co">](https://github.com/rstudio/shiny-examples)</span></span>
+<span id="cb8-391"><a href="#cb8-391"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">Metropolitan Council's COVID wastewater monitor Shiny app</span><span class="co">](https://metrotransitmn.shinyapps.io/metc-wastewater-covid-monitor/)</span></span>
+<span id="cb8-392"><a href="#cb8-392"></a></span>
+<span id="cb8-393"><a href="#cb8-393"></a><span class="fu">## Done!</span></span>
+<span id="cb8-394"><a href="#cb8-394"></a></span>
+<span id="cb8-395"><a href="#cb8-395"></a><span class="ss">- </span>Check the ICA Instructions for how to (a) push your code to GitHub and (b) update your portfolio website</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
