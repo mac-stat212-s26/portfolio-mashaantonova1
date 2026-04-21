@@ -426,12 +426,12 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exams/exam2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam2</span></a>
+  <a href="../exams/exam2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exams/exam3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">exam3</span></a>
+  <a href="../exams/exam3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exam 3</span></a>
   </div>
 </li>
       </ul>
@@ -556,7 +556,8 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#geodetic-vs-projected-coordinate-reference-systems" id="toc-geodetic-vs-projected-coordinate-reference-systems" class="nav-link active" data-scroll-target="#geodetic-vs-projected-coordinate-reference-systems">Geodetic vs Projected Coordinate Reference Systems</a></li>
+<li><a href="#extra" id="toc-extra" class="nav-link active" data-scroll-target="#extra">Extra</a></li>
+  <li><a href="#geodetic-vs-projected-coordinate-reference-systems" id="toc-geodetic-vs-projected-coordinate-reference-systems" class="nav-link" data-scroll-target="#geodetic-vs-projected-coordinate-reference-systems">Geodetic vs Projected Coordinate Reference Systems</a></li>
   <li><a href="#create-a-point-in-wgs84-geodetic-crs" id="toc-create-a-point-in-wgs84-geodetic-crs" class="nav-link" data-scroll-target="#create-a-point-in-wgs84-geodetic-crs">Create a point in WGS84 (geodetic CRS)</a></li>
   <li><a href="#attempting-a-buffer-in-a-geodetic-crs" id="toc-attempting-a-buffer-in-a-geodetic-crs" class="nav-link" data-scroll-target="#attempting-a-buffer-in-a-geodetic-crs">Attempting a buffer in a geodetic CRS</a></li>
   <li><a href="#transform-to-a-projected-crs-utm-zone-15n" id="toc-transform-to-a-projected-crs-utm-zone-15n" class="nav-link" data-scroll-target="#transform-to-a-projected-crs-utm-zone-15n">Transform to a projected CRS (UTM Zone 15N)</a></li>
@@ -583,7 +584,16 @@ cookieconsent.run({
   
 
 
-</header><section id="geodetic-vs-projected-coordinate-reference-systems" class="level2"><h2 class="anchored" data-anchor-id="geodetic-vs-projected-coordinate-reference-systems">Geodetic vs Projected Coordinate Reference Systems</h2>
+</header><div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="exam1-slide.png" class="img-fluid figure-img" width="582"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="extra" class="level2"><h2 class="anchored" data-anchor-id="extra">Extra</h2>
+</section><section id="geodetic-vs-projected-coordinate-reference-systems" class="level2"><h2 class="anchored" data-anchor-id="geodetic-vs-projected-coordinate-reference-systems">Geodetic vs Projected Coordinate Reference Systems</h2>
 <p>A Coordinate Reference System (CRS) defines how spatial data are positioned on the Earth.</p>
 <p>A geodetic CRS represents locations using latitude and longitude on the Earth’s curved surface. Coordinates are expressed in degrees, which are angular units.</p>
 <p>A projected CRS transforms the curved Earth into a flat coordinate system so that spatial calculations such as distance, area, and buffers can be computed using meters.</p>
@@ -709,7 +719,7 @@ PROJCRS["NAD83 / UTM zone 15N",
 <span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">tm_symbols</span>(<span class="at">size =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="exam1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="exam1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1221,8 +1231,8 @@ PROJCRS["NAD83 / UTM zone 15N",
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../exams/exam2.html" class="pagination-link" aria-label="Exam2">
-        <span class="nav-page-text"><span class="chapter-title">Exam2</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../exams/exam2.html" class="pagination-link" aria-label="Exam 2">
+        <span class="nav-page-text"><span class="chapter-title">Exam 2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -1230,89 +1240,96 @@ PROJCRS["NAD83 / UTM zone 15N",
 <span id="cb15-2"><a href="#cb15-2"></a><span class="an">title:</span><span class="co"> "Exam 1"</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a><span class="co">---</span></span>
 <span id="cb15-4"><a href="#cb15-4"></a></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="fu">## Geodetic vs Projected Coordinate Reference Systems</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a></span>
-<span id="cb15-7"><a href="#cb15-7"></a>A Coordinate Reference System (CRS) defines how spatial data are positioned on the Earth.</span>
-<span id="cb15-8"><a href="#cb15-8"></a></span>
-<span id="cb15-9"><a href="#cb15-9"></a>A geodetic CRS represents locations using latitude and longitude on the Earth's curved surface. Coordinates are expressed in degrees, which are angular units.</span>
-<span id="cb15-10"><a href="#cb15-10"></a></span>
-<span id="cb15-11"><a href="#cb15-11"></a>A projected CRS transforms the curved Earth into a flat coordinate system so that spatial calculations such as distance, area, and buffers can be computed using meters.</span>
-<span id="cb15-12"><a href="#cb15-12"></a></span>
-<span id="cb15-13"><a href="#cb15-13"></a>For example, WGS84 (EPSG:4326) is a geodetic CRS commonly used by GPS systems, while UTM projections are projected CRS commonly used for spatial analysis.</span>
-<span id="cb15-14"><a href="#cb15-14"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="in">```{r}</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#| echo: false</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"exam1-slide.png"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="in">```</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="fu">## Extra</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="fu">## Geodetic vs Projected Coordinate Reference Systems</span></span>
 <span id="cb15-15"><a href="#cb15-15"></a></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="in">```{r}</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="fu">library</span>(sf)</span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="fu">library</span>(tmap)</span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="in">```</span></span>
-<span id="cb15-22"><a href="#cb15-22"></a></span>
-<span id="cb15-23"><a href="#cb15-23"></a><span class="fu">## Create a point in WGS84 (geodetic CRS)</span></span>
-<span id="cb15-26"><a href="#cb15-26"></a><span class="in">```{r}</span></span>
-<span id="cb15-27"><a href="#cb15-27"></a>point <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(</span>
-<span id="cb15-28"><a href="#cb15-28"></a>  <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">93.163</span>, <span class="fl">44.953</span>)), <span class="co"># St. Paul, MN</span></span>
-<span id="cb15-29"><a href="#cb15-29"></a>  <span class="at">crs =</span> <span class="dv">4326</span></span>
-<span id="cb15-30"><a href="#cb15-30"></a>)</span>
+<span id="cb15-16"><a href="#cb15-16"></a>A Coordinate Reference System (CRS) defines how spatial data are positioned on the Earth.</span>
+<span id="cb15-17"><a href="#cb15-17"></a></span>
+<span id="cb15-18"><a href="#cb15-18"></a>A geodetic CRS represents locations using latitude and longitude on the Earth's curved surface. Coordinates are expressed in degrees, which are angular units.</span>
+<span id="cb15-19"><a href="#cb15-19"></a></span>
+<span id="cb15-20"><a href="#cb15-20"></a>A projected CRS transforms the curved Earth into a flat coordinate system so that spatial calculations such as distance, area, and buffers can be computed using meters.</span>
+<span id="cb15-21"><a href="#cb15-21"></a></span>
+<span id="cb15-22"><a href="#cb15-22"></a>For example, WGS84 (EPSG:4326) is a geodetic CRS commonly used by GPS systems, while UTM projections are projected CRS commonly used for spatial analysis.</span>
+<span id="cb15-23"><a href="#cb15-23"></a></span>
+<span id="cb15-24"><a href="#cb15-24"></a></span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="in">```{r}</span></span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="fu">library</span>(sf)</span>
+<span id="cb15-29"><a href="#cb15-29"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb15-30"><a href="#cb15-30"></a><span class="in">```</span></span>
 <span id="cb15-31"><a href="#cb15-31"></a></span>
-<span id="cb15-32"><a href="#cb15-32"></a>point</span>
-<span id="cb15-33"><a href="#cb15-33"></a></span>
-<span id="cb15-34"><a href="#cb15-34"></a><span class="fu">st_crs</span>(point)</span>
-<span id="cb15-35"><a href="#cb15-35"></a><span class="in">```</span></span>
-<span id="cb15-36"><a href="#cb15-36"></a></span>
-<span id="cb15-37"><a href="#cb15-37"></a><span class="fu">## Attempting a buffer in a geodetic CRS</span></span>
-<span id="cb15-40"><a href="#cb15-40"></a><span class="in">```{r}</span></span>
-<span id="cb15-41"><a href="#cb15-41"></a>buffer_geo <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(point, <span class="at">dist =</span> <span class="fl">0.01</span>)</span>
-<span id="cb15-42"><a href="#cb15-42"></a><span class="in">```</span></span>
-<span id="cb15-43"><a href="#cb15-43"></a></span>
-<span id="cb15-44"><a href="#cb15-44"></a><span class="fu">## Transform to a projected CRS (UTM Zone 15N)</span></span>
-<span id="cb15-47"><a href="#cb15-47"></a><span class="in">```{r}</span></span>
-<span id="cb15-48"><a href="#cb15-48"></a>point_proj <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point, <span class="dv">26915</span>)</span>
-<span id="cb15-49"><a href="#cb15-49"></a></span>
-<span id="cb15-50"><a href="#cb15-50"></a><span class="fu">st_crs</span>(point_proj)</span>
+<span id="cb15-32"><a href="#cb15-32"></a><span class="fu">## Create a point in WGS84 (geodetic CRS)</span></span>
+<span id="cb15-35"><a href="#cb15-35"></a><span class="in">```{r}</span></span>
+<span id="cb15-36"><a href="#cb15-36"></a>point <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(</span>
+<span id="cb15-37"><a href="#cb15-37"></a>  <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">93.163</span>, <span class="fl">44.953</span>)), <span class="co"># St. Paul, MN</span></span>
+<span id="cb15-38"><a href="#cb15-38"></a>  <span class="at">crs =</span> <span class="dv">4326</span></span>
+<span id="cb15-39"><a href="#cb15-39"></a>)</span>
+<span id="cb15-40"><a href="#cb15-40"></a></span>
+<span id="cb15-41"><a href="#cb15-41"></a>point</span>
+<span id="cb15-42"><a href="#cb15-42"></a></span>
+<span id="cb15-43"><a href="#cb15-43"></a><span class="fu">st_crs</span>(point)</span>
+<span id="cb15-44"><a href="#cb15-44"></a><span class="in">```</span></span>
+<span id="cb15-45"><a href="#cb15-45"></a></span>
+<span id="cb15-46"><a href="#cb15-46"></a><span class="fu">## Attempting a buffer in a geodetic CRS</span></span>
+<span id="cb15-49"><a href="#cb15-49"></a><span class="in">```{r}</span></span>
+<span id="cb15-50"><a href="#cb15-50"></a>buffer_geo <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(point, <span class="at">dist =</span> <span class="fl">0.01</span>)</span>
 <span id="cb15-51"><a href="#cb15-51"></a><span class="in">```</span></span>
 <span id="cb15-52"><a href="#cb15-52"></a></span>
-<span id="cb15-53"><a href="#cb15-53"></a><span class="fu">## Create a 1 km buffer</span></span>
+<span id="cb15-53"><a href="#cb15-53"></a><span class="fu">## Transform to a projected CRS (UTM Zone 15N)</span></span>
 <span id="cb15-56"><a href="#cb15-56"></a><span class="in">```{r}</span></span>
-<span id="cb15-57"><a href="#cb15-57"></a>buffer_proj <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(point_proj, <span class="at">dist =</span> <span class="dv">1000</span>)</span>
-<span id="cb15-58"><a href="#cb15-58"></a><span class="in">```</span></span>
-<span id="cb15-59"><a href="#cb15-59"></a></span>
-<span id="cb15-60"><a href="#cb15-60"></a><span class="fu">## Visualize the result</span></span>
-<span id="cb15-63"><a href="#cb15-63"></a><span class="in">```{r}</span></span>
-<span id="cb15-64"><a href="#cb15-64"></a><span class="fu">tm_shape</span>(buffer_proj) <span class="sc">+</span></span>
-<span id="cb15-65"><a href="#cb15-65"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
-<span id="cb15-66"><a href="#cb15-66"></a>  <span class="fu">tm_shape</span>(point_proj) <span class="sc">+</span></span>
-<span id="cb15-67"><a href="#cb15-67"></a>  <span class="fu">tm_symbols</span>(<span class="at">size =</span> <span class="fl">0.5</span>)</span>
-<span id="cb15-68"><a href="#cb15-68"></a><span class="in">```</span></span>
-<span id="cb15-69"><a href="#cb15-69"></a></span>
-<span id="cb15-70"><a href="#cb15-70"></a><span class="fu">## Key takeaway</span></span>
-<span id="cb15-71"><a href="#cb15-71"></a></span>
-<span id="cb15-72"><a href="#cb15-72"></a>Geodetic CRS are useful for storing global location data, while projected CRS are necessary for accurate spatial measurements such as distance, area, and buffering.</span>
-<span id="cb15-73"><a href="#cb15-73"></a></span>
-<span id="cb15-74"><a href="#cb15-74"></a>Transforming between CRS using st_transform() is a standard step in spatial analysis workflows.</span>
-<span id="cb15-75"><a href="#cb15-75"></a></span>
-<span id="cb15-76"><a href="#cb15-76"></a></span>
-<span id="cb15-77"><a href="#cb15-77"></a><span class="fu">## Extra Exploration</span></span>
+<span id="cb15-57"><a href="#cb15-57"></a>point_proj <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point, <span class="dv">26915</span>)</span>
+<span id="cb15-58"><a href="#cb15-58"></a></span>
+<span id="cb15-59"><a href="#cb15-59"></a><span class="fu">st_crs</span>(point_proj)</span>
+<span id="cb15-60"><a href="#cb15-60"></a><span class="in">```</span></span>
+<span id="cb15-61"><a href="#cb15-61"></a></span>
+<span id="cb15-62"><a href="#cb15-62"></a><span class="fu">## Create a 1 km buffer</span></span>
+<span id="cb15-65"><a href="#cb15-65"></a><span class="in">```{r}</span></span>
+<span id="cb15-66"><a href="#cb15-66"></a>buffer_proj <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(point_proj, <span class="at">dist =</span> <span class="dv">1000</span>)</span>
+<span id="cb15-67"><a href="#cb15-67"></a><span class="in">```</span></span>
+<span id="cb15-68"><a href="#cb15-68"></a></span>
+<span id="cb15-69"><a href="#cb15-69"></a><span class="fu">## Visualize the result</span></span>
+<span id="cb15-72"><a href="#cb15-72"></a><span class="in">```{r}</span></span>
+<span id="cb15-73"><a href="#cb15-73"></a><span class="fu">tm_shape</span>(buffer_proj) <span class="sc">+</span></span>
+<span id="cb15-74"><a href="#cb15-74"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb15-75"><a href="#cb15-75"></a>  <span class="fu">tm_shape</span>(point_proj) <span class="sc">+</span></span>
+<span id="cb15-76"><a href="#cb15-76"></a>  <span class="fu">tm_symbols</span>(<span class="at">size =</span> <span class="fl">0.5</span>)</span>
+<span id="cb15-77"><a href="#cb15-77"></a><span class="in">```</span></span>
 <span id="cb15-78"><a href="#cb15-78"></a></span>
-<span id="cb15-79"><a href="#cb15-79"></a><span class="fu">## Compare distances</span></span>
-<span id="cb15-82"><a href="#cb15-82"></a><span class="in">```{r}</span></span>
-<span id="cb15-83"><a href="#cb15-83"></a>point2 <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(</span>
-<span id="cb15-84"><a href="#cb15-84"></a>  <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">93.10</span>, <span class="fl">44.98</span>)),</span>
-<span id="cb15-85"><a href="#cb15-85"></a>  <span class="at">crs =</span> <span class="dv">4326</span></span>
-<span id="cb15-86"><a href="#cb15-86"></a>)</span>
+<span id="cb15-79"><a href="#cb15-79"></a><span class="fu">## Key takeaway</span></span>
+<span id="cb15-80"><a href="#cb15-80"></a></span>
+<span id="cb15-81"><a href="#cb15-81"></a>Geodetic CRS are useful for storing global location data, while projected CRS are necessary for accurate spatial measurements such as distance, area, and buffering.</span>
+<span id="cb15-82"><a href="#cb15-82"></a></span>
+<span id="cb15-83"><a href="#cb15-83"></a>Transforming between CRS using st_transform() is a standard step in spatial analysis workflows.</span>
+<span id="cb15-84"><a href="#cb15-84"></a></span>
+<span id="cb15-85"><a href="#cb15-85"></a></span>
+<span id="cb15-86"><a href="#cb15-86"></a><span class="fu">## Extra Exploration</span></span>
 <span id="cb15-87"><a href="#cb15-87"></a></span>
-<span id="cb15-88"><a href="#cb15-88"></a><span class="fu">st_distance</span>(point, point2)</span>
-<span id="cb15-89"><a href="#cb15-89"></a><span class="in">```</span></span>
-<span id="cb15-90"><a href="#cb15-90"></a></span>
-<span id="cb15-93"><a href="#cb15-93"></a><span class="in">```{r}</span></span>
-<span id="cb15-94"><a href="#cb15-94"></a>p1 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point, <span class="dv">26915</span>)</span>
-<span id="cb15-95"><a href="#cb15-95"></a>p2 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point2, <span class="dv">26915</span>)</span>
+<span id="cb15-88"><a href="#cb15-88"></a><span class="fu">## Compare distances</span></span>
+<span id="cb15-91"><a href="#cb15-91"></a><span class="in">```{r}</span></span>
+<span id="cb15-92"><a href="#cb15-92"></a>point2 <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(</span>
+<span id="cb15-93"><a href="#cb15-93"></a>  <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">93.10</span>, <span class="fl">44.98</span>)),</span>
+<span id="cb15-94"><a href="#cb15-94"></a>  <span class="at">crs =</span> <span class="dv">4326</span></span>
+<span id="cb15-95"><a href="#cb15-95"></a>)</span>
 <span id="cb15-96"><a href="#cb15-96"></a></span>
-<span id="cb15-97"><a href="#cb15-97"></a><span class="fu">st_distance</span>(p1, p2)</span>
+<span id="cb15-97"><a href="#cb15-97"></a><span class="fu">st_distance</span>(point, point2)</span>
 <span id="cb15-98"><a href="#cb15-98"></a><span class="in">```</span></span>
 <span id="cb15-99"><a href="#cb15-99"></a></span>
-<span id="cb15-100"><a href="#cb15-100"></a></span>
-<span id="cb15-101"><a href="#cb15-101"></a></span>
-<span id="cb15-102"><a href="#cb15-102"></a></span>
-<span id="cb15-103"><a href="#cb15-103"></a></span>
+<span id="cb15-102"><a href="#cb15-102"></a><span class="in">```{r}</span></span>
+<span id="cb15-103"><a href="#cb15-103"></a>p1 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point, <span class="dv">26915</span>)</span>
+<span id="cb15-104"><a href="#cb15-104"></a>p2 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(point2, <span class="dv">26915</span>)</span>
+<span id="cb15-105"><a href="#cb15-105"></a></span>
+<span id="cb15-106"><a href="#cb15-106"></a><span class="fu">st_distance</span>(p1, p2)</span>
+<span id="cb15-107"><a href="#cb15-107"></a><span class="in">```</span></span>
+<span id="cb15-108"><a href="#cb15-108"></a></span>
+<span id="cb15-109"><a href="#cb15-109"></a></span>
+<span id="cb15-110"><a href="#cb15-110"></a></span>
+<span id="cb15-111"><a href="#cb15-111"></a></span>
+<span id="cb15-112"><a href="#cb15-112"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
