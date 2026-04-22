@@ -2,6 +2,13 @@
 title: "Exam 1"
 ---
 
+```{r}
+#| echo: false
+knitr::include_graphics("exam1-slide.png")
+```
+
+## Extra
+
 ## Geodetic vs Projected Coordinate Reference Systems
 
 A Coordinate Reference System (CRS) defines how spatial data are positioned on the Earth.

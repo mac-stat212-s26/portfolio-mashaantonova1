@@ -88,6 +88,7 @@ book:
       chapters:
         - exams/exam1.qmd
         - exams/exam2.qmd
+        - exams/exam3.qmd
 
     - part: "In-Class Activities"
       chapters:
@@ -105,6 +106,8 @@ book:
       - ica/12-iteration-2-notes.qmd
       - ica/14-apis-2-notes.qmd
       - ica/15-scraping-notes.qmd
+      - ica/16-databases-notes.qmd
+      - ica/18-interactive-viz-notes.qmd
 
     - part: "Extras"
       chapters:
