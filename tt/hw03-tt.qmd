@@ -1,0 +1,101 @@
+---
+title: "Homework 03"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+library(viridis)
+
+tuesdata <- tt_load('2026-02-03')
+edible_plants <- tuesdata$edible_plants
+```
+
+## Research Question
+
+Do edible plants that require more sunlight also require higher temperatures, and which cultivation classes require the most water?
+
+
+## Background
+
+The Edible Plant Database (EPD) contains detailed information about 146 edible plant species, including sunlight and water requirements, soil preferences, temperature, and growing duration. Understanding the relationships between environmental requirements and cultivation classes can help gardeners and urban farmers make informed planting decisions.
+
+By exploring patterns in sunlight, temperature, and water needs, we can identify which plant types are more demanding, and which cultivation classes are better suited for specific climates or indoor growing.
+
+
+## Main Visualization 1: Sunlight vs Temperature
+
+```{r}
+edible_plants_clean <- edible_plants %>%
+  filter(!is.na(temperature_growing), !is.na(sunlight)) %>%
+  mutate(
+    temperature_growing_numeric = as.numeric(str_extract(temperature_growing, "\\d+"))
+  )
+
+ggplot(edible_plants_clean, 
+       aes(x = sunlight, y = temperature_growing_numeric, color = sunlight)) +
+  geom_jitter(width = 0.2, height = 0) +
+  scale_color_viridis_d() +
+  labs(
+    title = "Sunlight Requirements vs Optimal Growing Temperature",
+    x = "Sunlight Requirement",
+    y = "Optimal Growing Temperature (°C)",
+    caption = "Source: TidyTuesday Edible Plant Database (2026-02-03)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Main Visualization 2: Water Requirements by Cultivation Class
+
+```{r}
+water_by_cultivation <- edible_plants %>%
+  filter(!is.na(water), !is.na(cultivation)) %>%
+  group_by(cultivation, water) %>%
+  summarise(n = n(), .groups = "drop")
+
+ggplot(water_by_cultivation, 
+       aes(x = reorder(cultivation, n), y = n, fill = water)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_viridis_d() +
+  labs(
+    title = "Water Requirements by Cultivation Class",
+    x = "Cultivation Class",
+    y = "Number of Plant Species",
+    fill = "Water Requirement",
+    caption = "Source: TidyTuesday Edible Plant Database (2026-02-03)"
+  ) +
+  theme_minimal()
+
+```
+
+
+## Summary / Data Story
+
+This analysis explores patterns in environmental requirements and cultivation classes for edible plants in the Edible Plant Database.
+
+Which plants require the most light and warmth?
+The main visualization shows that plants with higher sunlight requirements tend to favor warmer growing temperatures. Species requiring “Full Sun” generally have optimal growing temperatures above those that tolerate partial or low light, reflecting the connection between sunlight exposure and heat tolerance in plant physiology.
+
+Which cultivation classes require the most water?
+The supporting bar chart reveals that certain cultivation classes, such as vegetable and fruit crops, dominate high water requirements, while herbs and smaller plants often need less. This suggests that plant type strongly influences water demand, which is important for planning irrigation and crop rotation.
+
+Key insight:
+Environmental needs vary systematically across plant types. Sunlight and temperature are linked, while water demand aligns closely with cultivation class. These patterns highlight how understanding species-level requirements can guide efficient garden planning and resource allocation, ensuring that plants thrive under their ideal conditions.

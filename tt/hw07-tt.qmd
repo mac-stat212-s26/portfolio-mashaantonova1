@@ -1,0 +1,93 @@
+---
+title: "Homework 07"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+
+```{r}
+library(tidyverse)
+library(scales)
+
+repairs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-04-07/repairs.csv')
+```
+
+
+## Research Question
+
+Which categories of household products are the most "repair-friendly" according to volunteer fixers, and which ones present the biggest challenges to the circular economy?
+
+
+
+## Background
+
+Repair Cafes are community-led spaces where volunteers help neighbors fix broken items. This dataset captures thousands of repair attempts worldwide. By looking at the repairability score (rated from 1-10) across different product category groupings, we can identify which types of consumer goods are designed for longevity and which are likely contributing to "e-waste" due to repair difficulty.
+
+
+
+## Main Visualization
+```{r}
+repair_summary <- repairs %>%
+  filter(!is.na(repairability), !is.na(category)) %>%
+  group_by(category) %>%
+  summarise(
+    avg_repairability = mean(repairability),
+    count = n()
+  ) %>%
+  filter(count > 50) 
+
+ggplot(repair_summary, aes(x = reorder(category, avg_repairability), y = avg_repairability)) +
+  geom_col(aes(fill = avg_repairability)) +
+  coord_flip() +
+  scale_fill_viridis_c(option = "viridis", direction = 1) +
+  labs(
+    title = "Average Repairability Score by Product Category",
+    subtitle = "Higher scores (1-10) indicate items that are easier for volunteers to fix",
+    x = "Product Category",
+    y = "Average Repairability Score",
+    caption = "Author: Masha Antonova | Source: Repair Monitor via TidyTuesday | Note: Only categories with >50 cases shown"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    panel.grid.major.y = element_blank()
+  )
+```
+
+
+
+
+## Summary / Data Story
+
+The Repair Cafe data provides a unique "boots on the ground" perspective on product design and sustainability.
+
+**What are the most repairable items?**
+
+The visualization shows a clear spectrum of repairability. Items like Lighting and Clothing/Accessories often score higher because they tend to use standard fasteners or simple mechanical joints that are accessible to volunteers. These categories represent the "low-hanging fruit" of the circular economy—items that are easily kept out of landfills with minimal intervention.
+
+**Where are the challenges?**
+
+On the lower end of the scale, we often find complex electronics (like ICT or Digital cameras) and small appliances. These items are frequently manufactured using adhesives rather than screws, or require proprietary tools and components that are not available to the general public.
+
+**Key Insight:**
+
+The data suggests that the "Right to Repair" is not just about having the skill to fix something, but about the physical design of the product. While Repair Cafes are highly successful at extending the life of many household goods, the lower scores in high-tech categories highlight a systemic need for "design for disassembly" in the manufacturing sector. For a truly circular economy, products must be as easy to open as a lamp and as simple to mend as a pair of trousers.
+
+
+
+
+

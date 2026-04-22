@@ -22,7 +22,7 @@ number-depth: 2
 
 book:
   title: "COMP/STAT212 Portfolio"
-  author: "Your Name Here"
+  author: "Masha Antonova"
   date: today  # use today to update date published based on last time project was edited
   date-format: full
   # favicon: path/to/favorite-logo.png
@@ -45,7 +45,7 @@ book:
       # footer text
 
   sidebar:
-    title: "Your Name Here"
+    title: "Masha Antonova"
     logo: assets/sidebar-logo.png
     logo-alt: "Random negative space illustration"
     collapse-level: 2
@@ -64,19 +64,50 @@ book:
       chapters:
       - pv/pv-01.qmd
 
+    # - part: "Homeworks"
+    #   chapters:
+    #   - homeworks/src/hw02-p1.qmd
+    #   - homeworks/src/hw02-p2.qmd
+
     - part: "TidyTuesday"
       chapters:
       - tt/2025-07-08.qmd
       - tt/2025-07-15.qmd
+      - tt/hw01-tt.qmd
+      - tt/hw02-tt.qmd
+      - tt/hw03-tt.qmd
+      - tt/hw04-tt.qmd
+      - tt/hw06-tt.qmd
+      - tt/hw07-tt.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
       - pcl/pcl.qmd
 
+    - part: "Exams"
+      chapters:
+        - exams/exam1.qmd
+        - exams/exam2.qmd
+        - exams/exam3.qmd
+
     - part: "In-Class Activities"
       chapters:
       - ica/ica-sample1.qmd
       - ica/ica-sample2.qmd
+      - ica/cleaning.qmd
+      - ica/03-adv-ggplot-notes.qmd
+      - ica/04_adv_maps/code/04-adv-maps-1-notes.qmd
+      - ica/06-wrangling-1-notes.qmd
+      - ica/07-wrangling-2-notes.qmd
+      - ica/08-missing-data-notes.qmd
+      - ica/09-functions-notes.qmd
+      - ica/10-base-r-notes.qmd
+      - ica/11-iteration-1-notes.qmd
+      - ica/12-iteration-2-notes.qmd
+      - ica/14-apis-2-notes.qmd
+      - ica/15-scraping-notes.qmd
+      - ica/16-databases-notes.qmd
+      - ica/18-interactive-viz-notes.qmd
 
     - part: "Extras"
       chapters:

@@ -1,0 +1,88 @@
+---
+title: "Homework 06"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+```{r}
+library(tidyverse)
+library(viridis)
+library(lubridate)
+
+ocean_temp <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-03-31/ocean_temperature.csv')
+```
+
+
+## Research Question
+
+How does the seasonal temperature profile of Nova Scotia's coastal waters change at different depths, and is there evidence of a "thermocline" (a sharp temperature divide) during the summer months?
+
+
+## Background
+
+The Centre for Marine Applied Research (CMAR) monitors coastal conditions in Nova Scotia to support sustainable fisheries and aquaculture. This data tracks temperatures from the surface down to roughly 20 meters. In marine environments, water at different depths often behaves differently; surface water reacts quickly to air temperature, while deeper water remains more stable—until seasonal mixing occurs.
+
+
+## Main Visualization: Seasonal Temperature Heatmap by Depth
+
+```{r}
+monthly_temp <- ocean_temp |>
+  mutate(month = month(date, label = TRUE),
+         year = year(date)) |>
+  group_by(month, sensor_depth_at_low_tide_m) |>
+  summarise(avg_temp = mean(mean_temperature_degree_c, na.rm = TRUE), .groups = "drop")
+
+ggplot(monthly_temp, aes(x = month, y = factor(sensor_depth_at_low_tide_m))) +
+  geom_tile(aes(fill = avg_temp)) +
+  scale_fill_viridis_c(option = "magma", name = "Temp (°C)") +
+  scale_y_discrete(limits = rev) + 
+  labs(
+    title = "Coastal Water Temperature Profile by Depth",
+    subtitle = "Average monthly temperatures in Nova Scotia (Birchy Head station)",
+    x = "Month",
+    y = "Sensor Depth (Meters below low tide)",
+    caption = "Source: CMAR Nova Scotia | TidyTuesday 2026-03-31") +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold"))
+```
+
+
+## Summary / Data Story
+
+By visualizing ocean temperature as a heatmap across both time (months) and space (depth), we can clearly see the "heartbeat" of the Nova Scotian coast.
+
+**Seasonal Layering:**
+
+During the winter and spring (January–May), the water column is remarkably uniform. The colors are consistent from top to bottom, indicating that the water is well-mixed and cold (often near 2–5°C).
+
+**The Summer Heat Gap:**
+
+As we move into July and August, a clear "gradient" emerges. While the surface water (0–2 meters) warms up significantly, reaching averages near 18°C, the deeper sensors (15–20 meters) remain several degrees cooler. This suggests the formation of a seasonal thermocline, where a layer of warm, less-dense water sits on top of the colder, denser deep water, preventing them from mixing.
+
+**The Autumn Turnover:**
+
+In October and November, notice how the deep-water temperatures actually stay "warmer" for longer than the surface. As the air cools, the surface water loses heat quickly, but the deeper layers hold onto that summer energy, eventually leading to a "turnover" where the water column becomes uniform again for the winter.
+
+**Key Insight:**
+
+For aquaculture and marine life, "ocean temperature" isn't just one number. A fish living at 20 meters depth experiences a much more stable, cooler summer than a organism at the surface. Understanding these depth-specific patterns is crucial for predicting how local ecosystems will react to increasingly warm summer seasons.
+
+
+
+

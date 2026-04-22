@@ -1,0 +1,98 @@
+---
+title: "Homework 04"
+format: 
+  html: 
+    embed-resources: true
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(viridis)
+
+sfi_grants <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-02-24/sfi_grants.csv')
+```
+
+
+## Research Question
+How has the scale of SFI's financial commitment evolved over time, and which Irish Research Bodies have been the primary beneficiaries of this funding?
+
+
+## Background
+Science Foundation Ireland (SFI) was the primary agency for investment in STEM research in Ireland from 2000 until its dissolution in 2024. By analyzing the current_total_commitment across different start_date years and research_body categories, we can visualize the growth of Ireland's "Knowledge Economy." This data allows us to see if funding is concentrated in a few elite universities or spread across the national technological sector.
+
+
+## Main Visualization 1: Annual Funding Trends
+
+```{r}
+annual_funding <- sfi_grants %>%
+  mutate(year = year(start_date)) %>%
+  filter(!is.na(year), year >= 2000, year <= 2024) %>%
+  group_by(year) %>%
+  summarise(total_funding = sum(current_total_commitment, na.rm = TRUE))
+
+ggplot(annual_funding, aes(x = year, y = total_funding)) +
+  geom_line(color = "#21908CFF", size = 1) +
+  geom_area(fill = "#21908CFF", alpha = 0.2) +
+  scale_y_continuous(labels = label_dollar(prefix = "€", scale = 1e-6, suffix = "M")) +
+  labs(
+    title = "Total SFI Grant Commitments (2000-2024)",
+    subtitle = "Annual investment peaked as Ireland expanded its STEM research infrastructure",
+    x = "Grant Start Year",
+    y = "Total Commitment (Millions €)",
+    caption = "Author: Masha Antonova | Source: Ireland's Open Data Portal (TidyTuesday 2026-02-24)"
+  ) +
+  theme_minimal()
+```
+
+
+## Main Visualization 2: Top 10 Funded Research Bodies
+
+```{r}
+top_bodies <- sfi_grants %>%
+  group_by(research_body) %>%
+  summarise(total_funding = sum(current_total_commitment, na.rm = TRUE)) %>%
+  slice_max(total_funding, n = 10)
+
+ggplot(top_bodies, aes(x = reorder(research_body, total_funding), y = total_funding, fill = total_funding)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_viridis_c(option = "mako", labels = label_dollar(prefix = "€", scale = 1e-6, suffix = "M")) +
+  scale_y_continuous(labels = label_dollar(prefix = "€", scale = 1e-6, suffix = "M")) +
+  labs(
+    title = "Top 10 Funded Research Bodies",
+    subtitle = "Concentration of SFI funding across Irish Higher Education Institutions",
+    x = NULL,
+    y = "Total Cumulative Commitment (Millions €)",
+    fill = "Total Funding",
+    caption = "Author: Masha Antonova | Source: TidyTuesday 2026-02-24") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+## Summary / Data Story
+This analysis tracks the lifecycle of Science Foundation Ireland's investments from its inception through its final year of operation.
+
+How much did funding grow over time?
+The first visualization reveals a significant upward trend in STEM investment through the 2000s and 2010s. We see a "ramping up" period where the Irish government aggressively funded new laboratories and research centers. The fluctuations in the latter years may reflect the transition between major funding cycles (like the SFI Research Centres programme) or economic shifts affecting national budgets.
+
+Which institutions are the leaders in Irish STEM?
+The second visualization identifies a clear hierarchy in the Irish research landscape. Large traditional universities—such as Trinity College Dublin (TCD) and University College Dublin (UCD)—historically command the largest share of funding. However, the presence of various Technological Universities in the data (visible in the full dataset) shows a broadening of the research base beyond the capital.
+
+Key Insight:
+SFI’s legacy is defined by a massive injection of capital into a concentrated group of research institutions. While funding grew substantially over two decades, the data shows that the "Big Three" universities remain the central pillars of Irish scientific research, attracting hundreds of millions in cumulative commitments.
